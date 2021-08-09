@@ -22,7 +22,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-public class ComboBoxExample extends JFrame implements ActionListener{
+ class ComboBoxExample extends JFrame implements ActionListener{
 	String [] messageStrings = {"Single File Upload","Bulk File Type Upload","Manual Entry"};
 	JComboBox cmbMessageList =  new JComboBox (messageStrings);
 	JLabel lblText = new JLabel ();
@@ -79,7 +79,31 @@ public class ComboBoxExample extends JFrame implements ActionListener{
 				
 			}
 		}
-	
+	 public void ShowUpload() {
+			
+			
+			
+			
+			
+			revalidate();
+			setVisible(true);
+			
+			
+		
+			button = new JButton();
+			button.setBounds(100,100,500,500);
+			
+			button.setText("GO");
+			button.setSize(500,500);
+			button.setFocusable(false);
+			add(button);
+			cmbMessageList.setSelectedIndex(1);
+			cmbMessageList.addActionListener(new Action1());
+			add(cmbMessageList);
+			add(lblText);
+	        revalidate();
+			
+		}
 	 class Action implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
@@ -150,7 +174,7 @@ public class ComboBoxExample extends JFrame implements ActionListener{
 			}
 		}
 	
-	public JPanel createInsertRecords() {
+	public static JPanel createInsertRecords() {
 		JPanel records = new JPanel();
 		records.setBackground(Color.black);
 		
