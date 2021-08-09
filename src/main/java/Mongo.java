@@ -95,6 +95,7 @@ public class Mongo {
 		
 
 	}
+<<<<<<< HEAD
 	
 //uploading file to cloud database
 	public static  String fileupload() {
@@ -111,6 +112,23 @@ public class Mongo {
         return chooser.getSelectedFile().getAbsolutePath();
 	}
 	//json upload  
+=======
+//uploading file to cloud database
+	public static  String fileupload() {
+		//currently picks file and gets file path
+		JFileChooser chooser = new JFileChooser("data/");
+        
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int returnVal = chooser.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println("You chose to open: " +
+                    chooser.getSelectedFile().getName()+"\n"+
+                    chooser.getSelectedFile().getAbsolutePath());
+        }
+        return chooser.getSelectedFile().getAbsolutePath();
+	}
+	//json upload
+>>>>>>> refs/remotes/origin/master
 	 public static void uploadJSON() {
 
 	        try {
