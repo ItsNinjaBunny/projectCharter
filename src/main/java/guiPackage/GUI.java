@@ -2,11 +2,13 @@ package guiPackage;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -49,7 +51,7 @@ public GUI(){
     // Create the panels
     createDirectory();
     createPanel2();
-    //showFrame();
+    showFrame();
     
 
  
@@ -66,15 +68,42 @@ public GUI(){
     splitPaneV.setRightComponent(panel3);
 }
 
- 
+String[] messages = {"Select", "Single File Upload", "Bulk File Upload", "Manual File Entry"};
+JComboBox messageList = new JComboBox(messages);
+JButton goButton = new JButton("GO");
+JPanel insertRecords;
+
+
 //creation of the static directory on the left hand side 
 public void createDirectory(){
+	
     directory = new JPanel();
     directory.setLayout( new GridLayout(5,1) );
-    JPanel insertRecords = new JPanel();
-    JButton goButton = new JButton("GO");
-    JButton insertButton = new JButton("INSERT RECORDS");
+    insertRecords = new JPanel();
+ 
+	insertRecords.remove(messageList);
     
+    JButton insertButton = new JButton("INSERT RECORDS");
+    JButton homeButton = new JButton("HOME");
+    directory.add(insertButton);
+    directory.add(new JButton("UPDATE"));
+    directory.add(new JButton("DELETE"));
+    directory.add(new JButton("FIND"));
+    directory.add(homeButton);
+    homeButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			splitPaneH.removeAll();
+			splitPaneH = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
+    		splitPaneH.setLeftComponent(directory);
+    		splitPaneH.setRightComponent(temp);
+    		splitPaneV.setLeftComponent(splitPaneH);
+		
+		}
+		
+	});
     
     insertButton.setPreferredSize(new Dimension(100,25));
     
@@ -83,67 +112,110 @@ public void createDirectory(){
     	@Override
     	@SuppressWarnings({"rawtypes", "unchecked"})
     	public void actionPerformed(ActionEvent e) {
+
+    		
     		setTitle("InsertRecords - CompanyVault");
     		JPanel selectorPanel = new JPanel();
     		
     		
-    		String[] messages = {"Select", "Single File Upload", "Bulk File Upload", "Manual File Entry"};
-    		JComboBox messageList = new JComboBox(messages);
     		JLabel selectionText = new JLabel();
     		selectorPanel.add(selectionText);
     		
     		class directoryAction implements ActionListener {
-    			
+    			ArrayList<JButton> btn = new ArrayList<JButton> ();
     			@Override
     			public void actionPerformed(ActionEvent e) {
-    				
+    				btn.add(goButton);
+    				for( JButton currentButton: btn ) {
+						  for( ActionListener al : currentButton.getActionListeners() ) {
+						    currentButton.removeActionListener( al );
+						  }}
     				if(e.getSource().equals(messageList)) {
     					
     					JComboBox cb = (JComboBox) e.getSource();
     					String msg = cb.getSelectedItem().toString();
+    					
     					switch(msg) {
     					
-    					case "Select":
-    						selectionText.setText("you selected: " + msg);
-    						goButton.addActionListener(new ActionListener() {
-    							
-    							@Override
-    							public void actionPerformed(ActionEvent e) {
-    								JOptionPane.showMessageDialog(null, "Please select one of the other options");
-    							}
-    						});
-    						break;
+    					
     					case "Single File Upload":
     						goButton.addActionListener(new ActionListener() {
     							
     							@Override
     							public void actionPerformed(ActionEvent e) {
-    								showFrame();
-    								splitPaneH.remove(insertRecords);
+    								
     								splitPaneH.setRightComponent(pane);
+    							
     							}
+    							
     						});
+    						break;
+    					case "Bulk File Upload":
+    						goButton.addActionListener(new ActionListener() {
+    							
+    							@Override
+    							public void actionPerformed(ActionEvent e) {
+    								
+    								splitPaneH.setRightComponent(pane);
+    							
+    							}
+    							
+    						});
+    						break;
+    					case "Manual File Entry":
+    						goButton.addActionListener(new ActionListener() {
+    							
+    							@Override
+    							public void actionPerformed(ActionEvent e) {
+    								
+    								splitPaneH.setRightComponent(pane);
+    							
+    							}
+    							
+    						});
+    						break;
+    						
+    					case "Select":
+    						goButton.addActionListener(new ActionListener() {
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									JOptionPane.showMessageDialog(null, "Select is not a valid option");
+									splitPaneH.removeAll();
+									splitPaneH = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
+						    		splitPaneH.setLeftComponent(directory);
+						    		splitPaneH.setRightComponent(insertRecords);
+						    		splitPaneV.setLeftComponent(splitPaneH);
+								
+								}
+								
+							});
+    						break;
+    						default:
+    							
+    							
+    							break;
     					}
+    					
     				}
     				
     			}
     		}
-    		messageList.setSelectedIndex(1);
+    		messageList.setSelectedIndex(0);
     		messageList.addActionListener(new directoryAction());
     		
-    		insertRecords.add(selectionText);
+    		
     		insertRecords.add(goButton);
     		insertRecords.add(messageList);
+    		splitPaneH = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
+    		splitPaneH.setLeftComponent(directory);
     		splitPaneH.setRightComponent(insertRecords);
+    		splitPaneV.setLeftComponent(splitPaneH);
     	}
     });
     
     
-    directory.add(insertButton);
-    directory.add(new JButton("UPDATE"));
-    directory.add(new JButton("DELETE"));
-    directory.add(new JButton("FIND"));
-    directory.add(new JButton("BACK"));
+  
 
 }
 
