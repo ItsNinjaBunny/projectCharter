@@ -2,8 +2,6 @@ package guiPackage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +18,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
 
 
 public class logIn implements ActionListener{
@@ -146,8 +143,9 @@ public class logIn implements ActionListener{
         else if(logInto(company, user, password)) {
             JOptionPane.showMessageDialog(null, "Login Successful");
             frame.dispose();
-            Directory directory = new Directory();
-            directory.setVisible(true);
+            GUI gui = new GUI();
+            gui.pack();
+            gui.setVisible(true);
         }
         
         else {
