@@ -98,18 +98,15 @@ public class logIn implements ActionListener{
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase database = mongoClient.getDatabase(dbName);
 		String name = (database.getCollection(company).getNamespace()).toString().replace("users.", "");
-		System.out.println(name);
 		
 		//tests to see if the collection in our user name log on cluster exists
 		if(company.equalsIgnoreCase(name)) {
-			System.out.println("hello");
 			MongoCollection<Document> collection = database.getCollection(company);
 			
 			//query to find the user name and password
 			BasicDBObject query = new BasicDBObject("username", user).append("password", password);
 			Document northwind = collection.find(query).first();
 			//for database collection names
-			System.out.println(northwind.get("username" + " " + northwind.get("password")));
 			try {
 				if(northwind.get("username").equals(user) && northwind.get("password").equals(password)) {
 				
@@ -149,8 +146,8 @@ public class logIn implements ActionListener{
         else if(logInto(company, user, password)) {
             JOptionPane.showMessageDialog(null, "Login Successful");
             frame.dispose();
-            Program program = new Program();
-            program.setVisible(true);
+            Directory directory = new Directory();
+            directory.setVisible(true);
         }
         
         else {

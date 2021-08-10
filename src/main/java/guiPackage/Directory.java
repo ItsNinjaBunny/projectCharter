@@ -1,6 +1,7 @@
 package guiPackage;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -12,73 +13,98 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.JOptionPane;
 
 import guiPackage.ComboBoxExample.Action;
 import guiPackage.ComboBoxExample.Action0;
 import guiPackage.ComboBoxExample.Action1;
 import guiPackage.ComboBoxExample.Action2;
 
-public class panels {
-	static JFrame frame = new JFrame("Menu - CompanyVault.exe");
-	static void Menu() {
-		String [] messageStrings = {"Single File Upload","Bulk File Type Upload","Manual Entry"};
+public class Directory extends JFrame{
+	
+	CardLayout cardLayout;
+	JPanel mainPanel;
+	JPanel tab;
+	JPanel directoryPanel = new JPanel();
+	
+
+	public Directory() {
+		
+		cardLayout = new CardLayout();
+		mainPanel = new JPanel(cardLayout);
+		add(mainPanel);
+		directoryPanel = menu();
+		mainPanel.add(directoryPanel, "directory");
+		
+		setTitle("Menu - CompanyVault.exe");
+		setSize(600, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setVisible(true);
+		
+	}
+	
+	private JPanel menu() {
+		String [] messageStrings = {"Single File Upload", "Select","Bulk File Upload","Manual File Entry"};
 		JComboBox cmbMessageList =  new JComboBox (messageStrings);
 		JLabel lblText = new JLabel ();
 		JButton button = new JButton();
-          JButton btn1 = new JButton(">>Insert");
-          JButton btn2 = new JButton(">>Upload");
-          JButton btn3 = new JButton(">>Delete");
-          JButton btn4 = new JButton(">>Find");
+        JButton btn1 = new JButton(">>Insert");
+        JButton btn2 = new JButton(">>Upload");
+        JButton btn3 = new JButton(">>Delete");
+        JButton btn4 = new JButton(">>Find");
+        JButton btn5 = new JButton(">>Back");
+        
          
-          class Action1 implements ActionListener{
-      		public void actionPerformed(ActionEvent e) {
+          class Action implements ActionListener{
+      		@SuppressWarnings("rawtypes")
+			public void actionPerformed(ActionEvent e) {
       			
       		
       			if(e.getSource()==cmbMessageList) {
       				
       				JComboBox cb = (JComboBox)e.getSource();
-      				String msg = (String)cb.getSelectedItem();
+      				String msg = (String) cb.getSelectedItem();
       				switch(msg) {
-      				case"Single File Upload": lblText.setText("You Selected:"+msg);button.addMouseListener((MouseListener) new MouseAdapter() {
+      				case"Single File Upload": lblText.setText("You Selected:" + msg);
+      					button.addMouseListener( new MouseAdapter() {
                     	  
                     	  @Override
                     	  public void mouseClicked(MouseEvent e) {
-                    		
-               				frame.dispose();
-               				frame.setLayout(new BorderLayout());
-               		       frame.setSize(new Dimension(600, 600));
-               		        
-               		       frame.setContentPane(TabbedPaneEnableDisableTab.showFrame());
-               		       frame.revalidate();
-               				
+                    		JPanel tabbed = new TabbedPaneEnableDisableTab();
+                    		setTitle("Insert Records");
+                    		mainPanel.add(tabbed, "tabbed");
+               				cardLayout.show(mainPanel, "tabbed");
                     	  }});
       				break;
-      				case"Bulk File Type Upload": lblText.setText("You Selected:"+msg);
+      				case"Bulk File Type Upload": lblText.setText("You Selected:" + msg);
       				break;
-      				case"Manual Entry": lblText.setText("You Selected:"+msg);
+      				case"Manual Entry": lblText.setText("You Selected:" + msg);
       				break;
-      				default:lblText.setText("WHOOPS ERROR");
-      				
+      				case "Select":
+      					JOptionPane.showMessageDialog(null, "Please select one of the options listed");
+      					break;
+      				default:
+      					lblText.setText("WHOOPS ERROR");
+      					break;      				
       				}
       			}
       			
       		}
       	}
      	
-     	
           ArrayList<JButton> list = new ArrayList<JButton>();
           list.add(btn1);
           list.add(btn2);
           list.add(btn3);
           list.add(btn4);
-          int posy = 0;
+          list.add(btn5);
+          
           for(JButton x:list) {
         	  
         	  x.addMouseListener((MouseListener) new MouseAdapter() {
@@ -86,47 +112,40 @@ public class panels {
             	  @Override
             	  public void mouseClicked(MouseEvent e) {
             		  
-            		 frame.revalidate();
-          			frame.setVisible(true);
+            		directoryPanel.revalidate();
+          			directoryPanel.setVisible(true);
           			
-          			
-          		
-          			
-          			button.setBounds(100,200,100,100);
-          			
+          			button.setBounds(100, 50, 100, 60);
           			button.setText("GO");
-          			button.setSize(10,10);
+          			//button.setSize(10,10);
           			button.setFocusable(false);
-          			frame.add(button);
+          			directoryPanel.add(button, "East");
           			cmbMessageList.setSelectedIndex(1);
-          			cmbMessageList.addActionListener(new Action1());
-          			cmbMessageList.setBounds(200,200, 100,100);
-          			frame.add(cmbMessageList);
-          			frame.add(lblText);
-          	        frame.revalidate();
+          			cmbMessageList.addActionListener(new Action());
+          			cmbMessageList.setBounds(200, 200, 160, 50);
+          			directoryPanel.add(cmbMessageList);
+          			directoryPanel.add(lblText);
             	  }
             	  
-            	  @Override
+            	@Override
       		    public void mouseEntered(MouseEvent e) {
             		  x.setBorderPainted(false);
             		  x.setForeground(Color.white);
             		 
             		  x.setBackground(Color.BLACK);
             		  
-            		frame.revalidate();
-      		    	frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-      		    	
+            		directoryPanel.revalidate();
+      		    	directoryPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));      		    	
       		    }
-      		    
-      		 
+
       		    @Override
       		    public void mouseExited(MouseEvent e) {
       		    	
       		    	x.setForeground(Color.black);
       		    	x.setBackground(Color.WHITE);
-            		frame.revalidate();
+            		directoryPanel.revalidate();
             		
-      		        frame.setCursor(Cursor.getDefaultCursor());
+      		        directoryPanel.setCursor(Cursor.getDefaultCursor());
       		      x.setBorderPainted(true);
       		    }
               });
@@ -145,16 +164,18 @@ public class panels {
           panel.add(btn3);
           panel.add(btn4);
           
-          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          frame.setSize(500,500);
-          frame.setLocationRelativeTo(null);
-          frame.getContentPane().add(panel,"West");
+          add(panel, "West");
          
-          frame.setVisible(true);
+          return directoryPanel;
 	}
 	
-	
+	private JPanel find() {
+		JPanel find = new JPanel();
+		
+		
+		return find;
+	}
 	public static void main(String [] args) {
-		Menu();
+		Directory directory = new Directory();
 	}
 }

@@ -17,18 +17,17 @@ public class TabbedPaneEnableDisableTab extends JPanel {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(500, 500));
         this.add(pane, BorderLayout.CENTER);
+        
+        
+        this.setVisible(true);
     }
 
-    public static Container showFrame() {
+    public static JPanel showFrame() {
         JPanel panel = new TabbedPaneEnableDisableTab();
         panel.setOpaque(true);
-
-        JFrame frame = new JFrame("CompanyVault - I.B.A.G™");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setContentPane(panel);
-        frame.pack();
-        frame.setVisible(true);
-		return frame;
+        panel.setSize(600, 600);
+        panel.setLayout(new BorderLayout());
+        return panel;
     }
 
     public static void main(String[] args) {
