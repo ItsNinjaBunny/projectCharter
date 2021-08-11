@@ -1,5 +1,6 @@
 package guiPackage;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,8 +20,10 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import database.CRUD;
 
-public class logIn implements ActionListener{
+
+public class logIn {
 	
 	
 	
@@ -44,7 +47,7 @@ public class logIn implements ActionListener{
     //initializes all the graphical user interface objects
     public static void run() {
     	panel = new JPanel();
-    
+        
         frame = new JFrame();
         frame.setTitle("CompanyVault - I.B.A.G™");
         frame.setBounds(100, 100, 500, 300);
@@ -78,15 +81,55 @@ public class logIn implements ActionListener{
         panel.add(passwordText);
 
         button = new JButton("Login");
+        button.setForeground(Color.BLACK);
+        button.setOpaque(true);
+        
+        
+        button.addActionListener(new ActionListener() {
+        	//On button click it it calls on the logInto method and a dialog message is appears on what happened
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	button.setForeground(Color.BLACK);
+                // TODO Auto-generated method stub
+                String user = String.valueOf(userText.getText().trim());
+                String company = String.valueOf(companyText.getText().trim());
+                @SuppressWarnings("deprecation")
+        		String password = String.valueOf(passwordText.getText().trim());
+                
+                if(user.equals("") || password.equals("")) {
+                	JOptionPane.showMessageDialog(null, "Don't leave username or password blank");
+                }
+                
+                else if(logInto(company, user, password)) {
+                    JOptionPane.showMessageDialog(null, "Login Successful");
+                    JLabel test = new JLabel(companyText.getText());
+					
+					
+                    frame.dispose();
+                    GUI gui = new GUI();
+                    gui.pack();
+                    gui.setVisible(true);
+                }
+                
+                else {
+                	 JOptionPane.showMessageDialog(null, "Incorrect credentials");
+                }
+                companyText.setText("");
+                userText.setText("");
+                passwordText.setText("");
+            }
+        });
+        
+        frame.setContentPane(panel);
+        frame.getContentPane().add(button);
+        frame.getRootPane().setDefaultButton(button);
         button.setBounds(10, 110, 80, 25);
-        button.addActionListener(new logIn());
-        panel.add(button);
 
         frame.setVisible(true);
     }
     
     //goes into the second cluster to make sure that their user name and password are valid
-	private boolean logInto(String company, String user, String password) {
+	private static boolean logInto(String company, String user, String password) {
 		boolean isValid = false;
 		final String logInCluster = "mongodb://User_1:Passw0rd1@cluster0-shard-00-00.iani6.mongodb.net:27017/users?ssl=true&replicaSet=atlas-118lud-shard-0&authSource=admin&retryWrites=true";
 		final String dbName = "users";
@@ -106,7 +149,7 @@ public class logIn implements ActionListener{
 			//for database collection names
 			try {
 				if(northwind.get("username").equals(user) && northwind.get("password").equals(password)) {
-				
+					
 					mongoClient.close();
 					return true;
 				}
@@ -126,34 +169,5 @@ public class logIn implements ActionListener{
 			return isValid;		
 		}
 	}
-
-	//On button click it it calls on the logInto method and a dialog message is appears on what happened
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        String user = String.valueOf(userText.getText().trim());
-        String company = String.valueOf(companyText.getText().trim());
-        @SuppressWarnings("deprecation")
-		String password = String.valueOf(passwordText.getText().trim());
-        
-        if(user.equals("") || password.equals("")) {
-        	JOptionPane.showMessageDialog(null, "Don't leave username or password blank");
-        }
-        
-        else if(logInto(company, user, password)) {
-            JOptionPane.showMessageDialog(null, "Login Successful");
-            frame.dispose();
-            GUI gui = new GUI();
-            gui.pack();
-            gui.setVisible(true);
-        }
-        
-        else {
-        	 JOptionPane.showMessageDialog(null, "Incorrect credentials. Please make sure both your username and password are correct.");
-        }
-        companyText.setText("");
-        userText.setText("");
-        passwordText.setText("");
-    }
 
 }
