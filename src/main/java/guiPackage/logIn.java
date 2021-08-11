@@ -106,7 +106,7 @@ public class logIn {
 					
 					
                     frame.dispose();
-                    GUI gui = new GUI();
+                    GUI gui = new GUI(company);
                     gui.pack();
                     gui.setVisible(true);
                 }

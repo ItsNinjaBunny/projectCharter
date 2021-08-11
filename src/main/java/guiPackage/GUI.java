@@ -35,11 +35,17 @@ class GUI extends JFrame {
 	private JTabbedPane pane;
 	//blank home page
 	private JPanel temp = new JPanel();
-	//singlefile upload
+	//single file upload
 	private JPanel singleFilePanel;
+	private String companyName;
+	 
+	public String getCompanyName() {
+		return this.companyName;
+	}
 
-
-	public GUI() {
+	public GUI(String companyName){
+	    
+		this.companyName = companyName;
 
 		setTitle("Menu - CompanyVault.exe");
 		setBackground(Color.gray);
@@ -320,7 +326,7 @@ class GUI extends JFrame {
 		} catch (Exception evt) {
 		}
 		// Create an instance of the test application
-		GUI mainFrame = new GUI();
+		GUI mainFrame = new GUI("");
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 
