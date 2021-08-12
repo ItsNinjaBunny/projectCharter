@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -54,7 +55,7 @@ class GUI extends JFrame {
 	// blank home page
 	private JPanel temp = new JPanel();
 	// single file upload
-	private JPanel singleFilePanel;
+	private static JPanel singleFilePanel;
 	private String companyName;
 
 	public String getCompanyName() {
@@ -83,7 +84,7 @@ class GUI extends JFrame {
 		showFrame();
 		singleFilePanel();
 		// Create a splitter pane
-	
+		 
 		splitPaneV = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
 		splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -284,12 +285,17 @@ class GUI extends JFrame {
 	static JLabel text3;
 	static JLabel loader;
 	static ButtonGroup bg;
-	
+	static JProgressBar progressBar ;
 	public void singleFilePanel() {
 		singleFilePanel = new JPanel();
 		singleFilePanel.setLayout(null);
 		JLabel text = new JLabel();
+		progressBar = new JProgressBar();
+		 progressBar.setValue(0);
+		 progressBar.setBounds(130, 360, 300, 30);
+		 progressBar.setVisible(false);
 		
+		 singleFilePanel.add(progressBar);
 		text.setText("Please select the type of file(CSV or JSON)");
 		text.setBounds(140, 10, 500, 100);
 
@@ -385,7 +391,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadEmployeeCSV(companyName,msg);
-								text3.setVisible(false);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 								
 							}
 
@@ -403,7 +410,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								text3.setVisible(false);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 
 							}
 
@@ -426,7 +434,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								splitPaneH.setRightComponent(pane);
-
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 							}
 
 						});
@@ -443,7 +452,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								text3.setVisible(false);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 
 							}
 
@@ -465,7 +475,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								splitPaneH.setRightComponent(pane);
-
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 							}
 
 						});
@@ -482,8 +493,9 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								text3.setVisible(false);
-
+								
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 							}
 
 						});
@@ -503,7 +515,9 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								splitPaneH.setRightComponent(pane);
-								text3.setVisible(false);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
+								
 							}
 
 						});
@@ -520,7 +534,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								text3.setVisible(false);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 
 							}
 
@@ -541,6 +556,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								splitPaneH.setRightComponent(pane);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 
 							}
 
@@ -558,7 +575,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								text3.setVisible(false);
+								progressBar.setVisible(false);
+								 progressBar.setValue(0);
 
 							}
 
@@ -621,6 +639,15 @@ class GUI extends JFrame {
 				  }catch (Exception e) {
 			            e.printStackTrace();
 			      }
+			      try
+                  {
+                      Thread.sleep(100);
+                  }
+                  catch (InterruptedException e)
+                  {
+                      e.printStackTrace();
+                  }
+                  progressBar.setValue(300);
 				mongoClient.close();
 				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
 			
@@ -652,14 +679,28 @@ class GUI extends JFrame {
 				      while ((line = br.readLine()) != null) {
 				         docs.add(new InsertOneModel<>(Document.parse(line)));
 				         count++;
+				         
 				         if (count == batch) {
 				           collection.bulkWrite(docs, new BulkWriteOptions().ordered(false));
 				           docs.clear();
 				           count = 0;
 				        }
+				       
+				      
 				    }
-				    
-				   JOptionPane.showMessageDialog(null, "JSON Upload Complete");
+				      
+                      
+                      // do some stuffs here
+                      try
+                      {
+                          Thread.sleep(100);
+                      }
+                      catch (InterruptedException e)
+                      {
+                          e.printStackTrace();
+                      }
+                      progressBar.setValue(300);
+                      JOptionPane.showMessageDialog(null, "JSON Upload Complete");
 				   
 				      
 
@@ -697,8 +738,9 @@ class GUI extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			bg.clearSelection();
 			 csvList.setSelectedIndex(0);
-			 text3.setVisible(true);
-			 text3.setText("Now Uploading...");
+			 progressBar.setValue(40);
+			 progressBar.setVisible(true);
+			 singleFilePanel.revalidate();
 			 JOptionPane.showMessageDialog(null, "Now Uploading: " + chooser.getSelectedFile().getName());
 			 
 			
