@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.bson.Document;
 
@@ -41,6 +42,10 @@ public class logIn {
     private static JTextField companyText;
 
     public static void main(String[] args) {
+    	try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (Exception evt) {
+		}
     	run();
     }
     
@@ -108,6 +113,7 @@ public class logIn {
                     frame.dispose();
                     GUI gui = new GUI(company);
                     gui.pack();
+                    gui.setLocationRelativeTo(null);
                     gui.setVisible(true);
                 }
                 
@@ -124,7 +130,7 @@ public class logIn {
         frame.getContentPane().add(button);
         frame.getRootPane().setDefaultButton(button);
         button.setBounds(10, 110, 80, 25);
-
+        frame.setLocationRelativeTo(companyLabel);
         frame.setVisible(true);
     }
     
