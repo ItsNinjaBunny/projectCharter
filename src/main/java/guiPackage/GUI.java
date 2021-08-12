@@ -40,7 +40,10 @@ import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.InsertOneModel;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import Property.Property;
 import database.Employee;
+import database.ProductServices;
+import database.financialHoldings;
 
 @SuppressWarnings("serial")
 class GUI extends JFrame {
@@ -76,7 +79,8 @@ class GUI extends JFrame {
 		topPanel.setPreferredSize(new Dimension(650, 450));
 		topPanel.setLayout(new BorderLayout());
 		getContentPane().add(topPanel);
-
+		
+	
 		// Create the panels
 		createDirectory();
 		createPanel2();
@@ -96,7 +100,7 @@ class GUI extends JFrame {
 
 	}
 
-	String[] messages = { "Select", "Single File Upload", "Bulk File Upload", "Manual File Entry" };
+	String[] messages = { "Select", "Single File Upload", "Manual File Entry" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox messageList = new JComboBox(messages);
 	JButton goButton = new JButton("GO");
@@ -178,18 +182,7 @@ class GUI extends JFrame {
 
 								});
 								break;
-							case "Bulk File Upload":
-								goButton.addActionListener(new ActionListener() {
-
-									@Override
-									public void actionPerformed(ActionEvent e) {
-
-										splitPaneH.setRightComponent(pane);
-
-									}
-
-								});
-								break;
+						
 							case "Manual File Entry":
 								goButton.addActionListener(new ActionListener() {
 
@@ -293,6 +286,7 @@ class GUI extends JFrame {
 		progressBar = new JProgressBar();
 		 progressBar.setValue(0);
 		 progressBar.setBounds(130, 360, 300, 30);
+		 progressBar.setBackground(Color.green);
 		 progressBar.setVisible(false);
 		
 		 singleFilePanel.add(progressBar);
@@ -433,7 +427,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								splitPaneH.setRightComponent(pane);
+								uploadPropertyCSV(companyName,msg);
 								progressBar.setVisible(false);
 								 progressBar.setValue(0);
 							}
@@ -474,7 +468,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								splitPaneH.setRightComponent(pane);
+								uploadProductsCSV(companyName,msg);
 								progressBar.setVisible(false);
 								 progressBar.setValue(0);
 							}
@@ -514,9 +508,9 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								splitPaneH.setRightComponent(pane);
+								uploadServiceCSV(companyName,msg);
 								progressBar.setVisible(false);
-								 progressBar.setValue(0);
+								progressBar.setValue(0);
 								
 							}
 
@@ -555,7 +549,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								splitPaneH.setRightComponent(pane);
+								uploadFinancialHoldingsCSV(companyName,msg);
 								progressBar.setVisible(false);
 								 progressBar.setValue(0);
 
@@ -648,6 +642,274 @@ class GUI extends JFrame {
                       e.printStackTrace();
                   }
                   progressBar.setValue(300);
+				mongoClient.close();
+				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
+			
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        
+	    }
+	 public static void uploadPropertyCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+
+	        try {
+
+	        	CompanyName= CompanyName.toLowerCase();
+	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/"+CompanyName+"?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+				MongoClient mongoClient = new MongoClient(uri);
+				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
+				MongoCollection<Document> collection = database.getCollection( CollectionName);
+
+	            // convert CSV  directly
+				try{
+					String file = fileupload();
+					List<Property> beans = new CsvToBeanBuilder(new FileReader(file))
+							//we ask if the file contians headers upon radial selection it will skip first header line
+			                .withType(Property.class).withSkipLines(1)
+			                .build()
+			                .parse();
+					
+					if(beans.get(0).getId()!=1) {
+						beans = new CsvToBeanBuilder(new FileReader(file))
+								//we ask if the file contians headers upon radial selection it will skip first header line
+				                .withType(Property.class).withSkipLines(0)
+				                .build()
+				                .parse();
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("title",beans.get(x).getTitle());
+			                doc.append("cost",beans.get(x).getCost());
+			                doc.append("location",beans.get(x).getLocation());
+			                collection.insertOne(doc);  
+						}
+					}else {
+						
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("title",beans.get(x).getTitle());
+			                doc.append("cost",beans.get(x).getCost());
+			                doc.append("location",beans.get(x).getLocation());
+			                collection.insertOne(doc);  
+						}
+					}
+					
+
+				  }catch (Exception e) {
+			            e.printStackTrace();
+			      }
+			      try
+               {
+                   Thread.sleep(100);
+               }
+               catch (InterruptedException e)
+               {
+                   e.printStackTrace();
+               }
+               progressBar.setValue(300);
+				mongoClient.close();
+				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
+			
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        
+	    }
+	 public static void uploadProductsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+
+	        try {
+
+	        	CompanyName= CompanyName.toLowerCase();
+	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/"+CompanyName+"?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+				MongoClient mongoClient = new MongoClient(uri);
+				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
+				MongoCollection<Document> collection = database.getCollection( CollectionName);
+
+	            // convert CSV  directly
+				try{
+					String file = fileupload();
+					List<ProductServices> beans = new CsvToBeanBuilder(new FileReader(file))
+							//we ask if the file contians headers upon radial selection it will skip first header line
+			                .withType(ProductServices.class).withSkipLines(1)
+			                .build()
+			                .parse();
+					
+					if(beans.get(0).getId()!=1) {
+						beans = new CsvToBeanBuilder(new FileReader(file))
+								//we ask if the file contians headers upon radial selection it will skip first header line
+				                .withType(ProductServices.class).withSkipLines(0)
+				                .build()
+				                .parse();
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("product name",beans.get(x).getTitle());
+			                doc.append("cost",beans.get(x).getCost());
+			                doc.append("category",beans.get(x).getCategory());
+			                doc.append("supplier",beans.get(x).getSupplier());
+			                collection.insertOne(doc);  
+						}
+					}else {
+						
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("product name",beans.get(x).getTitle());
+			                doc.append("cost",beans.get(x).getCost());
+			                doc.append("category",beans.get(x).getCategory());
+			                doc.append("supplier",beans.get(x).getSupplier());
+						}
+					}
+					
+
+				  }catch (Exception e) {
+			            e.printStackTrace();
+			      }
+			      try
+            {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            progressBar.setValue(300);
+				mongoClient.close();
+				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
+			
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        
+	    }
+	 public static void uploadServiceCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+
+	        try {
+
+	        	CompanyName= CompanyName.toLowerCase();
+	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/"+CompanyName+"?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+				MongoClient mongoClient = new MongoClient(uri);
+				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
+				MongoCollection<Document> collection = database.getCollection( CollectionName);
+
+	            // convert CSV  directly
+				try{
+					String file = fileupload();
+					List<ProductServices> beans = new CsvToBeanBuilder(new FileReader(file))
+							//we ask if the file contians headers upon radial selection it will skip first header line
+			                .withType(ProductServices.class).withSkipLines(1)
+			                .build()
+			                .parse();
+					
+					if(beans.get(0).getId()!=1) {
+						beans = new CsvToBeanBuilder(new FileReader(file))
+								//we ask if the file contians headers upon radial selection it will skip first header line
+				                .withType(ProductServices.class).withSkipLines(0)
+				                .build()
+				                .parse();
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("service name",beans.get(x).getTitle());
+			                doc.append("cost",beans.get(x).getCost());
+			                doc.append("category",beans.get(x).getCategory());
+			                collection.insertOne(doc);  
+						}
+					}else {
+						
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("service name",beans.get(x).getTitle());
+			                doc.append("cost",beans.get(x).getCost());
+			                doc.append("category",beans.get(x).getCategory());
+						}
+					}
+					
+
+				  }catch (Exception e) {
+			            e.printStackTrace();
+			      }
+			      try
+         {
+             Thread.sleep(100);
+         }
+         catch (InterruptedException e)
+         {
+             e.printStackTrace();
+         }
+         progressBar.setValue(300);
+				mongoClient.close();
+				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
+			
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        
+	    }
+	 public static void uploadFinancialHoldingsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+
+	        try {
+
+	        	CompanyName= CompanyName.toLowerCase();
+	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/"+CompanyName+"?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+				MongoClient mongoClient = new MongoClient(uri);
+				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
+				MongoCollection<Document> collection = database.getCollection( CollectionName);
+
+	            // convert CSV  directly
+				try{
+					String file = fileupload();
+					List<financialHoldings> beans = new CsvToBeanBuilder(new FileReader(file))
+							//we ask if the file contians headers upon radial selection it will skip first header line
+			                .withType(financialHoldings.class).withSkipLines(1)
+			                .build()
+			                .parse();
+					
+					if(beans.get(0).getId()!=1) {
+						beans = new CsvToBeanBuilder(new FileReader(file))
+								//we ask if the file contians headers upon radial selection it will skip first header line
+				                .withType(financialHoldings.class).withSkipLines(0)
+				                .build()
+				                .parse();
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("account name",beans.get(x).getAccountName());
+			                doc.append("Balance",beans.get(x).getBalance());
+			                doc.append("Bank",beans.get(x).getBankingInstitution());
+			                collection.insertOne(doc);  
+						}
+					}else {
+						
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("account name",beans.get(x).getAccountName());
+			                doc.append("Balance",beans.get(x).getBalance());
+			                doc.append("Bank",beans.get(x).getBankingInstitution());
+			                collection.insertOne(doc);  
+						}
+					}
+					
+
+				  }catch (Exception e) {
+			            e.printStackTrace();
+			      }
+			      try
+            {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            progressBar.setValue(300);
 				mongoClient.close();
 				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
 			
@@ -751,7 +1013,9 @@ class GUI extends JFrame {
 	}
 	public static void main(String args[]) {
 		try {
+			
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			
 		} catch (Exception evt) {
 		}
 		// Create an instance of the test application
