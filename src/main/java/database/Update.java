@@ -1,5 +1,6 @@
 package database;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,9 @@ public class Update {
 	
 	private static JPanel panel;
 	private static Vector<String> found = new Vector<String>();	
+	private static JScrollPane scroller = new JScrollPane();
+	private static JPanel tester = new JPanel();
+	private static JButton button = new JButton();
 	
 	
 	public static void updateEmployee(String companyName, String collectionName) {
@@ -73,13 +77,10 @@ public class Update {
 		}
 	}
 	
-	public static void createJPanel() {
-		JFrame frame = new JFrame();
+	public static JPanel createJPanel(/*JPanel footnotes, JScrollPane scroller*/) {
 		panel = new JPanel();
 		panel.setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(300, 200));
-		panel .setBounds(100, 100, 500, 400);
+		//panel .setBounds(100, 100, 500, 400);
 		
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
@@ -91,10 +92,10 @@ public class Update {
 		list.add(hireLabel);
 		
 		int x = 10;
-		int y = 30;
+		int y = 20;
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 20);
-			y += 30;
+			y += 20;
 			panel.add(label);
 		}
 		
@@ -107,17 +108,16 @@ public class Update {
 		list1.add(lastText);
 		list1.add(hireText);
 		
-		int h = 30;
+		int h = 20;
 		int w = 100;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 20);
-			h += 30;
+			h += 20;
 			panel.add(label);
 		}
 		
 
 		
-		JButton button = new JButton("search");
 		button.setForeground(Color.BLACK);
 		button.setOpaque(true);
 		button.addActionListener(new ActionListener() {
@@ -142,184 +142,40 @@ public class Update {
 			
 				Vector<Document> document = new Vector<>();
 				
-				findRecords(firstName, lastName, hireYear, found);
+				Find.findRecords(firstName, lastName, hireYear, found);
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				JList vector = new JList(found);
 				vector.setLayoutOrientation(JList.VERTICAL);
 				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				vector.setBounds(301, 101, 301, 399);
 				
+				scroller.add(vector);
+			
+				panel.add(scroller);
+				button.setBounds(180, 300, 40, 30);
 				
-				JScrollPane scroller = new JScrollPane(vector);
+				button.setVisible(true);
+				panel.add(button);
 				
-				scroller.setBounds(300, 100, 300, 400);
-				frame.getContentPane().add(scroller);
-				
-				button.setVisible(false);
-				frame.validate();
 			}
 		});
 		
 		
+
+		return panel;
+	}
 		
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		JPanel test = new JPanel();
+		test = createJPanel();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(500, 300));
 		
 		frame.getContentPane().add(button);
-        frame.getRootPane().setDefaultButton(button);
-        button.setBounds(10, 120, 45, 20);
-		
-		frame.add(panel);
+		frame.getRootPane().setDefaultButton(button);
+		frame.add(test);
 		frame.pack();
+		frame.validate();
 		frame.setVisible(true);
-		
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public static void findRecords(String firstName, String lastName, int hireYear, Vector<String> strings) {
-		
-		try {
-			
-			firstName = firstName.toUpperCase();
-			lastName = lastName.toUpperCase();
-			Vector<Document> search = new Vector<>();
-
-			MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/test?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
-			MongoClient mongoClient = new MongoClient(uri);
-			MongoDatabase database = mongoClient.getDatabase("test");			
-			MongoCollection<Document> collection = database.getCollection("test");
-
-			BasicDBObject query = new BasicDBObject();
-			FindIterable<Document> doc;
-			Iterator it;
-			int i = 0;
-			
-			if(firstName.equals("")) {
-				if(lastName.equals("")) {
-					query.append("hire year", hireYear);
-					
-					doc = collection.find(query);
-					it = doc.iterator();
-					while(it.hasNext()) {
-						search.add((Document) it.next());
-						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
-						i++;
-					}
-					
-					mongoClient.close();
-				}
-				else if(hireYear != -1){
-					query.append("last name", lastName).append("hire year", hireYear);
-					
-					doc = collection.find(query);
-					it = doc.iterator();
-					while(it.hasNext()) {
-						search.add((Document) it.next());
-						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
-						i++;
-					}
-					
-					mongoClient.close();
-				}
-				else {
-					query.append("last name", lastName);
-					
-					doc = collection.find(query);
-					it = doc.iterator();
-					while(it.hasNext()) {
-						search.add((Document) it.next());
-						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
-						i++;
-					}
-					
-					mongoClient.close();
-				}
-			}
-			else {
-				if(lastName.equals("")) {
-					if(hireYear == -1) {
-						query.append("first name", firstName);
-						
-						doc = collection.find(query);
-						it = doc.iterator();
-						while(it.hasNext()) {
-							search.add((Document) it.next());
-							
-							strings.add("id: " + String.valueOf(search.get(i).get("id") +
-									"\nfirst name: " + search.get(i).get("first name") +
-									"\nlast name: " + search.get(i).get("last name") +
-									"\nhire year: " + search.get(i).get("hire year") + "\n"));
-							System.out.println(strings.get(i));
-							i++;
-						}
-						
-						mongoClient.close();
-					}
-				}
-				else if(hireYear == -1) {
-					query.append("first name", firstName).append("last name", lastName);
-					
-					doc = collection.find(query);
-					it = doc.iterator();
-					while(it.hasNext()) {
-						search.add((Document) it.next());
-						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
-						i++;
-					}
-					
-					mongoClient.close();
-				}
-				else {
-					query.append("first name", firstName).append("last name", lastName).append("hire year", hireYear);
-					
-					doc = collection.find(query);
-					it = doc.iterator();
-					while(it.hasNext()) {
-						search.add((Document) it.next());
-						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
-						i++;
-					}
-					
-					mongoClient.close();
-				}
-				
-				mongoClient.close();
-				
-			}
-			
-			
-
-			
-			// prints the document to the console
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void main(String[] args) {
-		createJPanel();
 	}
 }

@@ -584,7 +584,8 @@ class GUI extends JFrame {
 			}
 		}
 	}
-	 public static void uploadEmployeeCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+	 @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void uploadEmployeeCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 	        try {
 
@@ -651,7 +652,8 @@ class GUI extends JFrame {
 	        
 	        
 	    }
-	 public static void uploadPropertyCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+	 @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void uploadPropertyCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 	        try {
 
@@ -664,6 +666,7 @@ class GUI extends JFrame {
 	            // convert CSV  directly
 				try{
 					String file = fileupload();
+					@SuppressWarnings("rawtypes")
 					List<Property> beans = new CsvToBeanBuilder(new FileReader(file))
 							//we ask if the file contians headers upon radial selection it will skip first header line
 			                .withType(Property.class).withSkipLines(1)
@@ -718,7 +721,8 @@ class GUI extends JFrame {
 	        
 	        
 	    }
-	 public static void uploadProductsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+	 @SuppressWarnings("unchecked")
+	public static void uploadProductsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 	        try {
 
@@ -786,7 +790,8 @@ class GUI extends JFrame {
 	        
 	        
 	    }
-	 public static void uploadServiceCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+	 @SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void uploadServiceCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 	        try {
 
@@ -852,7 +857,8 @@ class GUI extends JFrame {
 	        
 	        
 	    }
-	 public static void uploadFinancialHoldingsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+	 @SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void uploadFinancialHoldingsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 	        try {
 
@@ -920,6 +926,7 @@ class GUI extends JFrame {
 	        
 	    }
 
+	 
 	 public static void uploadJSON(String CompanyName,String CollectionName) {
 		
 	        try {
