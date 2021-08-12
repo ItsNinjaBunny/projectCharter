@@ -18,12 +18,21 @@ public class Employee implements java.io.Serializable {
 
     @CsvBindByPosition(position = 3)
     public int hireYear;
+    
+    @CsvBindByPosition(position = 4)
+    public int ssn;
+    
+    @CsvBindByPosition(position = 5)
+    public String occupation;
+    
     public Employee(){}
-    public Employee(int id, String firstName, String lastName , int hireYear) {
+    public Employee(int id, String firstName, String lastName , int hireYear, int ssn, String occupation) {
         this.id=id;
         this.firstName=firstName;
         this.lastName = lastName;
         this.hireYear = hireYear;
+        this.ssn	  = ssn;
+        this.occupation = occupation;
     }
   
     public int getId() {
@@ -58,14 +67,30 @@ public class Employee implements java.io.Serializable {
         this.hireYear = hireYear;
     }
 
+    public int getSSN() {
+        return hireYear;
+    }
+
+    public void setSSN(int ssn) {
+        this.ssn = ssn;
+    }
     
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
 
     @Override
     public String toString() {
         return "id: " + this.id +
                 "First Name: " + this.firstName +
                 "Last Name: " + this.lastName +
-                "Year Hired: " + this.hireYear;
+                "Year Hired: " + this.hireYear +
+                "SSN: " + this.ssn +
+                "Occupation: " + this.occupation;
     }
 
 
