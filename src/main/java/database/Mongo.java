@@ -170,7 +170,7 @@ public class Mongo {
 	        }
 	        
 	    }
-	 public static void uploadCSV(int headers) throws NumberFormatException {
+	 public static void uploadCSV() throws NumberFormatException {
 
 	        try {
 
@@ -183,7 +183,7 @@ public class Mongo {
 				try{
 					List<Employee> beans = new CsvToBeanBuilder(new FileReader(fileupload()))
 							//we ask if the file contians headers upon radial selection it will skip first header line
-			                .withType(Employee.class).withSkipLines(headers)
+			                .withType(Employee.class).withSkipLines(0)
 			                .build()
 			                .parse();
 					

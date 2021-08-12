@@ -2,6 +2,7 @@ package guiPackage;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -35,6 +37,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.InsertOneModel;
+import com.opencsv.bean.CsvToBeanBuilder;
+
+import database.Employee;
 
 @SuppressWarnings("serial")
 class GUI extends JFrame {
@@ -78,6 +83,7 @@ class GUI extends JFrame {
 		showFrame();
 		singleFilePanel();
 		// Create a splitter pane
+	
 		splitPaneV = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
 		splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -274,13 +280,16 @@ class GUI extends JFrame {
 	static String[] CSV = { "--Select--","Employees", "Properties", "Products","Services", "Financial Holdings" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	static JComboBox csvList = new JComboBox(CSV);
-	JLabel text2;
-	JLabel text3;
+	static JLabel text2;
+	static JLabel text3;
+	static JLabel loader;
 	static ButtonGroup bg;
+	
 	public void singleFilePanel() {
 		singleFilePanel = new JPanel();
 		singleFilePanel.setLayout(null);
 		JLabel text = new JLabel();
+		
 		text.setText("Please select the type of file(CSV or JSON)");
 		text.setBounds(140, 10, 500, 100);
 
@@ -366,6 +375,7 @@ class GUI extends JFrame {
 				case "Employees":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for "+msg+" are in: ");
+						text3.setText("id, firstname, lastname, hireyear");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -374,8 +384,9 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								splitPaneH.setRightComponent(pane);
-
+								uploadEmployeeCSV(companyName,msg);
+								text3.setVisible(false);
+								
 							}
 
 						});
@@ -392,7 +403,7 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								
+								text3.setVisible(false);
 
 							}
 
@@ -405,6 +416,7 @@ class GUI extends JFrame {
 				case "Properties":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for "+msg+" are in: ");
+						text3.setText("id, title, cost, location");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -431,7 +443,7 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								
+								text3.setVisible(false);
 
 							}
 
@@ -443,6 +455,7 @@ class GUI extends JFrame {
 				case "Products":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for "+msg+" are in: ");
+						text3.setText("id, title, cost, category, supplier");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -469,7 +482,7 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								
+								text3.setVisible(false);
 
 							}
 
@@ -480,6 +493,7 @@ class GUI extends JFrame {
 				case "Services":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for "+msg+" are in: ");
+						text3.setText("id, title, cost, category, supplier");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -489,7 +503,7 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								splitPaneH.setRightComponent(pane);
-
+								text3.setVisible(false);
 							}
 
 						});
@@ -506,7 +520,7 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								
+								text3.setVisible(false);
 
 							}
 
@@ -544,7 +558,7 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName,msg);
-								
+								text3.setVisible(false);
 
 							}
 
@@ -558,6 +572,65 @@ class GUI extends JFrame {
 			}
 		}
 	}
+	 public static void uploadEmployeeCSV(String CompanyName, String CollectionName) throws NumberFormatException {
+
+	        try {
+
+	        	CompanyName= CompanyName.toLowerCase();
+	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/"+CompanyName+"?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+				MongoClient mongoClient = new MongoClient(uri);
+				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
+				MongoCollection<Document> collection = database.getCollection( CollectionName);
+
+	            // convert CSV  directly
+				try{
+					String file = fileupload();
+					List<Employee> beans = new CsvToBeanBuilder(new FileReader(file))
+							//we ask if the file contians headers upon radial selection it will skip first header line
+			                .withType(Employee.class).withSkipLines(1)
+			                .build()
+			                .parse();
+					
+					if(beans.get(0).getId()!=1) {
+						beans = new CsvToBeanBuilder(new FileReader(file))
+								//we ask if the file contians headers upon radial selection it will skip first header line
+				                .withType(Employee.class).withSkipLines(0)
+				                .build()
+				                .parse();
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("first name",beans.get(x).getFirstName());
+			                doc.append("last name",beans.get(x).getLastName());
+			                doc.append("hire year",beans.get(x).getHireYear());
+			                collection.insertOne(doc);  
+						}
+					}else {
+						
+						for(int x = 0; x<beans.size(); x++) {
+							
+							Document doc = new Document("id",beans.get(x).getId());  
+			                doc.append("first name",beans.get(x).getFirstName());
+			                doc.append("last name",beans.get(x).getLastName());
+			                doc.append("hire year",beans.get(x).getHireYear());
+			                collection.insertOne(doc);  
+						}
+					}
+					
+
+				  }catch (Exception e) {
+			            e.printStackTrace();
+			      }
+				mongoClient.close();
+				JOptionPane.showMessageDialog(null, "CSV Upload Complete");
+			
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        
+	    }
+
 	 public static void uploadJSON(String CompanyName,String CollectionName) {
 		
 	        try {
@@ -587,7 +660,7 @@ class GUI extends JFrame {
 				    }
 				    
 				   JOptionPane.showMessageDialog(null, "JSON Upload Complete");
-				  
+				   
 				      
 
 	        } catch (Exception e) {
@@ -624,9 +697,14 @@ class GUI extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			bg.clearSelection();
 			 csvList.setSelectedIndex(0);
-			 JOptionPane.showMessageDialog(null, "You selected: " + chooser.getSelectedFile().getName()+" to upload.");
+			 text3.setVisible(true);
+			 text3.setText("Now Uploading...");
+			 JOptionPane.showMessageDialog(null, "Now Uploading: " + chooser.getSelectedFile().getName());
+			 
+			
 			 
 		}
+		
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
 	public static void main(String args[]) {
