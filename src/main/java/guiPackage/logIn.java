@@ -21,9 +21,6 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import database.CRUD;
-
-
 public class logIn {
 	
 	
@@ -106,9 +103,7 @@ public class logIn {
                 }
                 
                 else if(logInto(company, user, password)) {
-                    JOptionPane.showMessageDialog(null, "Login Successful");
-                    JLabel test = new JLabel(companyText.getText());
-					
+                    JOptionPane.showMessageDialog(null, "Login Successful");					
 					
                     frame.dispose();
                     GUI gui = new GUI(company);

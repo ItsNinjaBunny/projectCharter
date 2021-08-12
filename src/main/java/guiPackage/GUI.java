@@ -138,7 +138,7 @@ class GUI extends JFrame {
 		insertButton.addActionListener(new ActionListener() {
 
 			@Override
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@SuppressWarnings({ "rawtypes" })
 			public void actionPerformed(ActionEvent e) {
 				class directoryAction implements ActionListener {
 					ArrayList<JButton> btn = new ArrayList<JButton>();
@@ -358,6 +358,7 @@ class GUI extends JFrame {
 			}
 			if (e.getSource().equals(csvList)) {
 
+				@SuppressWarnings("rawtypes")
 				JComboBox cb = (JComboBox) e.getSource();
 				String msg = cb.getSelectedItem().toString();
 
