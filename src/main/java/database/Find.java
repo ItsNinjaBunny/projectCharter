@@ -3,6 +3,8 @@ package database;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
+
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -15,8 +17,8 @@ import com.mongodb.client.MongoDatabase;
 public class Find {
 	
 	
-	@SuppressWarnings("rawtypes")
-	public static void findRecords(String firstName, String lastName, int hireYear, Vector<String> strings) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void findRecords(String firstName, String lastName, int hireYear, DefaultListModel document) {
 		
 		try {
 			
@@ -43,11 +45,11 @@ public class Find {
 					while(it.hasNext()) {
 						search.add((Document) it.next());
 						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
 								"\nfirst name: " + search.get(i).get("first name") +
 								"\nlast name: " + search.get(i).get("last name") +
 								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
+						System.out.println(document.getElementAt(i));
 						i++;
 					}
 					
@@ -61,11 +63,11 @@ public class Find {
 					while(it.hasNext()) {
 						search.add((Document) it.next());
 						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
 								"\nfirst name: " + search.get(i).get("first name") +
 								"\nlast name: " + search.get(i).get("last name") +
 								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
+						System.out.println(document.getElementAt(i));
 						i++;
 					}
 					
@@ -79,11 +81,11 @@ public class Find {
 					while(it.hasNext()) {
 						search.add((Document) it.next());
 						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
 								"\nfirst name: " + search.get(i).get("first name") +
 								"\nlast name: " + search.get(i).get("last name") +
 								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
+						System.out.println(document.getElementAt(i));
 						i++;
 					}
 					
@@ -100,11 +102,11 @@ public class Find {
 						while(it.hasNext()) {
 							search.add((Document) it.next());
 							
-							strings.add("id: " + String.valueOf(search.get(i).get("id") +
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") +
 									"\nfirst name: " + search.get(i).get("first name") +
 									"\nlast name: " + search.get(i).get("last name") +
 									"\nhire year: " + search.get(i).get("hire year") + "\n"));
-							System.out.println(strings.get(i));
+							System.out.println(document.getElementAt(i));
 							i++;
 						}
 						
@@ -119,11 +121,11 @@ public class Find {
 					while(it.hasNext()) {
 						search.add((Document) it.next());
 						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
 								"\nfirst name: " + search.get(i).get("first name") +
 								"\nlast name: " + search.get(i).get("last name") +
 								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
+						System.out.println(document.getElementAt(i));
 						i++;
 					}
 					
@@ -137,11 +139,11 @@ public class Find {
 					while(it.hasNext()) {
 						search.add((Document) it.next());
 						
-						strings.add("id: " + String.valueOf(search.get(i).get("id") +
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
 								"\nfirst name: " + search.get(i).get("first name") +
 								"\nlast name: " + search.get(i).get("last name") +
 								"\nhire year: " + search.get(i).get("hire year") + "\n"));
-						System.out.println(strings.get(i));
+						System.out.println(document.getElementAt(i));
 						i++;
 					}
 					

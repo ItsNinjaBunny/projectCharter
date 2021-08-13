@@ -2,15 +2,12 @@ package database;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -19,11 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import org.bson.Document;
-
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -32,10 +26,7 @@ import com.mongodb.client.model.Updates;
 public class Update {
 	
 	private static JPanel panel;
-	private static Vector<String> found = new Vector<String>();	
-	private static JScrollPane scroller = new JScrollPane();
-	private static JPanel tester = new JPanel();
-	private static JButton button = new JButton();
+	private static JButton button = new JButton("SEARCH");
 	
 	
 	public static void updateEmployee(String companyName, String collectionName) {
@@ -77,11 +68,11 @@ public class Update {
 		}
 	}
 	
-	public static JPanel createJPanel(/*JPanel footnotes, JScrollPane scroller*/) {
+	public static JPanel createJPanel(JPanel footnotes) {
 		panel = new JPanel();
 		panel.setLayout(null);
-		//panel .setBounds(100, 100, 500, 400);
-		
+
+				
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
 		JLabel hireLabel = new JLabel("Hire Year: ");
@@ -94,8 +85,8 @@ public class Update {
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 20);
-			y += 20;
+			label.setBounds(x, y, 80, 25);
+			y += 30;
 			panel.add(label);
 		}
 		
@@ -111,8 +102,8 @@ public class Update {
 		int h = 20;
 		int w = 100;
 		for(JTextField label: list1) {
-			label.setBounds(w, h, 150, 20);
-			h += 20;
+			label.setBounds(w, h, 150, 25);
+			h += 30;
 			panel.add(label);
 		}
 		
@@ -120,9 +111,11 @@ public class Update {
 		
 		button.setForeground(Color.BLACK);
 		button.setOpaque(true);
+		button.setBounds(10, 110, 100, 20);
+		panel.add(button);
 		button.addActionListener(new ActionListener() {
 		
-			@SuppressWarnings("unused")
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int hireYear = -1;
@@ -140,42 +133,26 @@ public class Update {
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
 			
-				Vector<Document> document = new Vector<>();
+				DefaultListModel document = new DefaultListModel();
 				
-				Find.findRecords(firstName, lastName, hireYear, found);
-				@SuppressWarnings({ "rawtypes", "unchecked" })
-				JList vector = new JList(found);
+				Find.findRecords(firstName, lastName, hireYear, document);
+				
+				@SuppressWarnings({ })
+				JList vector = new JList(document);
+				
+				
+				JScrollPane scroll = new JScrollPane(vector);
+				vector.setVisibleRowCount(5);
 				vector.setLayoutOrientation(JList.VERTICAL);
-				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 				
-				scroller.add(vector);
-			
-				panel.add(scroller);
-				button.setBounds(180, 300, 40, 30);
-				
-				button.setVisible(true);
-				panel.add(button);
-				
+				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				scroll.setVisible(true);
+				footnotes.add(scroll, BorderLayout.CENTER);
+				footnotes.revalidate();
 			}
 		});
-		
-		
-
 		return panel;
-	}
-		
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		JPanel test = new JPanel();
-		test = createJPanel();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(500, 300));
-		
-		frame.getContentPane().add(button);
-		frame.getRootPane().setDefaultButton(button);
-		frame.add(test);
-		frame.pack();
-		frame.validate();
-		frame.setVisible(true);
 	}
 }

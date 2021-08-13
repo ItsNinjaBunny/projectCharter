@@ -1,9 +1,7 @@
 package guiPackage;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -27,7 +24,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -46,6 +42,7 @@ import Encryption.Encrypt;
 import Property.Property;
 import database.Employee;
 import database.ProductServices;
+import database.Update;
 import database.financialHoldings;
 
 @SuppressWarnings("serial")
@@ -56,6 +53,7 @@ class GUI extends JFrame {
 	private JPanel directory;
 	private JPanel panel2;
 	private JPanel panel3;
+	private JPanel updatePanel;
 	// hardcode entry tabbed page
 	private JTabbedPane pane;
 	// blank home page
@@ -113,7 +111,8 @@ class GUI extends JFrame {
 	JComboBox messageList = new JComboBox(messages);
 	JButton goButton = new JButton("GO");
 	JPanel insertRecords;
-
+	
+	// creation of the static directory on the left hand side
 	public void createDirectory() {
 
 		directory = new JPanel();
@@ -124,10 +123,33 @@ class GUI extends JFrame {
 
 		JButton insertButton = new JButton("INSERT RECORDS");
 		JButton homeButton = new JButton("HOME");
+		JButton updateButton = new JButton("UPDATE");
+		JButton deleteButton = new JButton("DELETE");
+		JButton findButton = new JButton("FIND");
+		
+		updateButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updatePanel = new JPanel();
+				updatePanel = Update.createJPanel(panel3);
+				splitPaneH.setEnabled(false);
+				splitPaneV.setEnabled(false);
+				splitPaneH.setLeftComponent(directory);
+				splitPaneH.setRightComponent(updatePanel);
+				
+				topPanel.removeAll();
+				topPanel.revalidate();
+				topPanel.add(splitPaneV, BorderLayout.CENTER);
+				splitPaneV.setLeftComponent(splitPaneH);
+				splitPaneV.setRightComponent(panel3);
+			}
+		});
+		
 		directory.add(insertButton);
-		directory.add(new JButton("UPDATE"));
-		directory.add(new JButton("DELETE"));
-		directory.add(new JButton("FIND"));
+		directory.add(updateButton);
+		directory.add(deleteButton);
+		directory.add(findButton);
 		directory.add(homeButton);
 		homeButton.addActionListener(new ActionListener() {
 
@@ -260,9 +282,9 @@ class GUI extends JFrame {
 		panel3.setLayout(new BorderLayout());
 		panel3.setPreferredSize(new Dimension(500, 100));
 		panel3.setMinimumSize(new Dimension(100, 50));
-
-		panel3.add(new JLabel("Notes:"), BorderLayout.NORTH);
-		panel3.add(new JTextArea(), BorderLayout.CENTER);
+		
+	
+		panel3.add(new JLabel("Results:"), BorderLayout.NORTH);
 	}
 
 	private static JPanel panelEmployee;
@@ -513,7 +535,7 @@ class GUI extends JFrame {
 
 	private static JPanel panelProduct;
 
-	public void createProductTab() {
+	private void createProductTab() {
 		panelProduct = new JPanel();
 		panelProduct.setLayout(new BorderLayout());
 		progressBar4.setValue(0);
@@ -541,8 +563,6 @@ class GUI extends JFrame {
 		JButton Submit = new JButton("Submit");
 		Submit.setSize(new Dimension(1, 1));
 		Submit.addActionListener(new ActionListener() {
-			ArrayList<JButton> btn = new ArrayList<JButton>();
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -589,14 +609,13 @@ class GUI extends JFrame {
 
 	JRadioButton rb1, rb2;
 	JButton b;
-	static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services", "Financial Holdings" };
+	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services", "Financial Holdings" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	static JComboBox csvList = new JComboBox(CSV);
-	static JLabel text2;
-	static JLabel text3;
-	static JLabel loader;
-	static ButtonGroup bg;
-	static JProgressBar progressBar;
+	private static JComboBox csvList = new JComboBox(CSV);
+	private static JLabel text2;
+	private static JLabel text3;
+	private static ButtonGroup bg;
+	private static JProgressBar progressBar;
 
 	public void singleFilePanel() {
 		singleFilePanel = new JPanel();
@@ -905,6 +924,7 @@ class GUI extends JFrame {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadEmployeeCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 		try {
@@ -968,6 +988,7 @@ class GUI extends JFrame {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void uploadPropertyCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 		try {
@@ -1031,6 +1052,7 @@ class GUI extends JFrame {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadProductsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 		try {
@@ -1095,6 +1117,7 @@ class GUI extends JFrame {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void uploadServiceCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
 		try {
@@ -1157,6 +1180,7 @@ class GUI extends JFrame {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadFinancialHoldingsCSV(String CompanyName, String CollectionName)
 			throws NumberFormatException {
 
@@ -1272,7 +1296,7 @@ class GUI extends JFrame {
 
 	}
 
-	// creation of the static directory on the left hand side
+	
 	public static String fileupload() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -1309,8 +1333,6 @@ class GUI extends JFrame {
 
 	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear,
 			String ssn, String occupation) {
-		int count = 0;
-
 		progressBar1.setValue(300);
 		progressBar1.setVisible(true);
 
@@ -1347,8 +1369,6 @@ class GUI extends JFrame {
 	}
 
 	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank) {
-		int count = 0;
-
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
 
@@ -1383,8 +1403,6 @@ class GUI extends JFrame {
 	}
 
 	public static void insertProperty(String CompanyName, String propertyName, String cost, String location) {
-		int count = 0;
-
 		progressBar2.setValue(300);
 		progressBar2.setVisible(true);
 
@@ -1420,7 +1438,6 @@ class GUI extends JFrame {
 
 	public static boolean insertProduct(String CompanyName, String productName, String cost, String category,
 			String supplier) {
-		int count = 0;
 
 		progressBar4.setValue(300);
 		progressBar4.setVisible(true);
@@ -1461,7 +1478,6 @@ class GUI extends JFrame {
 	}
 
 	public static void insertService(String CompanyName, String serviceName, String cost, String category) {
-		int count = 0;
 
 		progressBar3.setValue(300);
 		progressBar3.setVisible(true);
