@@ -23,6 +23,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 
+import Encryption.Encrypt;
+
 public class Update {
 	
 	private static JPanel panel;
@@ -75,7 +77,7 @@ public class Update {
 				
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
-		JLabel hireLabel = new JLabel("Hire Year: ");
+		JLabel hireLabel = new JLabel("SSN: ");
 		
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
@@ -118,21 +120,18 @@ public class Update {
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int hireYear = -1;
-				try {
-					if(hireText.getText() != null) {
-							
-						hireYear = Integer.parseInt(hireText.getText());
-					}
-					
-					
-				}catch(NumberFormatException e1) {
-					
-				}
-					
+				Encrypt p = new Encrypt();
+				String hireYear = hireText.getText().replace("-", "");
+				System.out.println(hireYear);
+				hireYear = p.shiftChars(hireYear ) ;
+				System.out.println(hireYear);
+				footnotes.removeAll();
+				footnotes.revalidate();
+				
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
-			
+				
+				
 				DefaultListModel document = new DefaultListModel();
 				
 				Find.findRecords(firstName, lastName, hireYear, document);

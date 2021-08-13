@@ -150,12 +150,15 @@ class GUI extends JFrame {
 		directory.add(updateButton);
 		directory.add(deleteButton);
 		directory.add(findButton);
+		
 		directory.add(homeButton);
 		homeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				topPanel.removeAll();
+				topPanel.revalidate();
+				topPanel.add(splitPaneH, BorderLayout.CENTER);
 				setTitle("Menu - CompanyVault.exe");
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
@@ -340,11 +343,13 @@ class GUI extends JFrame {
 				progressBar1.setVisible(true);
 				progressBar1.setValue(40);
 				JOptionPane.showMessageDialog(null, "Uploading Employee...");
-
+				int hireYear =Integer.parseInt(lHireYear.getText());
 				p.revalidate();
 				Encrypt p2 = new Encrypt();
-				insertEmployee(companyName, lFirstName.getText(), lLastName.getText(), lHireYear.getText(),
-						p2.shiftChars(lSocial.getText()), lOccupation.getText());
+				String ssn = lSocial.getText().replace("-","");
+				
+				insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),hireYear ,
+						p2.shiftChars(ssn), lOccupation.getText());
 				lFirstName.setText("");
 				lLastName.setText("");
 				lHireYear.setText("");
@@ -404,8 +409,8 @@ class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
 				p.revalidate();
-
-				insertFinance(companyName, lAccountName.getText(), lBalance.getText(), lBank.getText());
+				Double balance = Double.parseDouble(lBalance.getText());
+				insertFinance(companyName, lAccountName.getText(), balance, lBank.getText());
 				lAccountName.setText("");
 				lBalance.setText("");
 				lBank.setText("");
@@ -460,8 +465,8 @@ class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
 				p.revalidate();
-
-				insertProperty(companyName, lPropertyName.getText(), lCost.getText(), lLocation.getText());
+				double cost = Double.parseDouble(lCost.getText());
+				insertProperty(companyName, lPropertyName.getText(), cost, lLocation.getText());
 				lPropertyName.setText("");
 				lCost.setText("");
 				lLocation.setText("");
@@ -573,12 +578,12 @@ class GUI extends JFrame {
 					progressBar4.setValue(0);
 
 				} else {
-
+					double cost = Double.parseDouble(lCost.getText());
 					progressBar4.setValue(40);
 					progressBar4.setVisible(true);
 					progressBar4.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Product...");
-					insertProduct(companyName, lProductName.getText(), lCost.getText(), lCategory.getText(),
+					insertProduct(companyName, lProductName.getText(), cost, lCategory.getText(),
 							lSupplier.getText());
 					lProductName.setText("");
 					lCost.setText("");
@@ -1332,8 +1337,11 @@ class GUI extends JFrame {
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
 
-	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear,
+	public static void insertEmployee(String CompanyName, String firstname, String lastname, int hireYear,
 			String ssn, String occupation) {
+		firstname = firstname.toUpperCase();
+		lastname = lastname.toUpperCase();
+		occupation = occupation.toUpperCase();
 		progressBar1.setValue(300);
 		progressBar1.setVisible(true);
 
@@ -1369,7 +1377,7 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank) {
+	public static void insertFinance(String CompanyName, String accountName, Double Balance, String Bank) {
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
 
@@ -1403,10 +1411,10 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static void insertProperty(String CompanyName, String propertyName, String cost, String location) {
+	public static void insertProperty(String CompanyName, String propertyName, Double cost, String location) {
 		progressBar2.setValue(300);
 		progressBar2.setVisible(true);
-
+		propertyName = propertyName.toUpperCase();
 		try {
 
 			// gathers information about the records being inserted and database information
@@ -1437,9 +1445,11 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static boolean insertProduct(String CompanyName, String productName, String cost, String category,
+	public static boolean insertProduct(String CompanyName, String productName, Double cost, String category,
 			String supplier) {
-
+		productName = productName.toUpperCase();
+		category = category.toUpperCase();
+		supplier = supplier.toUpperCase();
 		progressBar4.setValue(300);
 		progressBar4.setVisible(true);
 

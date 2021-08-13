@@ -14,22 +14,26 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import Encryption.Decrypt;
+
 public class Find {
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void findRecords(String firstName, String lastName, int hireYear, DefaultListModel document) {
+	public static void findRecords(String firstName, String lastName, String hireYear, DefaultListModel document) {
 		
 		try {
+			Decrypt p = new Decrypt();
+			
 			
 			firstName = firstName.toUpperCase();
 			lastName = lastName.toUpperCase();
 			Vector<Document> search = new Vector<>();
 
-			MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/test?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+			MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/northwind?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
 			MongoClient mongoClient = new MongoClient(uri);
-			MongoDatabase database = mongoClient.getDatabase("test");			
-			MongoCollection<Document> collection = database.getCollection("test");
+			MongoDatabase database = mongoClient.getDatabase("northwind");			
+			MongoCollection<Document> collection = database.getCollection("Employees");
 
 			BasicDBObject query = new BasicDBObject();
 			FindIterable<Document> doc;
@@ -38,25 +42,29 @@ public class Find {
 			
 			if(firstName.equals("")) {
 				if(lastName.equals("")) {
-					query.append("hire year", hireYear);
+					query.append("ssn", hireYear);
 					
 					doc = collection.find(query);
 					it = doc.iterator();
 					while(it.hasNext()) {
 						search.add((Document) it.next());
 						
+						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
+								"\n first name: " + search.get(i).get("first name") +
+								"\n last name: " + search.get(i).get("last name") +
+								"\n hire year: " + search.get(i).get("hire year") + 
+								"\n ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())+
+								"\n occupation: " + search.get(i).get("occupation") + 
+								"\n"));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
 					
 					mongoClient.close();
 				}
-				else if(hireYear != -1){
-					query.append("last name", lastName).append("hire year", hireYear);
+				else if(!hireYear.isEmpty()){
+					query.append("last name", lastName).append("ssn", hireYear);
 					
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -64,9 +72,12 @@ public class Find {
 						search.add((Document) it.next());
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
+								"\n first name: " + search.get(i).get("first name") +
+								"\n last name: " + search.get(i).get("last name") +
+								"\n hire year: " + search.get(i).get("hire year") + 
+								"\n ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())+
+								"\n occupation: " + search.get(i).get("occupation") + 
+								"\n"));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -80,11 +91,13 @@ public class Find {
 					it = doc.iterator();
 					while(it.hasNext()) {
 						search.add((Document) it.next());
-						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
+								"\n first name: " + search.get(i).get("first name") +
+								"\n last name: " + search.get(i).get("last name") +
+								"\n hire year: " + search.get(i).get("hire year") + 
+								"\n ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())+
+								"\n occupation: " + search.get(i).get("occupation") + 
+								"\n"));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -94,7 +107,7 @@ public class Find {
 			}
 			else {
 				if(lastName.equals("")) {
-					if(hireYear == -1) {
+					if(hireYear.isEmpty()) {
 						query.append("first name", firstName);
 						
 						doc = collection.find(query);
@@ -103,9 +116,12 @@ public class Find {
 							search.add((Document) it.next());
 							
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") +
-									"\nfirst name: " + search.get(i).get("first name") +
-									"\nlast name: " + search.get(i).get("last name") +
-									"\nhire year: " + search.get(i).get("hire year") + "\n"));
+									"\n first name: " + search.get(i).get("first name") +
+									"\n last name: " + search.get(i).get("last name") +
+									"\n hire year: " + search.get(i).get("hire year") + 
+									"\n ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())+
+									"\n occupation: " + search.get(i).get("occupation") + 
+									"\n"));
 							System.out.println(document.getElementAt(i));
 							i++;
 						}
@@ -113,7 +129,7 @@ public class Find {
 						mongoClient.close();
 					}
 				}
-				else if(hireYear == -1) {
+				else if(hireYear.isEmpty()) {
 					query.append("first name", firstName).append("last name", lastName);
 					
 					doc = collection.find(query);
@@ -122,9 +138,12 @@ public class Find {
 						search.add((Document) it.next());
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
+								"\n first name: " + search.get(i).get("first name") +
+								"\n last name: " + search.get(i).get("last name") +
+								"\n hire year: " + search.get(i).get("hire year") + 
+								"\n ssn: " + search.get(i).get("ssn")+
+								"\n occupation: " + search.get(i).get("occupation") + 
+								"\n"));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -132,7 +151,7 @@ public class Find {
 					mongoClient.close();
 				}
 				else {
-					query.append("first name", firstName).append("last name", lastName).append("hire year", hireYear);
+					query.append("first name", firstName).append("last name", lastName).append("ssn", hireYear);
 					
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -140,9 +159,12 @@ public class Find {
 						search.add((Document) it.next());
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") +
-								"\nfirst name: " + search.get(i).get("first name") +
-								"\nlast name: " + search.get(i).get("last name") +
-								"\nhire year: " + search.get(i).get("hire year") + "\n"));
+								"\n first name: " + search.get(i).get("first name") +
+								"\n last name: " + search.get(i).get("last name") +
+								"\n hire year: " + search.get(i).get("hire year") + 
+								"\n ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())+
+								"\n occupation: " + search.get(i).get("occupation") + 
+								"\n"));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
