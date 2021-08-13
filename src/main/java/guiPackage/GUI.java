@@ -696,7 +696,7 @@ class GUI extends JFrame {
 				case "Employees":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
-						text3.setText("id, firstname, lastname, hireyear");
+						text3.setText("id, firstname, lastname, hireyear, ssn, occupation");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -738,7 +738,7 @@ class GUI extends JFrame {
 				case "Properties":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
-						text3.setText("id, title, cost, location");
+						text3.setText("id, propertyname, cost, location");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -779,7 +779,7 @@ class GUI extends JFrame {
 				case "Products":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
-						text3.setText("id, title, cost, category, supplier");
+						text3.setText("id, productname, cost, category, supplier");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -819,7 +819,7 @@ class GUI extends JFrame {
 				case "Services":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
-						text3.setText("id, title, cost, category, supplier");
+						text3.setText("id, servicename, cost, category");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
@@ -861,6 +861,7 @@ class GUI extends JFrame {
 				case "Financial Holdings":
 					if (rb1.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
+						text3.setText("accountid, accountname, balance, bank");
 						text2.setVisible(true);
 						text3.setVisible(true);
 						b.addActionListener(new ActionListener() {
