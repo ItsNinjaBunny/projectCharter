@@ -9,10 +9,10 @@ public class Property implements java.io.Serializable {
    
    
     @CsvBindByPosition(position = 0)
-    public int propertyID;
+    public int id;
 
     @CsvBindByPosition(position = 1)
-    public String title;
+    public String propertyName;
 
     @CsvBindByPosition(position = 2)
     public float cost;
@@ -21,28 +21,28 @@ public class Property implements java.io.Serializable {
     public String location;
     public Property(){}
     public Property(int propertyID, String title, float cost, String location) {
-    	this.propertyID = propertyID;
-        this.title		= title;
+    	this.id = propertyID;
+        this.propertyName		= title;
         this.cost 		= cost;
         this.location 	= location;
     }
   
-    public int getPropertyID()
+    public int getId()
     {
-    	return propertyID;
+    	return id;
     }
     
-    public void setPropertyID(int propertyID)
+    public void setId(int propertyID)
     {
-    	this.propertyID = propertyID;
+    	this.id = propertyID;
     }
     
     public String getTitle() {
-        return title;
+        return propertyName;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.propertyName = title;
     }
 
     public float getCost() {
@@ -66,8 +66,8 @@ public class Property implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return  "PropertyID: " + this.propertyID +
-        		" Title: " + this.title +
+        return  " PropertyID: " + this.id +
+        		" PropertyName: " + this.propertyName +
                 " Cost: " + this.cost +
                 " Location: " + this.location;
     }

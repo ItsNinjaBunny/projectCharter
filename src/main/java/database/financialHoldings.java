@@ -31,11 +31,11 @@ public class financialHoldings implements java.io.Serializable {
         this.bankingInstitution = bankingInstitution;
     }
   
-    public int getAccountID() {
+    public int getId() {
         return accountID;
     }
 
-    public void setAccountID(int accountID) {
+    public void setId(int accountID) {
         this.accountID = accountID ;
     }
     public String getAccountName() {

@@ -29,11 +29,11 @@ public class ProductServices implements java.io.Serializable {
         this.supplier 		  = supplier;
     }
   
-    public int getProductServiceID()
+    public int getId()
     {
     	return productServiceID;
     }
-    public void setProductServiceID(int productServiceID)
+    public void setId(int productServiceID)
     {
     	this.productServiceID = productServiceID;
     }
@@ -73,8 +73,8 @@ public class ProductServices implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return 	"Product/Service ID: " + productServiceID +
-        		" Title: " + this.title +
+        return 	"Id: " + productServiceID +
+        		" Name: " + this.title +
                 " Cost: " + this.cost +
                 " Category: " + this.category +
                 " Supplier: " + this.supplier;
