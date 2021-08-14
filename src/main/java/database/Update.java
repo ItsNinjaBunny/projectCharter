@@ -28,9 +28,10 @@ import Encryption.Encrypt;
 public class Update {
 	
 	private static JPanel panel;
-	private static JButton button = new JButton("SEARCH");
-	
-	
+	private static JPanel panel2;
+	private static JPanel panel3;
+	private static JPanel panel4;
+	private static JPanel panel5;
 	public static void updateEmployee(String companyName, String collectionName) {
 
 		try {
@@ -69,12 +70,13 @@ public class Update {
 			e.printStackTrace();
 		}
 	}
-	
+	//search method for Employee 
 	public static JPanel createJPanel(JPanel footnotes) {
+		JButton button = new JButton("SEARCH");
 		panel = new JPanel();
 		panel.setLayout(null);
-
-				
+		
+		
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
 		JLabel hireLabel = new JLabel("SSN: ");
@@ -113,13 +115,14 @@ public class Update {
 		
 		button.setForeground(Color.BLACK);
 		button.setOpaque(true);
-		button.setBounds(10, 110, 100, 20);
+		button.setBounds(320, 52, 100, 20);
 		panel.add(button);
 		button.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				Encrypt p = new Encrypt();
 				String hireYear = hireText.getText().replace("-", "");
 				System.out.println(hireYear);
@@ -150,8 +153,348 @@ public class Update {
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
 				footnotes.revalidate();
+				
+			
 			}
 		});
 		return panel;
+	}
+	//Property search method panel
+	public static JPanel searchProperty(JPanel footnotes) {
+		panel2 = new JPanel();
+		panel2.setLayout(null);
+		JButton button2 = new JButton("SEARCH");
+				
+		JLabel firstLabel = new JLabel("Property Name: ");
+		
+		
+		ArrayList<JLabel> list = new ArrayList<>();
+		list.add(firstLabel);
+		
+		
+		int x = 10;
+		int y = 20;
+		for(JLabel label: list) {
+			label.setBounds(x, y, 120, 25);
+			y += 30;
+			panel2.add(label);
+		}
+		
+		JTextField firstText = new JTextField();
+		
+		
+		ArrayList<JTextField> list1 = new ArrayList<>();
+		list1.add(firstText);
+		
+		
+		int h = 20;
+		int w = 100;
+		for(JTextField label: list1) {
+			label.setBounds(w, h, 150, 25);
+			h += 30;
+			panel2.add(label);
+		}
+		
+
+		
+		button2.setForeground(Color.BLACK);
+		button2.setOpaque(true);
+		button2.setBounds(10, 80, 100, 20);
+		panel2.add(button2);
+		button2.addActionListener(new ActionListener() {
+		
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+				footnotes.removeAll();
+				footnotes.revalidate();
+				
+				String firstName = firstText.getText();
+				
+				
+				
+				DefaultListModel document = new DefaultListModel();
+				//searches by property name
+				//Find.findRecords(firstName, document);
+				
+				@SuppressWarnings({ })
+				JList vector = new JList(document);
+				
+				
+				JScrollPane scroll = new JScrollPane(vector);
+				vector.setVisibleRowCount(5);
+				vector.setLayoutOrientation(JList.VERTICAL);
+				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
+				
+				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				scroll.setVisible(true);
+				footnotes.add(scroll, BorderLayout.CENTER);
+				footnotes.revalidate();
+				
+			
+			}
+		});
+		return panel2;
+	}
+	//Products search
+	public static JPanel searchProduct(JPanel footnotes) {
+		JButton button3 = new JButton("SEARCH");
+		panel3 = new JPanel();
+		panel3.setLayout(null);
+		
+		
+		JLabel firstLabel = new JLabel("Product name: ");
+		JLabel lastLabel = new JLabel("Category: ");
+		JLabel hireLabel = new JLabel("Supplier: ");
+		
+		
+		ArrayList<JLabel> list = new ArrayList<>();
+		list.add(firstLabel);
+		list.add(lastLabel);
+		list.add(hireLabel);
+		
+		int x = 10;
+		int y = 20;
+		for(JLabel label: list) {
+			label.setBounds(x, y, 80, 25);
+			y += 30;
+			panel3.add(label);
+		}
+		
+		JTextField firstText = new JTextField();
+		JTextField lastText = new JTextField();
+		JTextField hireText = new JTextField();
+		
+		ArrayList<JTextField> list1 = new ArrayList<>();
+		list1.add(firstText);
+		list1.add(lastText);
+		list1.add(hireText);
+		
+		int h = 20;
+		int w = 100;
+		for(JTextField label: list1) {
+			label.setBounds(w, h, 150, 25);
+			h += 30;
+			panel3.add(label);
+		}
+		
+
+		
+		button3.setForeground(Color.BLACK);
+		button3.setOpaque(true);
+		button3.setBounds(10, 120, 100, 20);
+		panel3.add(button3);
+		button3.addActionListener(new ActionListener() {
+		
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			
+				
+				footnotes.removeAll();
+				footnotes.revalidate();
+				
+				String firstName = firstText.getText();
+				String lastName = lastText.getText();
+				
+				
+				DefaultListModel document = new DefaultListModel();
+				//insert find records for this type
+				//Find.findRecords(firstName, lastName, document);
+				
+				@SuppressWarnings({ })
+				JList vector = new JList(document);
+				
+				
+				JScrollPane scroll = new JScrollPane(vector);
+				vector.setVisibleRowCount(5);
+				vector.setLayoutOrientation(JList.VERTICAL);
+				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
+				
+				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				scroll.setVisible(true);
+				footnotes.add(scroll, BorderLayout.CENTER);
+				footnotes.revalidate();
+			
+				
+			}
+		});
+		return panel3;
+	}
+	//search service
+	public static JPanel searchService(JPanel footnotes) {
+		JButton button4 = new JButton("SEARCH");
+		panel4 = new JPanel();
+		panel4.setLayout(null);
+		
+		
+		JLabel firstLabel = new JLabel("Service name: ");
+		JLabel lastLabel = new JLabel("Category: ");
+		
+		
+		ArrayList<JLabel> list = new ArrayList<>();
+		list.add(firstLabel);
+		list.add(lastLabel);
+	
+		
+		int x = 10;
+		int y = 20;
+		for(JLabel label: list) {
+			label.setBounds(x, y, 80, 25);
+			y += 30;
+			panel4.add(label);
+		}
+		
+		JTextField firstText = new JTextField();
+		JTextField lastText = new JTextField();
+		
+		
+		ArrayList<JTextField> list1 = new ArrayList<>();
+		list1.add(firstText);
+		list1.add(lastText);
+	
+		
+		int h = 20;
+		int w = 100;
+		for(JTextField label: list1) {
+			label.setBounds(w, h, 150, 25);
+			h += 30;
+			panel4.add(label);
+		}
+		
+
+		
+		button4.setForeground(Color.BLACK);
+		button4.setOpaque(true);
+		button4.setBounds(10, 120, 100, 20);
+		panel4.add(button4);
+		button4.addActionListener(new ActionListener() {
+		
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				footnotes.removeAll();
+				footnotes.revalidate();
+				
+				String firstName = firstText.getText();
+				String lastName = lastText.getText();
+				
+				
+				DefaultListModel document = new DefaultListModel();
+				//insert find records for this type
+				//Find.findRecords(firstName, lastName, hireYear, document);
+				
+				@SuppressWarnings({ })
+				JList vector = new JList(document);
+				
+				
+				JScrollPane scroll = new JScrollPane(vector);
+				vector.setVisibleRowCount(5);
+				vector.setLayoutOrientation(JList.VERTICAL);
+				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
+				
+				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				scroll.setVisible(true);
+				footnotes.add(scroll, BorderLayout.CENTER);
+				footnotes.revalidate();
+				
+			}
+		});
+		return panel4;
+	}
+	public static JPanel searchFinancials(JPanel footnotes) {
+		JButton button5 = new JButton("SEARCH");
+		panel5 = new JPanel();
+		panel5.setLayout(null);
+		
+		
+		JLabel firstLabel = new JLabel("Account name: ");
+		JLabel accountLabel = new JLabel("Account ID: ");
+		JLabel lastLabel = new JLabel("Bank: ");
+		
+		
+		ArrayList<JLabel> list = new ArrayList<>();
+		list.add(firstLabel);
+		list.add(accountLabel);
+		list.add(lastLabel);
+		
+		
+		int x = 10;
+		int y = 20;
+		for(JLabel label: list) {
+			label.setBounds(x, y, 80, 25);
+			y += 30;
+			panel5.add(label);
+		}
+		
+		JTextField firstText = new JTextField();
+		JTextField lastText = new JTextField();
+		
+		
+		ArrayList<JTextField> list1 = new ArrayList<>();
+		list1.add(firstText);
+		list1.add(lastText);
+	
+		
+		int h = 20;
+		int w = 100;
+		for(JTextField label: list1) {
+			label.setBounds(w, h, 150, 25);
+			h += 30;
+			panel5.add(label);
+		}
+		
+
+		
+		button5.setForeground(Color.BLACK);
+		button5.setOpaque(true);
+		button5.setBounds(10, 120, 100, 20);
+		panel5.add(button5);
+		button5.addActionListener(new ActionListener() {
+		
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				footnotes.removeAll();
+				footnotes.revalidate();
+				
+				String firstName = firstText.getText();
+				String lastName = lastText.getText();
+				
+				
+				DefaultListModel document = new DefaultListModel();
+				//insert find records for this type
+				//Find.findRecords(firstName, lastName, hireYear, document);
+				
+				@SuppressWarnings({ })
+				JList vector = new JList(document);
+				
+				
+				JScrollPane scroll = new JScrollPane(vector);
+				vector.setVisibleRowCount(5);
+				vector.setLayoutOrientation(JList.VERTICAL);
+				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
+				
+				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				scroll.setVisible(true);
+				footnotes.add(scroll, BorderLayout.CENTER);
+				footnotes.revalidate();
+			
+			
+			}
+		});
+		return panel5;
 	}
 }

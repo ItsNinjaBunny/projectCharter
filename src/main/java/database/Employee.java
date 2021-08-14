@@ -20,13 +20,13 @@ public class Employee implements java.io.Serializable {
     public int hireYear;
     
     @CsvBindByPosition(position = 4)
-    public int ssn;
+    public String ssn;
     
     @CsvBindByPosition(position = 5)
     public String occupation;
     
     public Employee(){}
-    public Employee(int id, String firstName, String lastName , int hireYear, int ssn, String occupation) {
+    public Employee(int id, String firstName, String lastName , int hireYear, String ssn, String occupation) {
         this.id=id;
         this.firstName=firstName;
         this.lastName = lastName;
@@ -67,11 +67,11 @@ public class Employee implements java.io.Serializable {
         this.hireYear = hireYear;
     }
 
-    public int getSSN() {
-        return hireYear;
+    public String getSSN() {
+        return ssn;
     }
 
-    public void setSSN(int ssn) {
+    public void setSSN(String ssn) {
         this.ssn = ssn;
     }
     

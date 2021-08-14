@@ -15,12 +15,12 @@ public class Property implements java.io.Serializable {
     public String propertyName;
 
     @CsvBindByPosition(position = 2)
-    public float cost;
+    public String cost;
 
     @CsvBindByPosition(position = 3)
     public String location;
     public Property(){}
-    public Property(int propertyID, String title, float cost, String location) {
+    public Property(int propertyID, String title, String cost, String location) {
     	this.id = propertyID;
         this.propertyName		= title;
         this.cost 		= cost;
@@ -45,11 +45,11 @@ public class Property implements java.io.Serializable {
         this.propertyName = title;
     }
 
-    public float getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
