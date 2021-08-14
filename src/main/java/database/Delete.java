@@ -16,12 +16,30 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import org.bson.Document;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
 public class Delete {
 	private static JPanel panel;
 	private static JPanel panel2;
 	private static JPanel panel3;
 	private static JPanel panel4;
 	private static JPanel panel5;
+	private static String db = "northwind";
+	
+	private static MongoClient connectDatabase(String databaseName) {
+		
+		MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + databaseName + "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+		MongoClient mongoClient = new MongoClient(uri);
+				
+		return mongoClient;
+	}
+	
 	public static JPanel deleteEmployee(JPanel footnotes,String companyName) {
 		JButton button = new JButton("SEARCH");
 		panel = new JPanel();
@@ -47,12 +65,12 @@ public class Delete {
 		
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
-		JTextField hireText = new JTextField();
+		JTextField ssnText = new JTextField();
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
 		list1.add(lastText);
-		list1.add(hireText);
+		list1.add(ssnText);
 		
 		int h = 20;
 		int w = 100;
@@ -69,11 +87,11 @@ public class Delete {
 		button.setBounds(320, 52, 100, 20);
 		panel.add(button);
 		
-		JButton update = new JButton("Delete");
-		update.setBounds(320, 74, 100, 20);
-		update.setVisible(false);
+		JButton delete = new JButton("Delete");
+		delete.setBounds(320, 74, 100, 20);
+		delete.setVisible(false);
 
-		panel.add(update);
+		panel.add(delete);
 		
 		button.addActionListener(new ActionListener() {
 		
@@ -82,25 +100,25 @@ public class Delete {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				String hireYear = hireText.getText().replace("-", "");
+				String ssn = ssnText.getText().replace("-", "");
 				
 				
 				footnotes.removeAll();
 				footnotes.revalidate();
 			
 				button.setVisible(true);
-				update.setVisible(true);
+				delete.setVisible(true);
 				
 				
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
 				
-				String db = "northwind";
+				
 				
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				//findEmployee(db, firstName, lastName, hireYear, document);
+				Find.findEmployee(db, firstName, lastName, ssn, document);
 				
 				JList vector = new JList(document);
 								
@@ -114,21 +132,27 @@ public class Delete {
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
-				update.addActionListener(new ActionListener() {
+				delete.addActionListener(new ActionListener() {
 				
-					@Override
 					public void actionPerformed(ActionEvent e) {
 						
+						MongoClient mongoClient = connectDatabase(companyName);
+						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoCollection<Document> collection = database.getCollection("Employees");
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
-						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(",");
+						System.out.println(id[0]);
+						int resultID = Integer.parseInt(id[0]);
+						//collection.deleteOne(query).first();
+						BasicDBObject query = new BasicDBObject(resultID);
+						collection.deleteOne(query);
+						mongoClient.close();
+						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
-						update.setVisible(false);
+						delete.setVisible(false);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -165,11 +189,11 @@ public class Delete {
 			panel2.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
+		JTextField propertyText = new JTextField();
 		
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
+		list1.add(propertyText);
 		
 		
 		int h = 20;
@@ -197,10 +221,12 @@ public class Delete {
 				footnotes.removeAll();
 				footnotes.revalidate();
 				update1.setVisible(true);
+				
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
-				//Find.findRecords(firstName, document);
+				Find.findProperty(db, propertyText.getText(), document);
 				
+				System.out.println(document.get(0));
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
 				
@@ -221,13 +247,20 @@ public class Delete {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
+						MongoClient mongoClient = connectDatabase(companyName);
+						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoCollection<Document> collection = database.getCollection("Properties");
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
-						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(",");
+						System.out.println(id[0]);
+						int resultID = Integer.parseInt(id[0]);
+						//collection.deleteOne(query).first();
+						BasicDBObject query = new BasicDBObject("id", resultID);
+						collection.deleteOne(query);
+						mongoClient.close();
+						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
 						update1.setVisible(false);
@@ -331,13 +364,21 @@ public class Delete {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
+						MongoClient mongoClient = connectDatabase(companyName);
+						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoCollection<Document> collection = database.getCollection("Employees");
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
-						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(",");
+						System.out.println(id[0]);
+						int resultID = Integer.parseInt(id[0]);
+						//collection.deleteOne(query).first();
+						BasicDBObject query = new BasicDBObject(resultID);
+						collection.deleteOne(query);
+						mongoClient.close();
+						
+						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
 						update2.setVisible(false);
@@ -438,13 +479,20 @@ public class Delete {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
+						MongoClient mongoClient = connectDatabase(companyName);
+						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoCollection<Document> collection = database.getCollection("Employees");
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
-						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(",");
+						System.out.println(id[0]);
+						int resultID = Integer.parseInt(id[0]);
+						//collection.deleteOne(query).first();
+						BasicDBObject query = new BasicDBObject(resultID);
+						collection.deleteOne(query);
+						mongoClient.close();
+						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
 						update3.setVisible(false);
@@ -544,13 +592,20 @@ public class Delete {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
+						MongoClient mongoClient = connectDatabase(companyName);
+						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoCollection<Document> collection = database.getCollection("Employees");
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
-						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(",");
+						System.out.println(id[0]);
+						int resultID = Integer.parseInt(id[0]);
+						//collection.deleteOne(query).first();
+						BasicDBObject query = new BasicDBObject(resultID);
+						collection.deleteOne(query);
+						mongoClient.close();
+						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
 						update2.setVisible(false);

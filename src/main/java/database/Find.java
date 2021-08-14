@@ -75,11 +75,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n first name: "
-								+ search.get(i).get("first name") + "\n last name: " + search.get(i).get("last name")
-								+ "\n hire year: " + search.get(i).get("hire year") + "\n ssn: "
-								+ p.decryptShiftChars(search.get(i).get("ssn").toString()) + "\n occupation: "
-								+ search.get(i).get("occupation") + "\n"));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
+								+ search.get(i).get("first name") + ",last name: "
+								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
+								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ",occupation: " + search.get(i).get("occupation")));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -93,15 +93,14 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n first name: "
-								+ search.get(i).get("first name") + "\n last name: " + search.get(i).get("last name")
-								+ "\n hire year: " + search.get(i).get("hire year") + "\n ssn: "
-								+ p.decryptShiftChars(search.get(i).get("ssn").toString()) + "\n occupation: "
-								+ search.get(i).get("occupation") + "\n"));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
+								+ search.get(i).get("first name") + ",last name: "
+								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
+								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ",occupation: " + search.get(i).get("occupation")));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
-
 					mongoClient.close();
 				} else {
 					query.append("last name", lastName);
@@ -110,11 +109,12 @@ public class Find {
 					it = doc.iterator();
 					while (it.hasNext()) {
 						search.add((Document) it.next());
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n first name: "
-								+ search.get(i).get("first name") + "\n last name: " + search.get(i).get("last name")
-								+ "\n hire year: " + search.get(i).get("hire year") + "\n ssn: "
-								+ p.decryptShiftChars(search.get(i).get("ssn").toString()) + "\n occupation: "
-								+ search.get(i).get("occupation") + "\n"));
+						
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
+								+ search.get(i).get("first name") + ",last name: "
+								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
+								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ",occupation: " + search.get(i).get("occupation")));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -131,11 +131,11 @@ public class Find {
 						while (it.hasNext()) {
 							search.add((Document) it.next());
 
-							document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n first name: "
-									+ search.get(i).get("first name") + "\n last name: "
-									+ search.get(i).get("last name") + "\n hire year: " + search.get(i).get("hire year")
-									+ "\n ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-									+ "\n occupation: " + search.get(i).get("occupation") + "\n"));
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
+									+ search.get(i).get("first name") + ",last name: "
+									+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
+									+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+									+ ",occupation: " + search.get(i).get("occupation")));
 							System.out.println(document.getElementAt(i));
 							i++;
 						}
@@ -150,11 +150,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String
-								.valueOf(search.get(i).get("id") + "\n first name: " + search.get(i).get("first name")
-										+ "\n last name: " + search.get(i).get("last name") + "\n hire year: "
-										+ search.get(i).get("hire year") + "\n ssn: " + search.get(i).get("ssn")
-										+ "\n occupation: " + search.get(i).get("occupation") + "\n"));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
+								+ search.get(i).get("first name") + ",last name: "
+								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
+								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ",occupation: " + search.get(i).get("occupation")));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -168,11 +168,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n first name: "
-								+ search.get(i).get("first name") + "\n last name: " + search.get(i).get("last name")
-								+ "\n hire year: " + search.get(i).get("hire year") + "\n ssn: "
-								+ p.decryptShiftChars(search.get(i).get("ssn").toString()) + "\n occupation: "
-								+ search.get(i).get("occupation") + "\n"));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
+								+ search.get(i).get("first name") + ",last name: "
+								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
+								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ",occupation: " + search.get(i).get("occupation")));
 						System.out.println(document.getElementAt(i));
 						i++;
 					}
@@ -196,7 +196,7 @@ public class Find {
 		try {
 			//Decrypt p = new Decrypt();
 
-			propertyName = propertyName.toLowerCase();
+			//propertyName = propertyName.toLowerCase();
 			Vector<Document> search = new Vector<>();
 			
 			//connects the app to the mongodb database
@@ -211,15 +211,15 @@ public class Find {
 			int i = 0;
 			
 			//filter what to search for
-			query.append("Properties", propertyName);
+			query.append("property name", propertyName);
 			doc = collection.find(query);
 			it = doc.iterator();
 			while (it.hasNext()) {
 					search.add((Document) it.next());
 
-				document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n property name: "
-					+ search.get(i).get("property name") + "\n cost: $" + search.get(i).get("cost")
-					+ "\n location: " + search.get(i).get("location")));
+				document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",property name: "
+					+ search.get(i).get("property name") + ",cost: $" + search.get(i).get("cost")
+					+ ",location: " + search.get(i).get("location")));
 					System.out.println(document.getElementAt(i));
 					i++;
 			}
