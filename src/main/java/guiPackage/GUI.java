@@ -41,6 +41,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import Encryption.Encrypt;
 import Property.Property;
 import database.Employee;
+import database.Find;
 import database.ProductServices;
 import database.Update;
 import database.financialHoldings;
@@ -58,6 +59,8 @@ class GUI extends JFrame {
 	private JTabbedPane pane;
 	//pane2 for search method
 	private JTabbedPane pane2;
+	//pane 3 for updating the document in the cloud
+	private JTabbedPane pane3;
 	// blank home page
 	private JPanel temp = new JPanel();
 	// single file upload
@@ -94,6 +97,7 @@ class GUI extends JFrame {
 		createProductTab();
 		showFrame();
 		showFrame2();
+		showFrame3();
 		singleFilePanel();
 
 		// Create a splitter pane
@@ -614,11 +618,20 @@ class GUI extends JFrame {
 	}
 	public void showFrame2() {
 		pane2 = new JTabbedPane();
-		pane2.addTab("Employees", Update.createJPanel(panel3));
-		pane2.addTab("Properties", Update.searchProperty(panel3));
-		pane2.addTab("Products", Update.searchProduct(panel3));
-		pane2.addTab("Services", Update.searchService(panel3));
-		pane2.addTab("Financial Holdings", Update.searchFinancials(panel3));
+		pane2.addTab("Employees", Find.createJPanel(panel3));
+		pane2.addTab("Properties",Find.searchProperty(panel3));
+		pane2.addTab("Products", Find.searchProduct(panel3));
+		pane2.addTab("Services", Find.searchService(panel3));
+		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3));
+
+	}
+	public void showFrame3() {
+		pane3 = new JTabbedPane();
+//		pane3.addTab("Employees", Update.createEmployee(panel3));
+//		pane3.addTab("Properties", Update.searchProperty(panel3));
+//		pane3.addTab("Products", Update.searchProduct(panel3));
+//		pane3.addTab("Services", Update.searchService(panel3));
+//		pane3.addTab("Financial Holdings", Update.searchFinancials(panel3));
 
 	}
 	JRadioButton rb1, rb2;
@@ -1285,7 +1298,7 @@ class GUI extends JFrame {
 			try (BufferedReader br = new BufferedReader(new FileReader(fileupload()))) {
 				String line;
 				while ((line = br.readLine()) != null) {
-					docs.add(new InsertOneModel<>(Document.parse(line)));
+					docs.add(new InsertOneModel<>(Document.parse(line.toLowerCase())));
 					
 					count++;
 

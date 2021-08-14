@@ -2,6 +2,8 @@ package database;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,7 +12,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -27,11 +31,7 @@ import Encryption.Encrypt;
 
 public class Update {
 	
-	private static JPanel panel;
-	private static JPanel panel2;
-	private static JPanel panel3;
-	private static JPanel panel4;
-	private static JPanel panel5;
+	
 	public static void updateEmployee(String companyName, String collectionName) {
 
 		try {
@@ -70,431 +70,318 @@ public class Update {
 			e.printStackTrace();
 		}
 	}
-	//search method for Employee 
-	public static JPanel createJPanel(JPanel footnotes) {
-		JButton button = new JButton("SEARCH");
-		panel = new JPanel();
-		panel.setLayout(null);
-		
-		
-		JLabel firstLabel = new JLabel("First name: ");
-		JLabel lastLabel = new JLabel("Last name: ");
-		JLabel hireLabel = new JLabel("SSN: ");
-		
-		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
-		list.add(hireLabel);
-		
-		int x = 10;
-		int y = 20;
-		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
-			y += 30;
-			panel.add(label);
-		}
-		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		JTextField hireText = new JTextField();
-		
-		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
-		list1.add(hireText);
-		
-		int h = 20;
-		int w = 100;
-		for(JTextField label: list1) {
-			label.setBounds(w, h, 150, 25);
-			h += 30;
-			panel.add(label);
-		}
-		
+	private static JPanel panelEmployee;
+	private static JProgressBar progressBar1 = new JProgressBar();
+	private static JProgressBar progressBar2 = new JProgressBar();
+	private static JProgressBar progressBar3 = new JProgressBar();
+	private static JProgressBar progressBar4 = new JProgressBar();
+	private static JProgressBar progressBar5 = new JProgressBar();
 
-		
-		button.setForeground(Color.BLACK);
-		button.setOpaque(true);
-		button.setBounds(320, 52, 100, 20);
-		panel.add(button);
-		button.addActionListener(new ActionListener() {
-		
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void createEmployeeTab() {
+		panelEmployee = new JPanel();
+		panelEmployee.setLayout(new BorderLayout());
+
+		progressBar1.setValue(0);
+		progressBar1.setBounds(130, 360, 300, 30);
+		progressBar1.setVisible(true);
+
+		JPanel p = new JPanel();
+		JLabel jFirstName = new JLabel("First Name:");
+		JTextField lFirstName = new JTextField(20);
+		JLabel jLastName = new JLabel("Last Name:");
+		JTextField lLastName = new JTextField(20);
+		JLabel jHireYear = new JLabel("Hire Year:");
+		JTextField lHireYear = new JTextField(20);
+		JLabel jSocial = new JLabel("SSN:");
+		JTextField lSocial = new JTextField(20);
+		JLabel jOccupation = new JLabel("Occupation:");
+		JTextField lOccupation = new JTextField(20);
+		p.setLayout(new GridLayout(6, 1));
+		p.add(jFirstName);
+		p.add(lFirstName);
+		p.add(jLastName);
+		p.add(lLastName);
+		p.add(jHireYear);
+		p.add(lHireYear);
+		p.add(jSocial);
+		p.add(lSocial);
+		p.add(jOccupation);
+		p.add(lOccupation);
+
+		JButton Submit = new JButton("Submit");
+		Submit.setSize(new Dimension(1, 1));
+
+		Submit.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (lFirstName.getText().isEmpty() || lLastName.getText().isEmpty() || lHireYear.getText().isEmpty() ||lSocial.getText().isEmpty()||lOccupation.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
+					progressBar1.setValue(0);
+				}else{
+				progressBar1.setValue(40);
+				progressBar1.setVisible(true);
+				progressBar1.setValue(40);
+				JOptionPane.showMessageDialog(null, "Uploading Employee...");
+				int hireYear =Integer.parseInt(lHireYear.getText());
+				p.revalidate();
 				
-				
-				String hireYear = hireText.getText().replace("-", "");
-				
-				
-				footnotes.removeAll();
-				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
-				
-				DefaultListModel document = new DefaultListModel();
-				
-				Find.findRecords(firstName, lastName, hireYear, document);
-				
-				@SuppressWarnings({ })
-				JList vector = new JList(document);
-				
-				
-				JScrollPane scroll = new JScrollPane(vector);
-				vector.setVisibleRowCount(5);
-				vector.setLayoutOrientation(JList.VERTICAL);
-				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
-				
-				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setVisible(true);
-				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
-				
-			
+				Encrypt p2 = new Encrypt();
+				String ssn = lSocial.getText().replace("-","");
+				//make all strings capital then encode them then put them in the 
+				//insert methods do this for all uploads csv and manual entry
+				//insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),hireYear ,
+					//	p2.shiftChars(ssn), lOccupation.getText());
+				lFirstName.setText("");
+				lLastName.setText("");
+				lHireYear.setText("");
+				lSocial.setText("");
+				lOccupation.setText("");
+				progressBar1.setValue(0);
+				p.revalidate();
+				}
 			}
 		});
-		return panel;
-	}
-	//Property search method panel
-	public static JPanel searchProperty(JPanel footnotes) {
-		panel2 = new JPanel();
-		panel2.setLayout(null);
-		JButton button2 = new JButton("SEARCH");
-				
-		JLabel firstLabel = new JLabel("Property Name: ");
-		
-		
-		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		
-		
-		int x = 10;
-		int y = 20;
-		for(JLabel label: list) {
-			label.setBounds(x, y, 120, 25);
-			y += 30;
-			panel2.add(label);
-		}
-		
-		JTextField firstText = new JTextField();
-		
-		
-		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		
-		
-		int h = 20;
-		int w = 100;
-		for(JTextField label: list1) {
-			label.setBounds(w, h, 150, 25);
-			h += 30;
-			panel2.add(label);
-		}
-		
+		p.add(Submit);
+		p.add(progressBar1);
+		panelEmployee.add(p, BorderLayout.PAGE_START);
 
-		
-		button2.setForeground(Color.BLACK);
-		button2.setOpaque(true);
-		button2.setBounds(320, 52, 100, 20);
-		panel2.add(button2);
-		button2.addActionListener(new ActionListener() {
-		
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+	}
+
+	private static JPanel panelFinancial;
+
+	public void createFinancialTab() {
+		panelFinancial = new JPanel();
+		panelFinancial.setLayout(new BorderLayout());
+
+		progressBar5.setValue(0);
+		progressBar5.setBounds(130, 360, 300, 30);
+		progressBar5.setVisible(true);
+		JPanel p = new JPanel();
+		JLabel jAccountName = new JLabel("Account Name:");
+		JTextField lAccountName = new JTextField(20);
+		JLabel jBalance = new JLabel("Balance:");
+		JTextField lBalance = new JTextField(20);
+		JLabel jBank = new JLabel("Banking Institution:");
+		JTextField lBank = new JTextField(20);
+
+		p.setLayout(new GridLayout(6, 1));
+		p.add(jAccountName);
+		p.add(lAccountName);
+		p.add(jBalance);
+		p.add(lBalance);
+		p.add(jBank);
+		p.add(lBank);
+
+		JButton Submit = new JButton("Submit");
+		Submit.setSize(new Dimension(1, 1));
+		Submit.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
-				footnotes.removeAll();
-				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				
-				
-				
-				DefaultListModel document = new DefaultListModel();
-				//searches by property name
-				//Find.findRecords(firstName, document);
-				
-				@SuppressWarnings({ })
-				JList vector = new JList(document);
-				
-				
-				JScrollPane scroll = new JScrollPane(vector);
-				vector.setVisibleRowCount(5);
-				vector.setLayoutOrientation(JList.VERTICAL);
-				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
-				
-				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setVisible(true);
-				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
-				
-			
+				if (lAccountName.getText().isEmpty() || lBalance.getText().isEmpty() || lBank.getText().isEmpty()) {
+
+					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
+					progressBar5.setValue(0);
+
+				}else {
+				progressBar5.setValue(40);
+				progressBar5.setVisible(true);
+				progressBar5.setValue(40);
+				JOptionPane.showMessageDialog(null, "Uploading Finances...");
+
+				p.revalidate();
+				Double balance = Double.parseDouble(lBalance.getText());
+				//insertFinance(companyName, lAccountName.getText(), balance, lBank.getText());
+				lAccountName.setText("");
+				lBalance.setText("");
+				lBank.setText("");
+				progressBar5.setValue(0);
+				p.revalidate();
+				}
 			}
 		});
-		return panel2;
-	}
-	//Products search
-	public static JPanel searchProduct(JPanel footnotes) {
-		JButton button3 = new JButton("SEARCH");
-		panel3 = new JPanel();
-		panel3.setLayout(null);
-		
-		
-		JLabel firstLabel = new JLabel("Product name: ");
-		JLabel lastLabel = new JLabel("Category: ");
-		JLabel hireLabel = new JLabel("Supplier: ");
-		
-		
-		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
-		list.add(hireLabel);
-		
-		int x = 10;
-		int y = 20;
-		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
-			y += 30;
-			panel3.add(label);
-		}
-		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		JTextField hireText = new JTextField();
-		
-		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
-		list1.add(hireText);
-		
-		int h = 20;
-		int w = 100;
-		for(JTextField label: list1) {
-			label.setBounds(w, h, 150, 25);
-			h += 30;
-			panel3.add(label);
-		}
-		
+		p.add(Submit);
+		p.add(progressBar5);
+		panelFinancial.add(p, BorderLayout.NORTH);
 
-		
-		button3.setForeground(Color.BLACK);
-		button3.setOpaque(true);
-		button3.setBounds(320, 52, 100, 20);
-		panel3.add(button3);
-		button3.addActionListener(new ActionListener() {
-		
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+	}
+
+	private static JPanel panelProperties;
+
+	public void createPropertiesTab() {
+		panelProperties = new JPanel();
+		panelProperties.setLayout(new BorderLayout());
+		progressBar2.setValue(0);
+		progressBar2.setBounds(130, 360, 300, 30);
+		progressBar2.setVisible(true);
+		JPanel p = new JPanel();
+		JLabel jPropertyName = new JLabel("Property Name:");
+		JTextField lPropertyName = new JTextField(20);
+		JLabel jCost = new JLabel("Cost:");
+		JTextField lCost = new JTextField(20);
+		JLabel jLocation = new JLabel("Location:");
+		JTextField lLocation = new JTextField(20);
+		p.setLayout(new GridLayout(6, 1));
+		p.add(jPropertyName);
+		p.add(lPropertyName);
+		p.add(jCost);
+		p.add(lCost);
+		p.add(jLocation);
+		p.add(lLocation);
+		JButton Submit = new JButton("Submit");
+		Submit.setSize(new Dimension(1, 1));
+		Submit.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-			
-				
-				footnotes.removeAll();
-				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
-				
-				DefaultListModel document = new DefaultListModel();
-				//insert find records for this type
-				//Find.findRecords(firstName, lastName, document);
-				
-				@SuppressWarnings({ })
-				JList vector = new JList(document);
-				
-				
-				JScrollPane scroll = new JScrollPane(vector);
-				vector.setVisibleRowCount(5);
-				vector.setLayoutOrientation(JList.VERTICAL);
-				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
-				
-				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setVisible(true);
-				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
-			
-				
+				if (lPropertyName.getText().isEmpty() || lCost.getText().isEmpty() || lLocation.getText().isEmpty()) {
+
+					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
+					progressBar2.setValue(0);
+
+				}else {
+				progressBar2.setValue(40);
+				progressBar2.setVisible(true);
+				progressBar2.setValue(40);
+				JOptionPane.showMessageDialog(null, "Uploading Finances...");
+
+				p.revalidate();
+				double cost = Double.parseDouble(lCost.getText());
+				//insertProperty(companyName, lPropertyName.getText(), cost, lLocation.getText());
+				lPropertyName.setText("");
+				lCost.setText("");
+				lLocation.setText("");
+				progressBar2.setValue(0);
+				p.revalidate();
+				}
+
 			}
 		});
-		return panel3;
-	}
-	//search service
-	public static JPanel searchService(JPanel footnotes) {
-		JButton button4 = new JButton("SEARCH");
-		panel4 = new JPanel();
-		panel4.setLayout(null);
-		
-		
-		JLabel firstLabel = new JLabel("Service name: ");
-		JLabel lastLabel = new JLabel("Category: ");
-		
-		
-		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
-	
-		
-		int x = 10;
-		int y = 20;
-		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
-			y += 30;
-			panel4.add(label);
-		}
-		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		
-		
-		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
-	
-		
-		int h = 20;
-		int w = 100;
-		for(JTextField label: list1) {
-			label.setBounds(w, h, 150, 25);
-			h += 30;
-			panel4.add(label);
-		}
-		
 
-		
-		button4.setForeground(Color.BLACK);
-		button4.setOpaque(true);
-		button4.setBounds(320, 52, 100, 20);
-		panel4.add(button4);
-		button4.addActionListener(new ActionListener() {
-		
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+		p.add(Submit);
+		p.add(progressBar2);
+		panelProperties.add(p, BorderLayout.NORTH);
+	}
+
+	private static JPanel panelService;
+
+	public void createServiceTab() {
+		panelService = new JPanel();
+		panelService.setLayout(new BorderLayout());
+		progressBar3.setValue(0);
+		progressBar3.setBounds(130, 360, 300, 30);
+		progressBar3.setVisible(true);
+		JPanel p = new JPanel();
+		JLabel jServiceName = new JLabel("Service Name:");
+		JTextField lServiceName = new JTextField(20);
+		JLabel jCost = new JLabel("Cost:");
+		JTextField lCost = new JTextField(20);
+		JLabel jCategory = new JLabel("Category:");
+		JTextField lCategory = new JTextField(20);
+		p.setLayout(new GridLayout(4, 1));
+		p.add(jServiceName);
+		p.add(lServiceName);
+		p.add(jCost);
+		p.add(lCost);
+		p.add(jCategory);
+		p.add(lCategory);
+		JButton Submit = new JButton("Submit");
+		Submit.setSize(new Dimension(1, 1));
+		Submit.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				footnotes.removeAll();
-				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
-				
-				DefaultListModel document = new DefaultListModel();
-				//insert find records for this type
-				//Find.findRecords(firstName, lastName, hireYear, document);
-				
-				@SuppressWarnings({ })
-				JList vector = new JList(document);
-				
-				
-				JScrollPane scroll = new JScrollPane(vector);
-				vector.setVisibleRowCount(5);
-				vector.setLayoutOrientation(JList.VERTICAL);
-				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
-				
-				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setVisible(true);
-				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
-				
+				if (lServiceName.getText().isEmpty() || lCost.getText().isEmpty() || lCategory.getText().isEmpty()) {
+
+					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
+					progressBar3.setValue(0);
+
+				} else {
+					progressBar3.setValue(40);
+					progressBar3.setVisible(true);
+					progressBar3.setValue(40);
+					JOptionPane.showMessageDialog(null, "Uploading Service...");
+
+					p.revalidate();
+
+					//insertService(companyName, lServiceName.getText(), lCost.getText(), lCategory.getText());
+					lServiceName.setText("");
+					lCost.setText("");
+					lCategory.setText("");
+					progressBar3.setValue(0);
+					p.revalidate();
+				}
+
 			}
 		});
-		return panel4;
+		p.add(Submit);
+		p.add(progressBar3);
+		panelService.add(p, BorderLayout.NORTH);
 	}
-	public static JPanel searchFinancials(JPanel footnotes) {
-		JButton button5 = new JButton("SEARCH");
-		panel5 = new JPanel();
-		panel5.setLayout(null);
-		
-		
-		JLabel firstLabel = new JLabel("Account name: ");
-		JLabel accountLabel = new JLabel("Account ID: ");
-		JLabel lastLabel = new JLabel("Bank: ");
-		
-		
-		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(accountLabel);
-		list.add(lastLabel);
-		
-		
-		int x = 10;
-		int y = 20;
-		for(JLabel label: list) {
-			label.setBounds(x, y, 100, 25);
-			y += 30;
-			panel5.add(label);
-		}
-		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		JTextField banlText = new JTextField();
-		
-		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(banlText);
-		list1.add(lastText);
-	
-		
-		int h = 20;
-		int w = 100;
-		for(JTextField label: list1) {
-			label.setBounds(w, h, 150, 25);
-			h += 30;
-			panel5.add(label);
-		}
-		
 
-		
-		button5.setForeground(Color.BLACK);
-		button5.setOpaque(true);
-		button5.setBounds(320, 52, 100, 20);
-		panel5.add(button5);
-		button5.addActionListener(new ActionListener() {
-		
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static JPanel panelProduct;
+
+	private void createProductTab() {
+		panelProduct = new JPanel();
+		panelProduct.setLayout(new BorderLayout());
+		progressBar4.setValue(0);
+		progressBar4.setBounds(130, 360, 300, 30);
+		progressBar4.setVisible(true);
+		JPanel p = new JPanel();
+		JLabel jProductName = new JLabel("Product Name:");
+		JTextField lProductName = new JTextField(20);
+		JLabel jCost = new JLabel("Cost:");
+		JTextField lCost = new JTextField(20);
+		JLabel jCategory = new JLabel("Category:");
+		JTextField lCategory = new JTextField(20);
+		JLabel jSupplier = new JLabel("Supplier:");
+		JTextField lSupplier = new JTextField(20);
+
+		p.setLayout(new GridLayout(5, 1));
+		p.add(jProductName);
+		p.add(lProductName);
+		p.add(jCost);
+		p.add(lCost);
+		p.add(jCategory);
+		p.add(lCategory);
+		p.add(jSupplier);
+		p.add(lSupplier);
+		JButton Submit = new JButton("Submit");
+		Submit.setSize(new Dimension(1, 1));
+		Submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				footnotes.removeAll();
-				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
-				
-				DefaultListModel document = new DefaultListModel();
-				//insert find records for this type
-				//Find.findRecords(firstName, lastName, hireYear, document);
-				
-				@SuppressWarnings({ })
-				JList vector = new JList(document);
-				
-				
-				JScrollPane scroll = new JScrollPane(vector);
-				vector.setVisibleRowCount(5);
-				vector.setLayoutOrientation(JList.VERTICAL);
-				vector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
-				
-				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setVisible(true);
-				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
-			
-			
+
+				if (lProductName.getText().isEmpty() || lCost.getText().isEmpty() || lCategory.getText().isEmpty()
+						|| lSupplier.getText().isEmpty()) {
+
+					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
+					progressBar4.setValue(0);
+
+				} else {
+					double cost = Double.parseDouble(lCost.getText());
+					progressBar4.setValue(40);
+					progressBar4.setVisible(true);
+					progressBar4.setValue(40);
+					JOptionPane.showMessageDialog(null, "Uploading Product...");
+					//insertProduct(companyName, lProductName.getText(), cost, lCategory.getText(),
+							//lSupplier.getText());
+					lProductName.setText("");
+					lCost.setText("");
+					lCategory.setText("");
+					lSupplier.setText("");
+					progressBar4.setValue(0);
+					p.revalidate();
+				}
+
+				p.revalidate();
+
 			}
 		});
-		return panel5;
+		p.add(Submit);
+		p.add(progressBar4);
+		panelProduct.add(p, BorderLayout.NORTH);
 	}
+
 }
