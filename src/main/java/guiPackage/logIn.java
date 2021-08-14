@@ -143,7 +143,6 @@ public class logIn {
 		//tests to see if the collection in our user name log on cluster exists
 		if(company.equalsIgnoreCase(name)) {
 			MongoCollection<Document> collection = database.getCollection(company);
-			
 			//query to find the user name and password
 			BasicDBObject query = new BasicDBObject("username", user).append("password", password);
 			Document northwind = collection.find(query).first();

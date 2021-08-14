@@ -57,9 +57,9 @@ class GUI extends JFrame {
 	private JPanel updatePanel;
 	// hardcode entry tabbed page
 	private JTabbedPane pane;
-	//pane2 for search method
+	// pane2 for search method
 	private JTabbedPane pane2;
-	//pane 3 for updating the document in the cloud
+	// pane 3 for updating the document in the cloud
 	private JTabbedPane pane3;
 	// blank home page
 	private JPanel temp = new JPanel();
@@ -118,7 +118,7 @@ class GUI extends JFrame {
 	JComboBox messageList = new JComboBox(messages);
 	JButton goButton = new JButton("GO");
 	JPanel insertRecords;
-	
+
 	// creation of the static directory on the left hand side
 	public void createDirectory() {
 
@@ -133,9 +133,9 @@ class GUI extends JFrame {
 		JButton updateButton = new JButton("UPDATE");
 		JButton deleteButton = new JButton("DELETE");
 		JButton findButton = new JButton("FIND");
-		
+
 		findButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setTitle("Find Records - CompanyVault.exe");
@@ -150,12 +150,23 @@ class GUI extends JFrame {
 				splitPaneV.setRightComponent(panel3);
 			}
 		});
-		
+		updateButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setTitle("Update Records - CompanyVault.exe");
+				splitPaneH.setEnabled(false);
+				splitPaneV.setEnabled(false);
+				splitPaneH.setLeftComponent(directory);
+				splitPaneH.setRightComponent(pane3);
+
+			}
+		});
 		directory.add(insertButton);
 		directory.add(updateButton);
 		directory.add(deleteButton);
 		directory.add(findButton);
-		
+
 		directory.add(homeButton);
 		homeButton.addActionListener(new ActionListener() {
 
@@ -338,30 +349,31 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (lFirstName.getText().isEmpty() || lLastName.getText().isEmpty() || lHireYear.getText().isEmpty() ||lSocial.getText().isEmpty()||lOccupation.getText().isEmpty()) {
+				if (lFirstName.getText().isEmpty() || lLastName.getText().isEmpty() || lHireYear.getText().isEmpty()
+						|| lSocial.getText().isEmpty() || lOccupation.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
 					progressBar1.setValue(0);
-				}else{
-				progressBar1.setValue(40);
-				progressBar1.setVisible(true);
-				progressBar1.setValue(40);
-				JOptionPane.showMessageDialog(null, "Uploading Employee...");
-				int hireYear =Integer.parseInt(lHireYear.getText());
-				p.revalidate();
-				
-				Encrypt p2 = new Encrypt();
-				String ssn = lSocial.getText().replace("-","");
-				//make all strings capital then encode them then put them in the 
-				//insert methods do this for all uploads csv and manual entry
-				insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),hireYear ,
-						p2.shiftChars(ssn), lOccupation.getText());
-				lFirstName.setText("");
-				lLastName.setText("");
-				lHireYear.setText("");
-				lSocial.setText("");
-				lOccupation.setText("");
-				progressBar1.setValue(0);
-				p.revalidate();
+				} else {
+					progressBar1.setValue(40);
+					progressBar1.setVisible(true);
+					progressBar1.setValue(40);
+					JOptionPane.showMessageDialog(null, "Uploading Employee...");
+					int hireYear = Integer.parseInt(lHireYear.getText());
+					p.revalidate();
+
+					Encrypt p2 = new Encrypt();
+					String ssn = lSocial.getText().replace("-", "");
+					// make all strings capital then encode them then put them in the
+					// insert methods do this for all uploads csv and manual entry
+					insertEmployee(companyName, lFirstName.getText(), lLastName.getText(), hireYear, p2.shiftChars(ssn),
+							lOccupation.getText());
+					lFirstName.setText("");
+					lLastName.setText("");
+					lHireYear.setText("");
+					lSocial.setText("");
+					lOccupation.setText("");
+					progressBar1.setValue(0);
+					p.revalidate();
 				}
 			}
 		});
@@ -407,20 +419,20 @@ class GUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
 					progressBar5.setValue(0);
 
-				}else {
-				progressBar5.setValue(40);
-				progressBar5.setVisible(true);
-				progressBar5.setValue(40);
-				JOptionPane.showMessageDialog(null, "Uploading Finances...");
+				} else {
+					progressBar5.setValue(40);
+					progressBar5.setVisible(true);
+					progressBar5.setValue(40);
+					JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
-				p.revalidate();
-				Double balance = Double.parseDouble(lBalance.getText());
-				insertFinance(companyName, lAccountName.getText(), balance, lBank.getText());
-				lAccountName.setText("");
-				lBalance.setText("");
-				lBank.setText("");
-				progressBar5.setValue(0);
-				p.revalidate();
+					p.revalidate();
+					Double balance = Double.parseDouble(lBalance.getText());
+					insertFinance(companyName, lAccountName.getText(), balance, lBank.getText());
+					lAccountName.setText("");
+					lBalance.setText("");
+					lBank.setText("");
+					progressBar5.setValue(0);
+					p.revalidate();
 				}
 			}
 		});
@@ -463,20 +475,20 @@ class GUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
 					progressBar2.setValue(0);
 
-				}else {
-				progressBar2.setValue(40);
-				progressBar2.setVisible(true);
-				progressBar2.setValue(40);
-				JOptionPane.showMessageDialog(null, "Uploading Finances...");
+				} else {
+					progressBar2.setValue(40);
+					progressBar2.setVisible(true);
+					progressBar2.setValue(40);
+					JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
-				p.revalidate();
-				double cost = Double.parseDouble(lCost.getText());
-				insertProperty(companyName, lPropertyName.getText(), cost, lLocation.getText());
-				lPropertyName.setText("");
-				lCost.setText("");
-				lLocation.setText("");
-				progressBar2.setValue(0);
-				p.revalidate();
+					p.revalidate();
+					double cost = Double.parseDouble(lCost.getText());
+					insertProperty(companyName, lPropertyName.getText(), cost, lLocation.getText());
+					lPropertyName.setText("");
+					lCost.setText("");
+					lLocation.setText("");
+					progressBar2.setValue(0);
+					p.revalidate();
 				}
 
 			}
@@ -588,8 +600,7 @@ class GUI extends JFrame {
 					progressBar4.setVisible(true);
 					progressBar4.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Product...");
-					insertProduct(companyName, lProductName.getText(), cost, lCategory.getText(),
-							lSupplier.getText());
+					insertProduct(companyName, lProductName.getText(), cost, lCategory.getText(), lSupplier.getText());
 					lProductName.setText("");
 					lCost.setText("");
 					lCategory.setText("");
@@ -616,27 +627,31 @@ class GUI extends JFrame {
 		pane.addTab("Financial Holdings", panelFinancial);
 
 	}
+
 	public void showFrame2() {
 		pane2 = new JTabbedPane();
 		pane2.addTab("Employees", Find.createJPanel(panel3));
-		pane2.addTab("Properties",Find.searchProperty(panel3));
+		pane2.addTab("Properties", Find.searchProperty(panel3));
 		pane2.addTab("Products", Find.searchProduct(panel3));
 		pane2.addTab("Services", Find.searchService(panel3));
 		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3));
 
 	}
+
 	public void showFrame3() {
 		pane3 = new JTabbedPane();
-//		pane3.addTab("Employees", Update.createEmployee(panel3));
-//		pane3.addTab("Properties", Update.searchProperty(panel3));
-//		pane3.addTab("Products", Update.searchProduct(panel3));
-//		pane3.addTab("Services", Update.searchService(panel3));
-//		pane3.addTab("Financial Holdings", Update.searchFinancials(panel3));
+		pane3.addTab("Employees", Update.createEmployeeTab(companyName));
+		pane3.addTab("Properties", Update.createPropertiesTab());
+		pane3.addTab("Products", Update.createProductTab());
+		pane3.addTab("Services", Update.createServiceTab());
+		pane3.addTab("Financial Holdings", Update.createFinancialTab());
 
 	}
+
 	JRadioButton rb1, rb2;
 	JButton b;
-	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services", "Financial Holdings" };
+	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services",
+			"Financial Holdings" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static JComboBox csvList = new JComboBox(CSV);
 	private static JLabel text2;
@@ -979,13 +994,13 @@ class GUI extends JFrame {
 							// header line
 							.withType(Employee.class).withSkipLines(0).build().parse();
 					for (int x = 0; x < beans.size(); x++) {
-						
+
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("first name", beans.get(x).getFirstName());
 						doc.append("last name", beans.get(x).getLastName());
 						doc.append("hire year", beans.get(x).getHireYear());
 						doc.append("ssn", beans.get(x).getSSN().replace("-", ""));
-						doc.append("occupation",beans.get(x).getOccupation());
+						doc.append("occupation", beans.get(x).getOccupation());
 						collection.insertOne(doc);
 					}
 				} else {
@@ -997,7 +1012,7 @@ class GUI extends JFrame {
 						doc.append("last name", beans.get(x).getLastName());
 						doc.append("hire year", beans.get(x).getHireYear());
 						doc.append("ssn", beans.get(x).getSSN().replace("-", ""));
-						doc.append("occupation",beans.get(x).getOccupation());
+						doc.append("occupation", beans.get(x).getOccupation());
 						collection.insertOne(doc);
 					}
 				}
@@ -1299,7 +1314,7 @@ class GUI extends JFrame {
 				String line;
 				while ((line = br.readLine()) != null) {
 					docs.add(new InsertOneModel<>(Document.parse(line.toLowerCase())));
-					
+
 					count++;
 
 					if (count == batch) {
@@ -1329,7 +1344,6 @@ class GUI extends JFrame {
 
 	}
 
-	
 	public static String fileupload() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -1364,8 +1378,8 @@ class GUI extends JFrame {
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
 
-	public static void insertEmployee(String CompanyName, String firstname, String lastname, int hireYear,
-		String ssn, String occupation) {
+	public static void insertEmployee(String CompanyName, String firstname, String lastname, int hireYear, String ssn,
+			String occupation) {
 		ssn = ssn.replace("-", "");
 		firstname = firstname.toUpperCase();
 		lastname = lastname.toUpperCase();

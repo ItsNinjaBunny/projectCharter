@@ -32,39 +32,33 @@ import Encryption.Encrypt;
 public class Update {
 	
 	
-	public static void updateEmployee(String companyName, String collectionName) {
+	public static void updateEmployee(String companyName,String ssn, String firstName, String lastName, String hireYear, String occupation ) {
 
 		try {
-
-			int id = 0;
-			System.out.print("What employee would you like to update: ");
-		
-			String updateFirstName = "", updateLastName = "";
-			int hireYear = 0;
-
-			System.out.print("What do you want to change the first name to: ");
 			
-			System.out.print("What do you want to change the last name to: ");
-			
-			System.out.print("What do you want to change the hire year to: ");
 			
 
 			MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + companyName + "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
 			MongoClient mongoClient = new MongoClient(uri);
 			MongoDatabase database = mongoClient.getDatabase(companyName);			
-			MongoCollection<Document> collection = database.getCollection(collectionName);
-			Document test = collection.find(new Document("id", id)).first();
-			System.out.println("\nNOW UPDATING...\n\n\nObjectID: " + test.get("_id") + "\nID:" + test.get("id")
-					+ "\nFirst Name: " + test.get("first name") + "\nLast Name: " + test.get("last name")
-					+ "\nHire Year: " + test.get("hire year"));
-			collection.updateOne(Filters.eq("id", id), Updates.set("first name", updateFirstName));
-			collection.updateOne(Filters.eq("id", id), Updates.set("last name", updateLastName));
-			collection.updateOne(Filters.eq("id", id), Updates.set("hire year", hireYear));
-			System.out.println("Updated to");
-			Document test1 = collection.find(new Document("id", id)).first();
-			System.out.println("\nNEW CREDENTIALS...\n\n\nObjectID: " + test1.get("_id") + "\nID:" + test1.get("id")
-					+ "\nFirst Name: " + test1.get("first name") + "\nLast Name: " + test1.get("last name")
-					+ "\nHire Year: " + test1.get("hire year"));
+			MongoCollection<Document> collection = database.getCollection("Employees");
+			Document test = collection.find(new Document("ssn", ssn)).first();
+			if(test.get("ssn")==ssn) {
+				JOptionPane.showMessageDialog(null, "Now Updating"+test.toString());
+				
+				System.out.println(test.toString());
+				collection.updateOne(Filters.eq("ssn", ssn), Updates.set("first name", firstName));
+				collection.updateOne(Filters.eq("ssn", ssn), Updates.set("last name", lastName));
+				collection.updateOne(Filters.eq("ssn", ssn), Updates.set("hire year", hireYear));
+				collection.updateOne(Filters.eq("ssn", ssn), Updates.set("hire year", hireYear));
+			}else {
+				JOptionPane.showMessageDialog(null, "The Employee does not exist in our system. Make sure you are entering in the correct Employee ssn");
+				
+			}
+//			Document test1 = collection.find(new Document("ssn", ssn)).first();
+//			System.out.println("\nNEW CREDENTIALS...\n\n\nObjectID: " + test1.get("_id") + "\nID:" + test1.get("id")
+//					+ "\nFirst Name: " + test1.get("first name") + "\nLast Name: " + test1.get("last name")
+//					+ "\nHire Year: " + test1.get("hire year"));
 			mongoClient.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,7 +71,7 @@ public class Update {
 	private static JProgressBar progressBar4 = new JProgressBar();
 	private static JProgressBar progressBar5 = new JProgressBar();
 
-	public void createEmployeeTab() {
+	public static JPanel createEmployeeTab(String companyName) {
 		panelEmployee = new JPanel();
 		panelEmployee.setLayout(new BorderLayout());
 
@@ -123,15 +117,15 @@ public class Update {
 				progressBar1.setVisible(true);
 				progressBar1.setValue(40);
 				JOptionPane.showMessageDialog(null, "Uploading Employee...");
-				int hireYear =Integer.parseInt(lHireYear.getText());
+				
 				p.revalidate();
 				
 				Encrypt p2 = new Encrypt();
 				String ssn = lSocial.getText().replace("-","");
 				//make all strings capital then encode them then put them in the 
 				//insert methods do this for all uploads csv and manual entry
-				//insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),hireYear ,
-					//	p2.shiftChars(ssn), lOccupation.getText());
+				updateEmployee(companyName, lFirstName.getText(), lLastName.getText(),lHireYear.getText() ,
+						ssn, lOccupation.getText());
 				lFirstName.setText("");
 				lLastName.setText("");
 				lHireYear.setText("");
@@ -145,12 +139,13 @@ public class Update {
 		p.add(Submit);
 		p.add(progressBar1);
 		panelEmployee.add(p, BorderLayout.PAGE_START);
+		return panelEmployee;
 
 	}
 
 	private static JPanel panelFinancial;
 
-	public void createFinancialTab() {
+	public static JPanel createFinancialTab() {
 		panelFinancial = new JPanel();
 		panelFinancial.setLayout(new BorderLayout());
 
@@ -204,12 +199,13 @@ public class Update {
 		p.add(Submit);
 		p.add(progressBar5);
 		panelFinancial.add(p, BorderLayout.NORTH);
+		return panelFinancial;
 
 	}
 
 	private static JPanel panelProperties;
 
-	public void createPropertiesTab() {
+	public static JPanel createPropertiesTab() {
 		panelProperties = new JPanel();
 		panelProperties.setLayout(new BorderLayout());
 		progressBar2.setValue(0);
@@ -262,11 +258,12 @@ public class Update {
 		p.add(Submit);
 		p.add(progressBar2);
 		panelProperties.add(p, BorderLayout.NORTH);
+		return panelProperties;
 	}
 
 	private static JPanel panelService;
 
-	public void createServiceTab() {
+	public static JPanel createServiceTab() {
 		panelService = new JPanel();
 		panelService.setLayout(new BorderLayout());
 		progressBar3.setValue(0);
@@ -318,11 +315,12 @@ public class Update {
 		p.add(Submit);
 		p.add(progressBar3);
 		panelService.add(p, BorderLayout.NORTH);
+		return panelService;
 	}
 
 	private static JPanel panelProduct;
 
-	private void createProductTab() {
+	public static JPanel  createProductTab() {
 		panelProduct = new JPanel();
 		panelProduct.setLayout(new BorderLayout());
 		progressBar4.setValue(0);
@@ -382,6 +380,7 @@ public class Update {
 		p.add(Submit);
 		p.add(progressBar4);
 		panelProduct.add(p, BorderLayout.NORTH);
+		return panelProduct;
 	}
 
 }
