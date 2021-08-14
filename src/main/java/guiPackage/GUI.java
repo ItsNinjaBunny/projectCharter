@@ -44,7 +44,7 @@ import database.Employee;
 import database.Find;
 import database.ProductServices;
 import database.Update;
-import database.financialHoldings;
+import database.FinancialHoldings;
 
 @SuppressWarnings("serial")
 class GUI extends JFrame {
@@ -630,8 +630,9 @@ class GUI extends JFrame {
 
 	public void showFrame2() {
 		pane2 = new JTabbedPane();
-		pane2.addTab("Employees", Find.createJPanel(panel3));
-		pane2.addTab("Properties", Find.searchProperty(panel3));
+
+		pane2.addTab("Employees", Find.searchEmployee(panel3));
+		pane2.addTab("Properties",Find.searchProperty(panel3));
 		pane2.addTab("Products", Find.searchProduct(panel3));
 		pane2.addTab("Services", Find.searchService(panel3));
 		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3));
@@ -1244,16 +1245,16 @@ class GUI extends JFrame {
 			// convert CSV directly
 			try {
 				String file = fileupload();
-				List<financialHoldings> beans = new CsvToBeanBuilder(new FileReader(file))
+				List<FinancialHoldings> beans = new CsvToBeanBuilder(new FileReader(file))
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
-						.withType(financialHoldings.class).withSkipLines(1).build().parse();
+						.withType(FinancialHoldings.class).withSkipLines(1).build().parse();
 
 				if (beans.get(0).getId() != 1) {
 					beans = new CsvToBeanBuilder(new FileReader(file))
 							// we ask if the file contians headers upon radial selection it will skip first
 							// header line
-							.withType(financialHoldings.class).withSkipLines(0).build().parse();
+							.withType(FinancialHoldings.class).withSkipLines(0).build().parse();
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
