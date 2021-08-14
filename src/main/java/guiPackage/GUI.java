@@ -56,6 +56,8 @@ class GUI extends JFrame {
 	private JPanel updatePanel;
 	// hardcode entry tabbed page
 	private JTabbedPane pane;
+	//pane2 for search method
+	private JTabbedPane pane2;
 	// blank home page
 	private JPanel temp = new JPanel();
 	// single file upload
@@ -91,6 +93,7 @@ class GUI extends JFrame {
 		createServiceTab();
 		createProductTab();
 		showFrame();
+		showFrame2();
 		singleFilePanel();
 
 		// Create a splitter pane
@@ -127,17 +130,15 @@ class GUI extends JFrame {
 		JButton deleteButton = new JButton("DELETE");
 		JButton findButton = new JButton("FIND");
 		
-		updateButton.addActionListener(new ActionListener() {
+		findButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updatePanel = new JPanel();
-				updatePanel = Update.createJPanel(panel3);
+				setTitle("Find Records - CompanyVault.exe");
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
-				splitPaneH.setRightComponent(updatePanel);
-				
+				splitPaneH.setRightComponent(pane2);
 				topPanel.removeAll();
 				topPanel.revalidate();
 				topPanel.add(splitPaneV, BorderLayout.CENTER);
@@ -611,7 +612,15 @@ class GUI extends JFrame {
 		pane.addTab("Financial Holdings", panelFinancial);
 
 	}
+	public void showFrame2() {
+		pane2 = new JTabbedPane();
+		pane2.addTab("Employees", Update.createJPanel(panel3));
+		pane2.addTab("Properties", Update.searchProperty(panel3));
+		pane2.addTab("Products", Update.searchProduct(panel3));
+		pane2.addTab("Services", Update.searchService(panel3));
+		pane2.addTab("Financial Holdings", Update.searchFinancials(panel3));
 
+	}
 	JRadioButton rb1, rb2;
 	JButton b;
 	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services", "Financial Holdings" };
