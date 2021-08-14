@@ -50,8 +50,9 @@ public class Find {
 		try {
 			Decrypt p = new Decrypt();
 
-			firstName = firstName.toLowerCase();
-			lastName = lastName.toLowerCase();
+			//firstName = firstName.toLowerCase();
+			//lastName = lastName.toLowerCase();
+			
 			Vector<Document> search = new Vector<>();
 			
 			//connects the app to the mongodb database
@@ -568,7 +569,7 @@ public class Find {
 		}
 	}
 	
-	
+	//COME IN GETTER :)
 	public static JPanel searchEmployee(JPanel footnotes) {
 		JButton button = new JButton("SEARCH");
 		panel = new JPanel();
@@ -615,6 +616,11 @@ public class Find {
 		button.setOpaque(true);
 		button.setBounds(320, 52, 100, 20);
 		panel.add(button);
+		
+		JButton update = new JButton("update");
+		update.setBounds(320, 52, 100, 20);
+		panel.add(update);
+		update.setVisible(false);
 		button.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -627,14 +633,20 @@ public class Find {
 				
 				footnotes.removeAll();
 				footnotes.revalidate();
+			
+				button.setVisible(false);
+				update.setVisible(true);
+				
 				
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
 				
+				String db = "northwind";
+				
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				findEmployee("northwind", firstName, lastName, hireYear, document);
+				findEmployee(db, firstName, lastName, hireYear, document);
 				
 				JList vector = new JList(document);
 								
@@ -647,8 +659,22 @@ public class Find {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
 				
+				update.addActionListener(new ActionListener() {
+				
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						String test = String.valueOf(vector.getSelectedValue());
+						System.out.println(test);
+						String[] result = test.split(": ");
+						for(int i = 0; i < result.length; i++) {
+							System.out.println(result[i]);
+						}
+					}
+				});
+				
+				footnotes.revalidate();
 			
 			}
 		});
