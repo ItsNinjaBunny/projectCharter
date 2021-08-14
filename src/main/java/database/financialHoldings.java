@@ -16,7 +16,7 @@ public class financialHoldings implements java.io.Serializable {
     public String accountName;
 
     @CsvBindByPosition(position = 2)
-    public float balance;
+    public String balance;
     
     @CsvBindByPosition(position = 3)
     public String bankingInstitution;
@@ -24,7 +24,7 @@ public class financialHoldings implements java.io.Serializable {
     
 
     public financialHoldings(){}
-    public financialHoldings(int accountID, String accountName, float balance, String bankingInstitution) {
+    public financialHoldings(int accountID, String accountName, String balance, String bankingInstitution) {
         this.accountID  		= accountID;
         this.accountName 		= accountName;
         this.balance 	 		= balance;
@@ -45,11 +45,11 @@ public class financialHoldings implements java.io.Serializable {
     public void setAccountName(String accountName) {
         this.accountName = accountName ;
     } 
-    public float getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance ) {
+    public void setBalance(String balance ) {
         this.balance = balance;
     } 
     public String getBankingInstitution() {

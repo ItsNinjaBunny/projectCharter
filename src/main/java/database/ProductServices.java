@@ -12,7 +12,7 @@ public class ProductServices implements java.io.Serializable {
     public String title;
 
     @CsvBindByPosition(position = 2)
-    public float cost;
+    public String cost;
 
     @CsvBindByPosition(position = 3)
     public String category;
@@ -21,7 +21,7 @@ public class ProductServices implements java.io.Serializable {
     public String supplier;
 
     public ProductServices(){}
-    public ProductServices(int productServiceID, String title, float cost, String category, String supplier) {
+    public ProductServices(int productServiceID, String title, String cost, String category, String supplier) {
     	this.productServiceID = productServiceID;
         this.title			  = title;
         this.cost 			  = cost;
@@ -45,11 +45,11 @@ public class ProductServices implements java.io.Serializable {
         this.title = title;
     }
 
-    public float getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 

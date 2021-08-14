@@ -957,11 +957,13 @@ class GUI extends JFrame {
 							// header line
 							.withType(Employee.class).withSkipLines(0).build().parse();
 					for (int x = 0; x < beans.size(); x++) {
-
+						
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("first name", beans.get(x).getFirstName());
 						doc.append("last name", beans.get(x).getLastName());
 						doc.append("hire year", beans.get(x).getHireYear());
+						doc.append("ssn", beans.get(x).getSSN().replace("-", ""));
+						doc.append("occupation",beans.get(x).getOccupation());
 						collection.insertOne(doc);
 					}
 				} else {
@@ -972,6 +974,8 @@ class GUI extends JFrame {
 						doc.append("first name", beans.get(x).getFirstName());
 						doc.append("last name", beans.get(x).getLastName());
 						doc.append("hire year", beans.get(x).getHireYear());
+						doc.append("ssn", beans.get(x).getSSN().replace("-", ""));
+						doc.append("occupation",beans.get(x).getOccupation());
 						collection.insertOne(doc);
 					}
 				}
@@ -1033,7 +1037,7 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("title", beans.get(x).getTitle());
+						doc.append("property name", beans.get(x).getTitle());
 						doc.append("cost", beans.get(x).getCost());
 						doc.append("location", beans.get(x).getLocation());
 						collection.insertOne(doc);
@@ -1217,8 +1221,8 @@ class GUI extends JFrame {
 
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("account name", beans.get(x).getAccountName());
-						doc.append("Balance", beans.get(x).getBalance());
-						doc.append("Bank", beans.get(x).getBankingInstitution());
+						doc.append("balance", beans.get(x).getBalance());
+						doc.append("bank", beans.get(x).getBankingInstitution());
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1227,8 +1231,8 @@ class GUI extends JFrame {
 
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("account name", beans.get(x).getAccountName());
-						doc.append("Balance", beans.get(x).getBalance());
-						doc.append("Bank", beans.get(x).getBankingInstitution());
+						doc.append("balance", beans.get(x).getBalance());
+						doc.append("bank", beans.get(x).getBankingInstitution());
 						collection.insertOne(doc);
 					}
 				}
@@ -1338,7 +1342,8 @@ class GUI extends JFrame {
 	}
 
 	public static void insertEmployee(String CompanyName, String firstname, String lastname, int hireYear,
-			String ssn, String occupation) {
+		String ssn, String occupation) {
+		ssn = ssn.replace("-", "");
 		firstname = firstname.toUpperCase();
 		lastname = lastname.toUpperCase();
 		occupation = occupation.toUpperCase();
