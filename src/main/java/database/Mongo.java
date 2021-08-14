@@ -1,3 +1,4 @@
+package database;
 
 import com.mongodb.*;
 
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.Desktop;
@@ -57,9 +60,13 @@ public class Mongo {
 		//deleteEmployee();
 		/*Upload file types*/
 		//uploadCSV(1) ;
-		//uploadJSON();
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (Exception evt) {
+		}
+		uploadJSON("x","y");
 		/*login to database*/
-		 logInto();
+		// logInto();
 		/*File picker that gets absolute path so it can be used to upload file from that path*/
 		//fileUpload();
 		
@@ -95,28 +102,25 @@ public class Mongo {
 		
 
 	}
-<<<<<<< HEAD
-	
 //uploading file to cloud database
 	public static  String fileupload() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//currently picks file and gets file path
-		JFileChooser chooser = new JFileChooser("data/");
-        
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int returnVal = chooser.showOpenDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open: " +
-                    chooser.getSelectedFile().getName()+"\n"+
-                    chooser.getSelectedFile().getAbsolutePath());
-        }
-        return chooser.getSelectedFile().getAbsolutePath();
-	}
-	//json upload  
-=======
-//uploading file to cloud database
-	public static  String fileupload() {
-		//currently picks file and gets file path
-		JFileChooser chooser = new JFileChooser("data/");
+		JFileChooser chooser = new JFileChooser("C:/Users");
         
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnVal = chooser.showOpenDialog(null);
@@ -128,15 +132,14 @@ public class Mongo {
         return chooser.getSelectedFile().getAbsolutePath();
 	}
 	//json upload
->>>>>>> refs/remotes/origin/master
-	 public static void uploadJSON() {
+	 public static void uploadJSON(String CompanyName,String CollectionName) {
 
 	        try {
-
-	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/test?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
+	        	CompanyName= CompanyName.toLowerCase();
+	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@"+CompanyName+"-shard-00-00.yjpzu.mongodb.net:27017/test?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
 				MongoClient mongoClient = new MongoClient(uri);
-				MongoDatabase database = mongoClient.getDatabase("test");			
-				MongoCollection<Document> collection = database.getCollection("test");
+				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
+				MongoCollection<Document> collection = database.getCollection( CollectionName);
 
 	            // convert JSON to DBObject directly
 
@@ -144,7 +147,7 @@ public class Mongo {
 				int batch = 100;
 
 				List<InsertOneModel<Document>> docs = new ArrayList<>();
-
+				
 				try (BufferedReader br = new BufferedReader(new FileReader(fileupload()))) {
 				      String line;
 				      while ((line = br.readLine()) != null) {
@@ -165,8 +168,9 @@ public class Mongo {
 	        }catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	        
 	    }
-	 public static void uploadCSV(int headers) throws NumberFormatException {
+	 public static void uploadCSV() throws NumberFormatException {
 
 	        try {
 
@@ -179,7 +183,7 @@ public class Mongo {
 				try{
 					List<Employee> beans = new CsvToBeanBuilder(new FileReader(fileupload()))
 							//we ask if the file contians headers upon radial selection it will skip first header line
-			                .withType(Employee.class).withSkipLines(headers)
+			                .withType(Employee.class).withSkipLines(0)
 			                .build()
 			                .parse();
 					
