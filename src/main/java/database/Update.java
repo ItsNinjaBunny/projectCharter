@@ -123,11 +123,10 @@ public class Update {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				Encrypt p = new Encrypt();
+				
 				String hireYear = hireText.getText().replace("-", "");
-				System.out.println(hireYear);
-				hireYear = p.shiftChars(hireYear ) ;
-				System.out.println(hireYear);
+				
+				
 				footnotes.removeAll();
 				footnotes.revalidate();
 				
@@ -199,7 +198,7 @@ public class Update {
 		
 		button2.setForeground(Color.BLACK);
 		button2.setOpaque(true);
-		button2.setBounds(10, 80, 100, 20);
+		button2.setBounds(320, 52, 100, 20);
 		panel2.add(button2);
 		button2.addActionListener(new ActionListener() {
 		
@@ -284,7 +283,7 @@ public class Update {
 		
 		button3.setForeground(Color.BLACK);
 		button3.setOpaque(true);
-		button3.setBounds(10, 120, 100, 20);
+		button3.setBounds(320, 52, 100, 20);
 		panel3.add(button3);
 		button3.addActionListener(new ActionListener() {
 		
@@ -370,7 +369,7 @@ public class Update {
 		
 		button4.setForeground(Color.BLACK);
 		button4.setOpaque(true);
-		button4.setBounds(10, 120, 100, 20);
+		button4.setBounds(320, 52, 100, 20);
 		panel4.add(button4);
 		button4.addActionListener(new ActionListener() {
 		
@@ -430,17 +429,18 @@ public class Update {
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
+			label.setBounds(x, y, 100, 25);
 			y += 30;
 			panel5.add(label);
 		}
 		
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
-		
+		JTextField banlText = new JTextField();
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
+		list1.add(banlText);
 		list1.add(lastText);
 	
 		
@@ -456,7 +456,7 @@ public class Update {
 		
 		button5.setForeground(Color.BLACK);
 		button5.setOpaque(true);
-		button5.setBounds(10, 120, 100, 20);
+		button5.setBounds(320, 52, 100, 20);
 		panel5.add(button5);
 		button5.addActionListener(new ActionListener() {
 		

@@ -286,8 +286,6 @@ class GUI extends JFrame {
 		panel3.setLayout(new BorderLayout());
 		panel3.setPreferredSize(new Dimension(500, 100));
 		panel3.setMinimumSize(new Dimension(100, 50));
-		
-	
 		panel3.add(new JLabel("Results:"), BorderLayout.NORTH);
 	}
 
@@ -346,9 +344,11 @@ class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Uploading Employee...");
 				int hireYear =Integer.parseInt(lHireYear.getText());
 				p.revalidate();
+				
 				Encrypt p2 = new Encrypt();
 				String ssn = lSocial.getText().replace("-","");
-				
+				//make all strings capital then encode them then put them in the 
+				//insert methods do this for all uploads csv and manual entry
 				insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),hireYear ,
 						p2.shiftChars(ssn), lOccupation.getText());
 				lFirstName.setText("");
@@ -1286,6 +1286,7 @@ class GUI extends JFrame {
 				String line;
 				while ((line = br.readLine()) != null) {
 					docs.add(new InsertOneModel<>(Document.parse(line)));
+					
 					count++;
 
 					if (count == batch) {
