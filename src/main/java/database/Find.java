@@ -570,7 +570,7 @@ public class Find {
 	}
 	
 	//COME IN GETTER :)
-	public static JPanel searchEmployee(JPanel footnotes) {
+	public static JPanel searchEmployee(JPanel footnotes,String companyName) {
 		JButton button = new JButton("SEARCH");
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -666,6 +666,7 @@ public class Find {
 					public void actionPerformed(ActionEvent e) {
 						
 						String test = String.valueOf(vector.getSelectedValue());
+						//collection.deleteOne(query).first();
 						System.out.println(test);
 						String[] result = test.split(": ");
 						for(int i = 0; i < result.length; i++) {
@@ -682,7 +683,7 @@ public class Find {
 	}
 
 	//Property search method panel
-	public static JPanel searchProperty(JPanel footnotes) {
+	public static JPanel searchProperty(JPanel footnotes,String companyName) {
 		panel2 = new JPanel();
 		panel2.setLayout(null);
 		JButton button2 = new JButton("SEARCH");
@@ -758,7 +759,7 @@ public class Find {
 	}
 	
 	//Products search
-	public static JPanel searchProduct(JPanel footnotes) {
+	public static JPanel searchProduct(JPanel footnotes,String companyName) {
 		JButton button3 = new JButton("SEARCH");
 		panel3 = new JPanel();
 		panel3.setLayout(null);
@@ -842,7 +843,7 @@ public class Find {
 	}
 	
 	//search service
-	public static JPanel searchService(JPanel footnotes) {
+	public static JPanel searchService(JPanel footnotes,String companyName) {
 		JButton button4 = new JButton("SEARCH");
 		panel4 = new JPanel();
 		panel4.setLayout(null);
@@ -923,7 +924,7 @@ public class Find {
 	}
 	
 	//search Financials
-	public static JPanel searchFinancials(JPanel footnotes) {
+	public static JPanel searchFinancials(JPanel footnotes,String companyName) {
 		JButton button5 = new JButton("SEARCH");
 		panel5 = new JPanel();
 		panel5.setLayout(null);

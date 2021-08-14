@@ -40,6 +40,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 
 import Encryption.Encrypt;
 import Property.Property;
+import database.Delete;
 import database.Employee;
 import database.Find;
 import database.ProductServices;
@@ -61,6 +62,8 @@ class GUI extends JFrame {
 	private JTabbedPane pane2;
 	// pane 3 for updating the document in the cloud
 	private JTabbedPane pane3;
+	// pane 3 for deleting the document in the cloud
+	private JTabbedPane pane4;
 	// blank home page
 	private JPanel temp = new JPanel();
 	// single file upload
@@ -98,6 +101,7 @@ class GUI extends JFrame {
 		showFrame();
 		showFrame2();
 		showFrame3();
+		showFrame4();
 		singleFilePanel();
 
 		// Create a splitter pane
@@ -150,6 +154,7 @@ class GUI extends JFrame {
 				splitPaneV.setRightComponent(panel3);
 			}
 		});
+		
 		updateButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -160,6 +165,22 @@ class GUI extends JFrame {
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane3);
 
+			}
+		});
+		deleteButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setTitle("Find Records - CompanyVault.exe");
+				splitPaneH.setEnabled(false);
+				splitPaneV.setEnabled(false);
+				splitPaneH.setLeftComponent(directory);
+				splitPaneH.setRightComponent(pane4);
+				topPanel.removeAll();
+				topPanel.revalidate();
+				topPanel.add(splitPaneV, BorderLayout.CENTER);
+				splitPaneV.setLeftComponent(splitPaneH);
+				splitPaneV.setRightComponent(panel3);
 			}
 		});
 		directory.add(insertButton);
@@ -631,11 +652,11 @@ class GUI extends JFrame {
 	public void showFrame2() {
 		pane2 = new JTabbedPane();
 
-		pane2.addTab("Employees", Find.searchEmployee(panel3));
-		pane2.addTab("Properties",Find.searchProperty(panel3));
-		pane2.addTab("Products", Find.searchProduct(panel3));
-		pane2.addTab("Services", Find.searchService(panel3));
-		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3));
+		pane2.addTab("Employees",Find.searchEmployee(panel3, companyName));
+		pane2.addTab("Properties",Find.searchProperty(panel3,companyName));
+		pane2.addTab("Products", Find.searchProduct(panel3,companyName));
+		pane2.addTab("Services", Find.searchService(panel3,companyName));
+		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3,companyName));
 
 	}
 
@@ -646,6 +667,16 @@ class GUI extends JFrame {
 		pane3.addTab("Products", Update.createProductTab());
 		pane3.addTab("Services", Update.createServiceTab());
 		pane3.addTab("Financial Holdings", Update.createFinancialTab());
+
+	}
+	
+	public void showFrame4() {
+		pane4 = new JTabbedPane();
+		pane4.addTab("Employees", Delete.deleteEmployee(panel3, companyName));
+		pane4.addTab("Properties",Delete.deleteProperty(panel3, companyName));
+		pane4.addTab("Products", Delete.deleteProduct(panel3,companyName));
+		pane4.addTab("Services", Delete.deleteService(panel3,companyName));
+		pane4.addTab("Financial Holdings",Delete.deleteFinancials(panel3,companyName));
 
 	}
 
