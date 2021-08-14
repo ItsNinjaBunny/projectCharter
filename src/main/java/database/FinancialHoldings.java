@@ -4,7 +4,7 @@ package database;
 import com.opencsv.bean.CsvBindByPosition;
 
 @SuppressWarnings("serial")
-public class financialHoldings implements java.io.Serializable {
+public class FinancialHoldings implements java.io.Serializable {
 	
     
    //create AcountNumber value that will be at the end pos 4
@@ -23,8 +23,8 @@ public class financialHoldings implements java.io.Serializable {
     
     
 
-    public financialHoldings(){}
-    public financialHoldings(int accountID, String accountName, String balance, String bankingInstitution) {
+    public FinancialHoldings(){}
+    public FinancialHoldings(int accountID, String accountName, String balance, String bankingInstitution) {
         this.accountID  		= accountID;
         this.accountName 		= accountName;
         this.balance 	 		= balance;

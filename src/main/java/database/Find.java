@@ -34,29 +34,41 @@ public class Find {
 	private static JPanel panel3;
 	private static JPanel panel4;
 	private static JPanel panel5;
+	
+	private static MongoClient connectDatabase(String databaseName) {
+		
+		MongoClientURI uri = new MongoClientURI(""
+				+ "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + databaseName + "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+		MongoClient mongoClient = new MongoClient(uri);
+				
+		return mongoClient;
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void findRecords(String firstName, String lastName, String hireYear, DefaultListModel document) {
+	public static void findEmployee(String databaseName, String firstName, String lastName, String SSN, DefaultListModel document) {
 
 		try {
 			Decrypt p = new Decrypt();
 
-			firstName = firstName.toUpperCase();
-			lastName = lastName.toUpperCase();
+			firstName = firstName.toLowerCase();
+			lastName = lastName.toLowerCase();
 			Vector<Document> search = new Vector<>();
-
-			MongoClientURI uri = new MongoClientURI(""
-					+ "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/northwind?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
-			MongoClient mongoClient = new MongoClient(uri);
-			MongoDatabase database = mongoClient.getDatabase("northwind");
+			
+			//connects the app to the mongodb database
+			MongoClient mongoClient = connectDatabase(databaseName);
+			MongoDatabase database = mongoClient.getDatabase(databaseName);
 			MongoCollection<Document> collection = database.getCollection("Employees");
-
+			
+			//creates the query for the search method
 			BasicDBObject query = new BasicDBObject();
 			FindIterable<Document> doc;
 			Iterator it;
 			int i = 0;
+			
+			//filter what to search for
 			if (firstName.equals("")) {
 				if (lastName.equals("")) {
-					query.append("ssn", hireYear);
+					query.append("ssn", SSN);
 					doc = collection.find(query);
 					it = doc.iterator();
 					while (it.hasNext()) {
@@ -72,8 +84,8 @@ public class Find {
 					}
 
 					mongoClient.close();
-				} else if (!hireYear.isEmpty()) {
-					query.append("last name", lastName).append("ssn", hireYear);
+				} else if (!SSN.isEmpty()) {
+					query.append("last name", lastName).append("ssn", SSN);
 
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -110,7 +122,7 @@ public class Find {
 				}
 			} else {
 				if (lastName.equals("")) {
-					if (hireYear.isEmpty()) {
+					if (SSN.isEmpty()) {
 						query.append("first name", firstName);
 
 						doc = collection.find(query);
@@ -129,7 +141,7 @@ public class Find {
 
 						mongoClient.close();
 					}
-				} else if (hireYear.isEmpty()) {
+				} else if (SSN.isEmpty()) {
 					query.append("first name", firstName).append("last name", lastName);
 
 					doc = collection.find(query);
@@ -148,7 +160,7 @@ public class Find {
 
 					mongoClient.close();
 				} else {
-					query.append("first name", firstName).append("last name", lastName).append("ssn", hireYear);
+					query.append("first name", firstName).append("last name", lastName).append("ssn", SSN);
 
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -171,13 +183,393 @@ public class Find {
 
 			}
 
-			// prints the document to the console
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	//search method for Employee 
-	public static JPanel createJPanel(JPanel footnotes) {
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void findProperty(String databaseName, String propertyName, DefaultListModel document) {
+
+		try {
+			//Decrypt p = new Decrypt();
+
+			propertyName = propertyName.toLowerCase();
+			Vector<Document> search = new Vector<>();
+			
+			//connects the app to the mongodb database
+			MongoClient mongoClient = connectDatabase(databaseName);
+			MongoDatabase database = mongoClient.getDatabase(databaseName);
+			MongoCollection<Document> collection = database.getCollection("Properties");
+			
+			//creates the query for the search method
+			BasicDBObject query = new BasicDBObject();
+			FindIterable<Document> doc;
+			Iterator it;
+			int i = 0;
+			
+			//filter what to search for
+			query.append("Properties", propertyName);
+			doc = collection.find(query);
+			it = doc.iterator();
+			while (it.hasNext()) {
+					search.add((Document) it.next());
+
+				document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n property name: "
+					+ search.get(i).get("property name") + "\n cost: $" + search.get(i).get("cost")
+					+ "\n location: " + search.get(i).get("location")));
+					System.out.println(document.getElementAt(i));
+					i++;
+			}
+			mongoClient.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void findProducts(String databaseName, String productName, String category, String supplier, DefaultListModel document) {
+
+		try {
+			Decrypt p = new Decrypt();
+
+			productName = productName.toLowerCase();
+			category = category.toLowerCase();
+			supplier = supplier.toLowerCase();
+			
+			Vector<Document> search = new Vector<>();
+			
+			//connects the app to the mongodb database
+			MongoClient mongoClient = connectDatabase(databaseName);
+			MongoDatabase database = mongoClient.getDatabase(databaseName);
+			MongoCollection<Document> collection = database.getCollection("Employees");
+			
+			//creates the query for the search method
+			BasicDBObject query = new BasicDBObject();
+			FindIterable<Document> doc;
+			Iterator it;
+			int i = 0;
+			
+			//filter what to search for
+			if (productName.equals("")) {
+				if (category.equals("")) {
+					query.append("supplier", supplier);
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
+								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
+								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				} else if (!supplier.isEmpty()) {
+					query.append("last name", category).append("supplier", supplier);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
+								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
+								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				} else {
+					query.append("category", category);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
+								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
+								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				}
+			} else {
+				if (category.equals("")) {
+					if (supplier.isEmpty()) {
+						query.append("first name", productName);
+
+						doc = collection.find(query);
+						it = doc.iterator();
+						while (it.hasNext()) {
+							search.add((Document) it.next());
+
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
+									+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
+									+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+									+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+							System.out.println(document.getElementAt(i));
+							i++;
+						}
+
+						mongoClient.close();
+					}
+				} else if (supplier.isEmpty()) {
+					query.append("product name", productName).append("category", category);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
+								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
+								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				} else {
+					query.append("product name", productName).append("category", category).append("supplier", supplier);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
+								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
+								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				}
+
+				mongoClient.close();
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}//search method for Employee 
+	
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void findService(String databaseName, String serviceName, String category, DefaultListModel document) {
+
+		try {
+			//Decrypt p = new Decrypt();
+
+			serviceName = serviceName.toLowerCase();
+			category = category.toLowerCase();
+			
+			Vector<Document> search = new Vector<>();
+			
+			//connects the app to the mongodb database
+			MongoClient mongoClient = connectDatabase(databaseName);
+			MongoDatabase database = mongoClient.getDatabase(databaseName);
+			MongoCollection<Document> collection = database.getCollection("Properties");
+			
+			//creates the query for the search method
+			BasicDBObject query = new BasicDBObject();
+			FindIterable<Document> doc;
+			Iterator it;
+			int i = 0;
+			
+			//filter what to search for
+			if(category.equals("")) {
+				query.append("service name", serviceName);
+				doc = collection.find(query);
+				it = doc.iterator();
+				while (it.hasNext()) {
+						search.add((Document) it.next());
+	
+					document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n service name: "
+						+ search.get(i).get("service name") + "\n cost: " + search.get(i).get("cost")
+						+ "\n category: " + search.get(i).get("category")));
+						System.out.println(document.getElementAt(i));
+						i++;
+				}
+			}
+			else {
+				query.append("category", category);
+				doc = collection.find(query);
+				it = doc.iterator();
+				while (it.hasNext()) {
+					search.add((Document) it.next());
+	
+					document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n service name: "
+						+ search.get(i).get("service name") + "\n cost: " + search.get(i).get("cost")
+						+ "\n category: " + search.get(i).get("category")));
+						System.out.println(document.getElementAt(i));
+						i++;
+				}
+			}
+			mongoClient.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void findFinancials(String databaseName, String accountName, String accountID, String bank, DefaultListModel document) {
+
+		try {
+			Decrypt p = new Decrypt();
+
+			accountName = accountName.toLowerCase();
+			accountID = accountID.toLowerCase();
+			bank = bank.toLowerCase();
+			
+			Vector<Document> search = new Vector<>();
+			
+			//connects the app to the mongodb database
+			MongoClient mongoClient = connectDatabase(databaseName);
+			MongoDatabase database = mongoClient.getDatabase(databaseName);
+			MongoCollection<Document> collection = database.getCollection("Employees");
+			
+			//creates the query for the search method
+			BasicDBObject query = new BasicDBObject();
+			FindIterable<Document> doc;
+			Iterator it;
+			int i = 0;
+			
+			//filter what to search for
+			if (accountName.equals("")) {
+				if (accountID.equals("")) {
+					query.append("bank", bank);
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
+								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
+								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				} else if (!bank.isEmpty()) {
+					query.append("accountID", accountID).append("bank", bank);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
+								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
+								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				} else {
+					query.append("account ID", accountID);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
+								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
+								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				}
+			} else {
+				if (accountID.equals("")) {
+					if (bank.isEmpty()) {
+						query.append("account name", accountName);
+
+						doc = collection.find(query);
+						it = doc.iterator();
+						while (it.hasNext()) {
+							search.add((Document) it.next());
+
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
+									+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
+									+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+									+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+							System.out.println(document.getElementAt(i));
+							i++;
+						}
+
+						mongoClient.close();
+					}
+				} else if (bank.isEmpty()) {
+					query.append("account name", accountName).append("account ID", accountID);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
+								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
+								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				} else {
+					query.append("account name", accountName).append("account ID", accountID).append("bank", bank);
+
+					doc = collection.find(query);
+					it = doc.iterator();
+					while (it.hasNext()) {
+						search.add((Document) it.next());
+
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
+								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
+								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+						System.out.println(document.getElementAt(i));
+						i++;
+					}
+
+					mongoClient.close();
+				}
+
+				mongoClient.close();
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static JPanel searchEmployee(JPanel footnotes) {
 		JButton button = new JButton("SEARCH");
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -242,12 +634,10 @@ public class Find {
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				findRecords(firstName, lastName, hireYear, document);
+				findEmployee("northwind", firstName, lastName, hireYear, document);
 				
-				@SuppressWarnings({ })
 				JList vector = new JList(document);
-				
-				
+								
 				JScrollPane scroll = new JScrollPane(vector);
 				vector.setVisibleRowCount(5);
 				vector.setLayoutOrientation(JList.VERTICAL);
@@ -264,6 +654,7 @@ public class Find {
 		});
 		return panel;
 	}
+
 	//Property search method panel
 	public static JPanel searchProperty(JPanel footnotes) {
 		panel2 = new JPanel();
@@ -315,10 +706,6 @@ public class Find {
 				footnotes.removeAll();
 				footnotes.revalidate();
 				
-				String firstName = firstText.getText();
-				
-				
-				
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
 				//Find.findRecords(firstName, document);
@@ -343,6 +730,7 @@ public class Find {
 		});
 		return panel2;
 	}
+	
 	//Products search
 	public static JPanel searchProduct(JPanel footnotes) {
 		JButton button3 = new JButton("SEARCH");
@@ -400,11 +788,7 @@ public class Find {
 			
 				
 				footnotes.removeAll();
-				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
+				footnotes.revalidate();				
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
@@ -430,6 +814,7 @@ public class Find {
 		});
 		return panel3;
 	}
+	
 	//search service
 	public static JPanel searchService(JPanel footnotes) {
 		JButton button4 = new JButton("SEARCH");
@@ -488,17 +873,12 @@ public class Find {
 				footnotes.removeAll();
 				footnotes.revalidate();
 				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
-				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
 				//Find.findRecords(firstName, lastName, hireYear, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
-				
 				
 				JScrollPane scroll = new JScrollPane(vector);
 				vector.setVisibleRowCount(5);
@@ -515,6 +895,8 @@ public class Find {
 		});
 		return panel4;
 	}
+	
+	//search Financials
 	public static JPanel searchFinancials(JPanel footnotes) {
 		JButton button5 = new JButton("SEARCH");
 		panel5 = new JPanel();
@@ -558,8 +940,6 @@ public class Find {
 			panel5.add(label);
 		}
 		
-
-		
 		button5.setForeground(Color.BLACK);
 		button5.setOpaque(true);
 		button5.setBounds(320, 52, 100, 20);
@@ -570,14 +950,8 @@ public class Find {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				
 				footnotes.removeAll();
 				footnotes.revalidate();
-				
-				String firstName = firstText.getText();
-				String lastName = lastText.getText();
-				
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
@@ -585,7 +959,6 @@ public class Find {
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
-				
 				
 				JScrollPane scroll = new JScrollPane(vector);
 				vector.setVisibleRowCount(5);

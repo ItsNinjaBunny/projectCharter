@@ -1,10 +1,5 @@
 package database;
 
-public class Insert extends CRUD{
+public class Insert {
 	
-	
-	public Insert(String companyName) {
-		
-		 super(companyName);
-	}
 }

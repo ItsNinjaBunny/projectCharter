@@ -64,7 +64,7 @@ public class Mongo {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception evt) {
 		}
-		uploadJSON("x","y");
+		//uploadJSON("x","y");
 		/*login to database*/
 		// logInto();
 		/*File picker that gets absolute path so it can be used to upload file from that path*/
