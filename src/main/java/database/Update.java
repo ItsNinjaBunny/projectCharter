@@ -3,13 +3,16 @@ package database;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -18,6 +21,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 
 import org.bson.Document;
 import com.mongodb.MongoClient;
@@ -31,11 +35,7 @@ import Encryption.Encrypt;
 
 public class Update {
 	
-	private static JPanel panel;
-	private static JPanel panel2;
-	private static JPanel panel3;
-	private static JPanel panel4;
-	private static JPanel panel5;
+
 	public static void updateEmployee(String companyName, String firstName, String lastName, String hireYear,String ssn, String occupation ) {
 
 		try {
@@ -73,13 +73,15 @@ public class Update {
 		}
 	}
 	private static JPanel panelEmployee;
+	static JFrame n;
 	private static JProgressBar progressBar1 = new JProgressBar();
 	private static JProgressBar progressBar2 = new JProgressBar();
 	private static JProgressBar progressBar3 = new JProgressBar();
 	private static JProgressBar progressBar4 = new JProgressBar();
 	private static JProgressBar progressBar5 = new JProgressBar();
-
-	public static JPanel createEmployeeTab(String companyName) {
+	//Panel that will be used for Update Input
+	//
+	public static JPanel createEmployeeTab(JFrame n) {
 		panelEmployee = new JPanel();
 		panelEmployee.setLayout(new BorderLayout());
 
@@ -117,7 +119,7 @@ public class Update {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+			
 				progressBar1.setValue(40);
 				progressBar1.setVisible(true);
 				progressBar1.setValue(40);
@@ -128,8 +130,8 @@ public class Update {
 				String ssn = lSocial.getText().replace("-","");
 				//make all strings capital then encode them then put them in the 
 				//insert methods do this for all uploads csv and manual entry
-				updateEmployee(companyName, lFirstName.getText(), lLastName.getText(),lHireYear.getText() ,
-						ssn, lOccupation.getText());
+				//updateEmployee(companyName, lFirstName.getText(), lLastName.getText(),lHireYear.getText() ,
+						//ssn, lOccupation.getText());
 				lFirstName.setText("");
 				lLastName.setText("");
 				lHireYear.setText("");
@@ -137,6 +139,7 @@ public class Update {
 				lOccupation.setText("");
 				progressBar1.setValue(0);
 				p.revalidate();
+				n.dispose();
 				
 			}
 		});
@@ -387,8 +390,13 @@ public class Update {
 		return panelProduct;
 	}
 
-	public static JPanel searchEmployee(JPanel footnotes,String companyName) {
-		JButton button = new JButton("SEARCH");
+	private static JPanel panel;
+	private static JPanel panel2;
+	private static JPanel panel3;
+	private static JPanel panel4;
+	private static JPanel panel5;
+	public static JPanel updateEmployee(JPanel footnotes,String companyName) {
+		JButton search = new JButton("SEARCH");
 		panel = new JPanel();
 		panel.setLayout(null);
 		
@@ -396,12 +404,17 @@ public class Update {
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
 		JLabel hireLabel = new JLabel("SSN: ");
+		JLabel jHireYear = new JLabel("Hire Year:");
+		JLabel jOccupation = new JLabel("Occupation:");
 		
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(lastLabel);
 		list.add(hireLabel);
-		
+		list.add(jHireYear);
+		list.add(jOccupation);
+		jHireYear.setVisible(false);
+		jOccupation.setVisible(false);
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
@@ -413,11 +426,16 @@ public class Update {
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
 		JTextField hireText = new JTextField();
-		
+		JTextField lHireYear = new JTextField(20);
+		JTextField lOccupation = new JTextField(20);
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
 		list1.add(lastText);
 		list1.add(hireText);
+		list1.add(lOccupation);
+		list1.add(lHireYear);
+		lHireYear.setVisible(false);
+		lOccupation.setVisible(false);
 		
 		int h = 20;
 		int w = 100;
@@ -429,16 +447,44 @@ public class Update {
 		
 
 		
-		button.setForeground(Color.BLACK);
-		button.setOpaque(true);
-		button.setBounds(320, 52, 100, 20);
-		panel.add(button);
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		panel.add(search);
 		
-		JButton update = new JButton("update");
-		update.setBounds(320, 52, 100, 20);
-		panel.add(update);
+		JButton update = new JButton("UPDATE");
+		update.setBounds(320, 74, 100, 20);
 		update.setVisible(false);
-		button.addActionListener(new ActionListener() {
+		JButton realUpdate = new JButton("-UPDATE-");
+		
+		realUpdate.setBounds(320, 74, 100, 20);
+		realUpdate.setVisible(false);
+		panel.add(realUpdate);
+		realUpdate.addActionListener(new ActionListener() {
+			
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//do update function here
+				JOptionPane.showMessageDialog(null, "Updating...");
+				search.setVisible(true);
+				realUpdate.setVisible(false);
+				jHireYear.setVisible(false);
+				jOccupation.setVisible(false);
+				lHireYear.setVisible(false);
+				lOccupation.setVisible(false);
+				footnotes.removeAll();
+				firstText.setText("");
+				lastText.setText("");
+				hireText.setText("");
+				lHireYear.setText("");
+				lOccupation.setText("");
+				
+			}});
+		panel.add(update);
+		
+				
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
@@ -451,7 +497,7 @@ public class Update {
 				footnotes.removeAll();
 				footnotes.revalidate();
 			
-				button.setVisible(true);
+				search.setVisible(true);
 				update.setVisible(true);
 				
 				
@@ -463,7 +509,7 @@ public class Update {
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				//findEmployee(db, firstName, lastName, hireYear, document);
+				Find.findEmployee(db, firstName, lastName, hireYear, document);
 				
 				JList vector = new JList(document);
 								
@@ -489,6 +535,50 @@ public class Update {
 						for(int i = 0; i < result.length; i++) {
 							System.out.println(result[i]);
 						}
+						footnotes.removeAll();
+						//Update method here from results
+						
+						update.setVisible(false);
+						realUpdate.setVisible(true);
+						jHireYear.setVisible(true);
+						jOccupation.setVisible(true);
+						lHireYear.setVisible(true);
+						lOccupation.setVisible(true);
+						
+						firstText.setText(result[2].replace("last name", ""));
+						lastText.setText(result[3].replace("hire year", ""));
+						hireText.setText(result[6].replace("occupation", ""));
+						lHireYear.setText(result[4].replace("ssn",""));
+						lOccupation.setText(result[5]);
+						
+						realUpdate.addActionListener(new ActionListener() {
+							
+							@SuppressWarnings({ "rawtypes", "unchecked" })
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								//do update function here
+								JOptionPane.showMessageDialog(null, "Updating...");
+								search.setVisible(true);
+								realUpdate.setVisible(false);
+								jHireYear.setVisible(false);
+								jOccupation.setVisible(false);
+								lHireYear.setVisible(false);
+								lOccupation.setVisible(false);
+								footnotes.removeAll();
+								firstText.setText("");
+								lastText.setText("");
+								hireText.setText("");
+								lHireYear.setText("");
+								lOccupation.setText("");
+								
+							}});
+						update.setVisible(false);
+						JScrollPane scroll = new JScrollPane();
+						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+						scroll.setVisible(true);
+						footnotes.add(scroll, BorderLayout.CENTER);
+						footnotes.revalidate();
 					}
 				});
 				
@@ -499,19 +589,24 @@ public class Update {
 		return panel;
 	}
 
-	//Property search method panel
-	public static JPanel searchProperty(JPanel footnotes,String companyName) {
+	//Property update method panel
+	public static JPanel updateProperty(JPanel footnotes,String companyName) {
 		panel2 = new JPanel();
 		panel2.setLayout(null);
-		JButton button2 = new JButton("SEARCH");
+		JButton search = new JButton("SEARCH");
 				
 		JLabel firstLabel = new JLabel("Property Name: ");
-		
-		
+		JLabel costLabel = new JLabel("Cost: ");
+		JLabel locationLabel = new JLabel("Location: ");
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
+		list.add(costLabel);
+		list.add(locationLabel);
+		costLabel.setVisible(false);
+		locationLabel.setVisible(false);
 		
 		
+	
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
@@ -521,12 +616,15 @@ public class Update {
 		}
 		
 		JTextField firstText = new JTextField();
-		
-		
+		JTextField costText = new JTextField();
+		JTextField locationText = new JTextField();
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
+		list1.add(costText);
+		list1.add(locationText);
 		
-		
+		locationText.setVisible(false);
+		costText.setVisible(false);
 		int h = 20;
 		int w = 100;
 		for(JTextField label: list1) {
@@ -535,13 +633,39 @@ public class Update {
 			panel2.add(label);
 		}
 		
-
-		
-		button2.setForeground(Color.BLACK);
-		button2.setOpaque(true);
-		button2.setBounds(320, 52, 100, 20);
-		panel2.add(button2);
-		button2.addActionListener(new ActionListener() {
+		JButton update1 = new JButton("UPDATE");
+		update1.setBounds(320, 74, 100, 20);
+		update1.setVisible(false);
+		panel2.add(update1);
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		panel2.add(search);
+		JButton realUpdate = new JButton("-UPDATE-");
+		realUpdate.setBounds(320, 74, 100, 20);
+		realUpdate.setVisible(false);
+		panel2.add(realUpdate);
+		realUpdate.addActionListener(new ActionListener() {
+			
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//do update function here
+				JOptionPane.showMessageDialog(null, "Updating...");
+				search.setVisible(true);
+				realUpdate.setVisible(false);
+				costLabel.setVisible(false);
+				locationLabel.setVisible(false);
+				costText.setVisible(false);
+				locationText.setVisible(false);
+				footnotes.removeAll();
+				costText.setText("");
+				locationText.setText("");
+				firstText.setText("");
+				
+				
+			}});
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
@@ -549,10 +673,10 @@ public class Update {
 			
 				footnotes.removeAll();
 				footnotes.revalidate();
-				
+				update1.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
-				//Find.findRecords(firstName, document);
+				Find.findProperty(companyName,firstText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -567,17 +691,46 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				footnotes.revalidate();
 				
+				
+				update1.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						costLabel.setVisible(true);
+						locationLabel.setVisible(true);
+						locationText.setVisible(true);
+						costText.setVisible(true);
+						update1.setVisible(true);
+					
+						String test = String.valueOf(vector.getSelectedValue());
+						//collection.deleteOne(query).first();
+						System.out.println(test);
+						String[] result = test.split(": ");
+						for(int i = 0; i < result.length; i++) {
+							System.out.println(result[i]);
+						}
+						update1.setVisible(false);
+						realUpdate.setVisible(true);
+						JScrollPane scroll = new JScrollPane();
+						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+						scroll.setVisible(true);
+						footnotes.add(scroll, BorderLayout.CENTER);
+						
+					}
+				});
+				footnotes.revalidate();
 			
 			}
 		});
 		return panel2;
 	}
 	
+	
 	//Products search
-	public static JPanel searchProduct(JPanel footnotes,String companyName) {
-		JButton button3 = new JButton("SEARCH");
+	public static JPanel updateProduct(JPanel footnotes,String companyName) {
+		JButton search = new JButton("SEARCH");
 		panel3 = new JPanel();
 		panel3.setLayout(null);
 		
@@ -585,13 +738,13 @@ public class Update {
 		JLabel firstLabel = new JLabel("Product name: ");
 		JLabel lastLabel = new JLabel("Category: ");
 		JLabel hireLabel = new JLabel("Supplier: ");
-		
-		
+		JLabel costLabel = new JLabel("Cost: ");
+		costLabel.setVisible(false);
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(lastLabel);
 		list.add(hireLabel);
-		
+		list.add(costLabel);
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
@@ -603,11 +756,14 @@ public class Update {
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
 		JTextField hireText = new JTextField();
+		JTextField costText = new JTextField();
+	costText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
 		list1.add(lastText);
 		list1.add(hireText);
+		list1.add(costText);
 		
 		int h = 20;
 		int w = 100;
@@ -618,19 +774,48 @@ public class Update {
 		}
 		
 
+		JButton update2 = new JButton("UPDATE");
+		update2.setBounds(320, 74, 100, 20);
+		update2.setVisible(false);
+		panel3.add(update2);
 		
-		button3.setForeground(Color.BLACK);
-		button3.setOpaque(true);
-		button3.setBounds(320, 52, 100, 20);
-		panel3.add(button3);
-		button3.addActionListener(new ActionListener() {
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		panel3.add(search);
+		JButton realUpdate = new JButton("-UPDATE-");
+		realUpdate.setBounds(320, 74, 100, 20);
+		realUpdate.setVisible(false);
+		panel3.add(realUpdate);
+		realUpdate.addActionListener(new ActionListener() {
+			
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//do update function here
+				JOptionPane.showMessageDialog(null, "Updating...");
+				search.setVisible(true);
+				realUpdate.setVisible(false);
+				costLabel.setVisible(false);
+				
+				costText.setVisible(false);
+				
+				footnotes.removeAll();
+				costText.setText("");
+				lastText.setText("");
+				firstText.setText("");
+				hireText.setText("");
+				
+				
+			}});
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 			
-				
+				update2.setVisible(true);
 				footnotes.removeAll();
 				footnotes.revalidate();				
 				
@@ -651,6 +836,30 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				
+				update2.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						costText.setVisible(true);
+						costLabel.setVisible(true);	
+						String test = String.valueOf(vector.getSelectedValue());
+						//collection.deleteOne(query).first();
+						System.out.println(test);
+						String[] result = test.split(": ");
+						for(int i = 0; i < result.length; i++) {
+							System.out.println(result[i]);
+						}
+						
+						update2.setVisible(false);
+						realUpdate.setVisible(true);
+						JScrollPane scroll = new JScrollPane();
+						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+						scroll.setVisible(true);
+						footnotes.add(scroll, BorderLayout.CENTER);
+					}
+				});
 				footnotes.revalidate();
 			
 				
@@ -660,20 +869,21 @@ public class Update {
 	}
 	
 	//search service
-	public static JPanel searchService(JPanel footnotes,String companyName) {
-		JButton button4 = new JButton("SEARCH");
+	public static JPanel updateService(JPanel footnotes,String companyName) {
+		JButton search = new JButton("SEARCH");
 		panel4 = new JPanel();
 		panel4.setLayout(null);
 		
 		
 		JLabel firstLabel = new JLabel("Service name: ");
 		JLabel lastLabel = new JLabel("Category: ");
-		
+		JLabel costLabel = new JLabel("Cost: ");
+		costLabel.setVisible(false);
 		
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(lastLabel);
-	
+		list.add(costLabel);
 		
 		int x = 10;
 		int y = 20;
@@ -685,12 +895,13 @@ public class Update {
 		
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
-		
+		JTextField costText = new JTextField();
+		costText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
 		list1.add(lastText);
-	
+		list1.add(costText);
 		
 		int h = 20;
 		int w = 100;
@@ -701,25 +912,53 @@ public class Update {
 		}
 		
 
-		
-		button4.setForeground(Color.BLACK);
-		button4.setOpaque(true);
-		button4.setBounds(320, 52, 100, 20);
-		panel4.add(button4);
-		button4.addActionListener(new ActionListener() {
+		JButton update3 = new JButton("UPDATE");
+		update3.setBounds(320, 74, 100, 20);
+		update3.setVisible(false);
+		panel4.add(update3);
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		panel4.add(search);
+		JButton realUpdate = new JButton("-UPDATE-");
+		realUpdate.setBounds(320, 74, 100, 20);
+		realUpdate.setVisible(false);
+		panel4.add(realUpdate);
+		realUpdate.addActionListener(new ActionListener() {
+			
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//do update function here
+				JOptionPane.showMessageDialog(null, "Updating...");
+				search.setVisible(true);
+				realUpdate.setVisible(false);
+				costLabel.setVisible(false);
+				
+				costText.setVisible(false);
+				
+				footnotes.removeAll();
+				costText.setText("");
+				lastText.setText("");
+				firstText.setText("");
+			
+				
+				
+			}});
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				
+				update3.setVisible(true);
 				footnotes.removeAll();
 				footnotes.revalidate();
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				//Find.findRecords(firstName, lastName, hireYear, document);
+				//Find.findService(, lastName, hireYear, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -733,6 +972,30 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				update3.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						costLabel.setVisible(true);
+						costText.setVisible(true);
+						String test = String.valueOf(vector.getSelectedValue());
+						//collection.deleteOne(query).first();
+						System.out.println(test);
+						String[] result = test.split(": ");
+						for(int i = 0; i < result.length; i++) {
+							System.out.println(result[i]);
+						}
+						//delete method here from results
+						update3.setVisible(false);
+						realUpdate.setVisible(true);
+						
+						JScrollPane scroll = new JScrollPane();
+						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+						scroll.setVisible(true);
+						footnotes.add(scroll, BorderLayout.CENTER);
+					}
+				});
 				footnotes.revalidate();
 				
 			}
@@ -741,8 +1004,8 @@ public class Update {
 	}
 	
 	//search Financials
-	public static JPanel searchFinancials(JPanel footnotes,String companyName) {
-		JButton button5 = new JButton("SEARCH");
+	public static JPanel updateFinancials(JPanel footnotes,String companyName) {
+		JButton search = new JButton("SEARCH");
 		panel5 = new JPanel();
 		panel5.setLayout(null);
 		
@@ -750,13 +1013,13 @@ public class Update {
 		JLabel firstLabel = new JLabel("Account name: ");
 		JLabel accountLabel = new JLabel("Account ID: ");
 		JLabel lastLabel = new JLabel("Bank: ");
-		
-		
+		JLabel balanceLabel = new JLabel("Balance: ");
+		balanceLabel.setVisible(false);
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(accountLabel);
 		list.add(lastLabel);
-		
+		list.add(balanceLabel);
 		
 		int x = 10;
 		int y = 20;
@@ -768,14 +1031,16 @@ public class Update {
 		
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
-		JTextField banlText = new JTextField();
+		JTextField bankText = new JTextField();
+		JTextField balanceText = new JTextField();
+		balanceText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
-		list1.add(banlText);
+		list1.add(bankText);
 		list1.add(lastText);
-	
-		
+		list1.add(balanceText);
+		balanceLabel.setVisible(false);
 		int h = 20;
 		int w = 100;
 		for(JTextField label: list1) {
@@ -783,12 +1048,42 @@ public class Update {
 			h += 30;
 			panel5.add(label);
 		}
+		JButton update2 = new JButton("UPDATE");
+		update2.setBounds(320, 74, 100, 20);
+		update2.setVisible(false);
+		panel5.add(update2);
 		
-		button5.setForeground(Color.BLACK);
-		button5.setOpaque(true);
-		button5.setBounds(320, 52, 100, 20);
-		panel5.add(button5);
-		button5.addActionListener(new ActionListener() {
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		panel5.add(search);
+		JButton realUpdate = new JButton("-UPDATE-");
+		realUpdate.setBounds(320, 74, 100, 20);
+		realUpdate.setVisible(false);
+		panel5.add(realUpdate);
+		realUpdate.addActionListener(new ActionListener() {
+			
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//do update function here
+				JOptionPane.showMessageDialog(null, "Updating...");
+				search.setVisible(true);
+				realUpdate.setVisible(false);
+				balanceText.setVisible(false);
+				balanceLabel.setVisible(false);
+				
+				
+				footnotes.removeAll();
+				balanceText.setText("");
+				bankText.setText("");
+				lastText.setText("");
+				firstText.setText("");
+			
+				
+				
+			}});
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
@@ -796,7 +1091,7 @@ public class Update {
 				
 				footnotes.removeAll();
 				footnotes.revalidate();
-				
+				update2.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
 				//Find.findRecords(firstName, lastName, hireYear, document);
@@ -813,6 +1108,29 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				update2.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						balanceText.setVisible(true);
+						balanceLabel.setVisible(true);
+						String test = String.valueOf(vector.getSelectedValue());
+						//collection.deleteOne(query).first();
+						System.out.println(test);
+						String[] result = test.split(": ");
+						for(int i = 0; i < result.length; i++) {
+							System.out.println(result[i]);
+						}
+						//delete method here from results
+						update2.setVisible(false);
+						realUpdate.setVisible(true);
+						JScrollPane scroll = new JScrollPane();
+						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+						scroll.setVisible(true);
+						footnotes.add(scroll, BorderLayout.CENTER);
+					}
+				});
 				footnotes.revalidate();
 			
 			

@@ -7,11 +7,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,11 +24,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.bson.Document;
 
@@ -142,6 +148,7 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+			panel3.removeAll();
 				setTitle("Find Records - CompanyVault.exe");
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
@@ -149,9 +156,13 @@ class GUI extends JFrame {
 				splitPaneH.setRightComponent(pane2);
 				topPanel.removeAll();
 				topPanel.revalidate();
-				topPanel.add(splitPaneV, BorderLayout.CENTER);
+				Border blackline = BorderFactory.createLineBorder(Color.black);
+				splitPaneV.setDividerLocation(300);
+				panel3.setBorder(blackline);
+				
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
+				topPanel.add(splitPaneV, BorderLayout.CENTER);
 			}
 		});
 		
@@ -159,28 +170,42 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				panel3.removeAll();
 				setTitle("Update Records - CompanyVault.exe");
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane3);
-
+				Border blackline = BorderFactory.createLineBorder(Color.black);
+				splitPaneV.setDividerLocation(300);
+				panel3.setBorder(blackline);
+				topPanel.removeAll();
+				topPanel.revalidate();
+				
+				splitPaneV.setLeftComponent(splitPaneH);
+				splitPaneV.setRightComponent(panel3);
+				topPanel.add(splitPaneV);
 			}
 		});
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				panel3.removeAll();
 				setTitle("Find Records - CompanyVault.exe");
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane4);
+				Border blackline = BorderFactory.createLineBorder(Color.black);
+				splitPaneV.setDividerLocation(300);
+				panel3.setBorder(blackline);
 				topPanel.removeAll();
 				topPanel.revalidate();
-				topPanel.add(splitPaneV, BorderLayout.CENTER);
+				
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
+				topPanel.add(splitPaneV, BorderLayout.CENTER);
 			}
 		});
 		directory.add(insertButton);
@@ -189,6 +214,14 @@ class GUI extends JFrame {
 		directory.add(findButton);
 
 		directory.add(homeButton);
+		ArrayList<JTabbedPane> list = new ArrayList<JTabbedPane>();
+		list.add(pane);
+		list.add(pane2);
+		list.add(pane3);
+		list.add(pane4);
+		for (JTabbedPane pane : list) {
+			
+		}
 		homeButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -201,6 +234,7 @@ class GUI extends JFrame {
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(temp);
+				
 //				creating third panel from current screen layout 
 //				if needed and to undo off other screens just redo topPanel
 //				topPanel.removeAll();
@@ -300,9 +334,12 @@ class GUI extends JFrame {
 				insertRecords.add(messageList);
 				insertRecords.add(text);
 				setTitle("InsertRecords - CompanyVault.exe");
-
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(insertRecords);
+				topPanel.removeAll();
+				topPanel.revalidate();
+				topPanel.add(splitPaneH, BorderLayout.CENTER);
+				
 
 			}
 		});
@@ -320,9 +357,10 @@ class GUI extends JFrame {
 	public void createPanel3() {
 		panel3 = new JPanel();
 		panel3.setLayout(new BorderLayout());
-		panel3.setPreferredSize(new Dimension(500, 100));
-		panel3.setMinimumSize(new Dimension(100, 50));
+		panel3.setPreferredSize(new Dimension(400, 100));
+		panel3.setMinimumSize(new Dimension(50, 50));
 		panel3.add(new JLabel("Results:"), BorderLayout.NORTH);
+		panel3.add( new JScrollPane(),BorderLayout.CENTER);
 	}
 
 	private static JPanel panelEmployee;
@@ -646,6 +684,12 @@ class GUI extends JFrame {
 		pane.addTab("Products", panelProduct);
 		pane.addTab("Services", panelService);
 		pane.addTab("Financial Holdings", panelFinancial);
+		pane.addChangeListener( new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	           panel3.removeAll();
+	        }
+	    });
+		
 
 	}
 
@@ -657,16 +701,30 @@ class GUI extends JFrame {
 		pane2.addTab("Products", Find.searchProduct(panel3,companyName));
 		pane2.addTab("Services", Find.searchService(panel3,companyName));
 		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3,companyName));
+		pane2.addChangeListener( new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	           panel3.removeAll();
+	           panel3.revalidate();
+	        }
+	    });
+		
 
 	}
 
 	public void showFrame3() {
 		pane3 = new JTabbedPane();
-		pane3.addTab("Employees", Update.createEmployeeTab(companyName));
-		pane3.addTab("Properties", Update.createPropertiesTab());
-		pane3.addTab("Products", Update.createProductTab());
-		pane3.addTab("Services", Update.createServiceTab());
-		pane3.addTab("Financial Holdings", Update.createFinancialTab());
+		pane3.addTab("Employees", Update.updateEmployee(panel3,companyName));
+		pane3.addTab("Properties", Update.updateProperty(panel3,companyName));
+		pane3.addTab("Products", Update.updateProduct(panel3,companyName));
+		pane3.addTab("Services", Update.updateService(panel3,companyName));
+		pane3.addTab("Financial Holdings", Update.updateFinancials(panel3,companyName));
+		pane3.addChangeListener( new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	           panel3.removeAll();
+	           panel3.revalidate();
+	        }
+	    });
+		
 
 	}
 	
@@ -677,9 +735,14 @@ class GUI extends JFrame {
 		pane4.addTab("Products", Delete.deleteProduct(panel3,companyName));
 		pane4.addTab("Services", Delete.deleteService(panel3,companyName));
 		pane4.addTab("Financial Holdings",Delete.deleteFinancials(panel3,companyName));
-
+		pane4.addChangeListener( new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	           panel3.removeAll();
+	           panel3.revalidate();
+	        }
+	    });
 	}
-
+	
 	JRadioButton rb1, rb2;
 	JButton b;
 	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services",
