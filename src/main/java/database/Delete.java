@@ -25,11 +25,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class Delete {
-	private static JPanel panel;
-	private static JPanel panel2;
-	private static JPanel panel3;
-	private static JPanel panel4;
-	private static JPanel panel5;
+	private static JPanel employeePanel;
+	private static JPanel propertyPanel;
+	private static JPanel productPanel;
+	private static JPanel servicePanel;
+	private static JPanel financialPanel;
 	private static String db = "northwind";
 	
 	private static MongoClient connectDatabase(String databaseName) {
@@ -41,9 +41,9 @@ public class Delete {
 	}
 	
 	public static JPanel deleteEmployee(JPanel footnotes,String companyName) {
-		JButton button = new JButton("SEARCH");
-		panel = new JPanel();
-		panel.setLayout(null);
+		JButton search = new JButton("SEARCH");
+		employeePanel = new JPanel();
+		employeePanel.setLayout(null);
 		
 		
 		JLabel firstLabel = new JLabel("First name: ");
@@ -60,7 +60,7 @@ public class Delete {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			panel.add(label);
+			employeePanel.add(label);
 		}
 		
 		JTextField firstText = new JTextField();
@@ -77,23 +77,23 @@ public class Delete {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel.add(label);
+			employeePanel.add(label);
 		}
 		
 
 		
-		button.setForeground(Color.BLACK);
-		button.setOpaque(true);
-		button.setBounds(320, 52, 100, 20);
-		panel.add(button);
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		employeePanel.add(search);
 		
 		JButton delete = new JButton("Delete");
 		delete.setBounds(320, 74, 100, 20);
 		delete.setVisible(false);
 
-		panel.add(delete);
+		employeePanel.add(delete);
 		
-		button.addActionListener(new ActionListener() {
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
@@ -106,7 +106,7 @@ public class Delete {
 				footnotes.removeAll();
 				footnotes.revalidate();
 			
-				button.setVisible(true);
+				search.setVisible(true);
 				delete.setVisible(true);
 				
 				
@@ -142,8 +142,7 @@ public class Delete {
 						
 						String test = String.valueOf(vector.getSelectedValue());
 						String[] result = test.split(": ");
-						String[] id = result[1].split(",");
-						System.out.println(id[0]);
+						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
 						//collection.deleteOne(query).first();
 						BasicDBObject query = new BasicDBObject(resultID);
@@ -165,14 +164,14 @@ public class Delete {
 			
 			}
 		});
-		return panel;
+		return employeePanel;
 	}
 
 	//Property search method panel
 	public static JPanel deleteProperty(JPanel footnotes,String companyName) {
-		panel2 = new JPanel();
-		panel2.setLayout(null);
-		JButton button2 = new JButton("SEARCH");
+		propertyPanel = new JPanel();
+		propertyPanel.setLayout(null);
+		JButton search = new JButton("SEARCH");
 				
 		JLabel firstLabel = new JLabel("Property Name: ");
 		
@@ -186,7 +185,7 @@ public class Delete {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 120, 25);
 			y += 30;
-			panel2.add(label);
+			propertyPanel.add(label);
 		}
 		
 		JTextField propertyText = new JTextField();
@@ -201,18 +200,18 @@ public class Delete {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel2.add(label);
+			propertyPanel.add(label);
 		}
 		
-		JButton update1 = new JButton("Delete");
-		update1.setBounds(320, 74, 100, 20);
-		update1.setVisible(false);
-		panel2.add(update1);
-		button2.setForeground(Color.BLACK);
-		button2.setOpaque(true);
-		button2.setBounds(320, 52, 100, 20);
-		panel2.add(button2);
-		button2.addActionListener(new ActionListener() {
+		JButton delete = new JButton("Delete");
+		delete.setBounds(320, 74, 100, 20);
+		delete.setVisible(false);
+		propertyPanel.add(delete);
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		propertyPanel.add(search);
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
@@ -220,7 +219,7 @@ public class Delete {
 			
 				footnotes.removeAll();
 				footnotes.revalidate();
-				update1.setVisible(true);
+				delete.setVisible(true);
 				
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
@@ -242,7 +241,7 @@ public class Delete {
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
 				
-				update1.addActionListener(new ActionListener() {
+				delete.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -253,8 +252,7 @@ public class Delete {
 						
 						String test = String.valueOf(vector.getSelectedValue());
 						String[] result = test.split(": ");
-						String[] id = result[1].split(",");
-						System.out.println(id[0]);
+						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
 						//collection.deleteOne(query).first();
 						BasicDBObject query = new BasicDBObject("id", resultID);
@@ -263,7 +261,7 @@ public class Delete {
 						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
-						update1.setVisible(false);
+						delete.setVisible(false);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -275,75 +273,80 @@ public class Delete {
 			
 			}
 		});
-		return panel2;
+		return propertyPanel;
 	}
 	
 	//Products search
 	public static JPanel deleteProduct(JPanel footnotes,String companyName) {
-		JButton button3 = new JButton("SEARCH");
-		panel3 = new JPanel();
-		panel3.setLayout(null);
+		JButton search = new JButton("SEARCH");
+		productPanel = new JPanel();
+		productPanel.setLayout(null);
 		
 		
-		JLabel firstLabel = new JLabel("Product name: ");
-		JLabel lastLabel = new JLabel("Category: ");
-		JLabel hireLabel = new JLabel("Supplier: ");
+		JLabel productLabel = new JLabel("Product name: ");
+		JLabel categoryLabel = new JLabel("Category: ");
+		JLabel supplierLabel = new JLabel("Supplier: ");
 		
 		
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
-		list.add(hireLabel);
+		list.add(productLabel);
+		list.add(categoryLabel);
+		list.add(supplierLabel);
 		
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			panel3.add(label);
+			productPanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		JTextField hireText = new JTextField();
+		JTextField productText = new JTextField();
+		JTextField categoryText = new JTextField();
+		JTextField supplierText = new JTextField();
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
-		list1.add(hireText);
+		list1.add(productText);
+		list1.add(categoryText);
+		list1.add(supplierText);
 		
 		int h = 20;
 		int w = 100;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel3.add(label);
+			productPanel.add(label);
 		}
 		
 
-		JButton update2 = new JButton("Delete");
-		update2.setBounds(320, 74, 100, 20);
-		update2.setVisible(false);
-		panel3.add(update2);
+		JButton delete = new JButton("Delete");
+		delete.setBounds(320, 74, 100, 20);
+		delete.setVisible(false);
+		productPanel.add(delete);
 		
-		button3.setForeground(Color.BLACK);
-		button3.setOpaque(true);
-		button3.setBounds(320, 52, 100, 20);
-		panel3.add(button3);
-		button3.addActionListener(new ActionListener() {
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		productPanel.add(search);
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 			
-				update2.setVisible(true);
+				delete.setVisible(true);
 				footnotes.removeAll();
-				footnotes.revalidate();				
+				footnotes.revalidate();		
+				
+				String product, category, supplier;
+				product = productText.getText();
+				category = categoryText.getText();
+				supplier = supplierText.getText();
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				//Find.findRecords(firstName, lastName, document);
+				Find.findProducts(db, product, category, supplier, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -359,29 +362,28 @@ public class Delete {
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
-				update2.addActionListener(new ActionListener() {
+				delete.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
 						MongoDatabase database = mongoClient.getDatabase(db);
-						MongoCollection<Document> collection = database.getCollection("Employees");
+						MongoCollection<Document> collection = database.getCollection("Products");
 						
 						String test = String.valueOf(vector.getSelectedValue());
 						String[] result = test.split(": ");
-						String[] id = result[1].split(",");
-						System.out.println(id[0]);
+						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
 						//collection.deleteOne(query).first();
-						BasicDBObject query = new BasicDBObject(resultID);
+						BasicDBObject query = new BasicDBObject("id", resultID);
 						collection.deleteOne(query);
 						mongoClient.close();
 						
 						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
-						update2.setVisible(false);
+						delete.setVisible(false);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -394,23 +396,23 @@ public class Delete {
 				
 			}
 		});
-		return panel3;
+		return productPanel;
 	}
 	
 	//search service
 	public static JPanel deleteService(JPanel footnotes,String companyName) {
-		JButton button4 = new JButton("SEARCH");
-		panel4 = new JPanel();
-		panel4.setLayout(null);
+		JButton search = new JButton("SEARCH");
+		servicePanel = new JPanel();
+		servicePanel.setLayout(null);
 		
 		
-		JLabel firstLabel = new JLabel("Service name: ");
-		JLabel lastLabel = new JLabel("Category: ");
+		JLabel serviceLabel = new JLabel("Service name: ");
+		JLabel categoryLabel = new JLabel("Category: ");
 		
 		
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
+		list.add(serviceLabel);
+		list.add(categoryLabel);
 	
 		
 		int x = 10;
@@ -418,16 +420,16 @@ public class Delete {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			panel4.add(label);
+			servicePanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
+		JTextField serviceText = new JTextField();
+		JTextField categoryText = new JTextField();
 		
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
+		list1.add(serviceText);
+		list1.add(categoryText);
 	
 		
 		int h = 20;
@@ -435,32 +437,38 @@ public class Delete {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel4.add(label);
+			servicePanel.add(label);
 		}
 		
 
-		JButton update3 = new JButton("Delete");
-		update3.setBounds(320, 74, 100, 20);
-		update3.setVisible(false);
-		panel4.add(update3);
-		button4.setForeground(Color.BLACK);
-		button4.setOpaque(true);
-		button4.setBounds(320, 52, 100, 20);
-		panel4.add(button4);
-		button4.addActionListener(new ActionListener() {
+		JButton delete = new JButton("Delete");
+		delete.setBounds(320, 74, 100, 20);
+		delete.setVisible(false);
+		servicePanel.add(delete);
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		servicePanel.add(search);
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				update3.setVisible(true);
+				delete.setVisible(true);
 				footnotes.removeAll();
 				footnotes.revalidate();
 				
+				String service, category;
+				service = serviceText.getText();
+				category = categoryText.getText();
+				
 				DefaultListModel document = new DefaultListModel();
+				
+				
 				//insert find records for this type
-				//Find.findRecords(firstName, lastName, hireYear, document);
+				Find.findService(db, service, category, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -474,28 +482,27 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				update3.addActionListener(new ActionListener() {
+				delete.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
 						MongoDatabase database = mongoClient.getDatabase(db);
-						MongoCollection<Document> collection = database.getCollection("Employees");
+						MongoCollection<Document> collection = database.getCollection("Services");
 						
-						String test = String.valueOf(vector.getSelectedValue());
-						String[] result = test.split(": ");
-						String[] id = result[1].split(",");
-						System.out.println(id[0]);
+						String value = String.valueOf(vector.getSelectedValue());
+						String[] result = value.split(": ");
+						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
 						//collection.deleteOne(query).first();
-						BasicDBObject query = new BasicDBObject(resultID);
+						BasicDBObject query = new BasicDBObject("id", resultID);
 						collection.deleteOne(query);
 						mongoClient.close();
 						
 						//delete method here from results
-						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
-						update3.setVisible(false);
+						JOptionPane.showMessageDialog(null, "Now Deleting "+value.toString());
+						delete.setVisible(false);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -507,25 +514,25 @@ public class Delete {
 				
 			}
 		});
-		return panel4;
+		return servicePanel;
 	}
 	
 	//search Financials
 	public static JPanel deleteFinancials(JPanel footnotes,String companyName) {
-		JButton button5 = new JButton("SEARCH");
-		panel5 = new JPanel();
-		panel5.setLayout(null);
+		JButton search = new JButton("SEARCH");
+		financialPanel = new JPanel();
+		financialPanel.setLayout(null);
 		
 		
-		JLabel firstLabel = new JLabel("Account name: ");
-		JLabel accountLabel = new JLabel("Account ID: ");
-		JLabel lastLabel = new JLabel("Bank: ");
+		JLabel accountLabel = new JLabel("Account name: ");
+		JLabel accIDLabel = new JLabel("Account ID: ");
+		JLabel bankLabel = new JLabel("Bank: ");
 		
 		
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
 		list.add(accountLabel);
-		list.add(lastLabel);
+		list.add(accIDLabel);
+		list.add(bankLabel);
 		
 		
 		int x = 10;
@@ -533,17 +540,17 @@ public class Delete {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 100, 25);
 			y += 30;
-			panel5.add(label);
+			financialPanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		JTextField banlText = new JTextField();
+		JTextField accountText = new JTextField();
+		JTextField bankText = new JTextField();
+		JTextField accountID = new JTextField();
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(banlText);
-		list1.add(lastText);
+		list1.add(accountText);
+		list1.add(accountID);
+		list1.add(bankText);
 	
 		
 		int h = 20;
@@ -551,18 +558,18 @@ public class Delete {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel5.add(label);
+			financialPanel.add(label);
 		}
-		JButton update2 = new JButton("Delete");
-		update2.setBounds(320, 74, 100, 20);
-		update2.setVisible(false);
-		panel5.add(update2);
+		JButton delete = new JButton("Delete");
+		delete.setBounds(320, 74, 100, 20);
+		delete.setVisible(false);
+		financialPanel.add(delete);
 		
-		button5.setForeground(Color.BLACK);
-		button5.setOpaque(true);
-		button5.setBounds(320, 52, 100, 20);
-		panel5.add(button5);
-		button5.addActionListener(new ActionListener() {
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
+		search.setBounds(320, 52, 100, 20);
+		financialPanel.add(search);
+		search.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
@@ -570,10 +577,18 @@ public class Delete {
 				
 				footnotes.removeAll();
 				footnotes.revalidate();
-				update2.setVisible(true);
+				delete.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
+				
+				String account, accID, bank;
+				
+				account = accountText.getText();
+				accID = accountID.getText();
+				bank = bankText.getText();
+				
+				
 				//insert find records for this type
-				//Find.findRecords(firstName, lastName, hireYear, document);
+				Find.findFinancials(db, account, accID, bank, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -587,28 +602,27 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				update2.addActionListener(new ActionListener() {
+				delete.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
 						MongoDatabase database = mongoClient.getDatabase(db);
-						MongoCollection<Document> collection = database.getCollection("Employees");
+						MongoCollection<Document> collection = database.getCollection("Financial Holdings");
 						
 						String test = String.valueOf(vector.getSelectedValue());
 						String[] result = test.split(": ");
-						String[] id = result[1].split(",");
-						System.out.println(id[0]);
+						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
 						//collection.deleteOne(query).first();
-						BasicDBObject query = new BasicDBObject(resultID);
+						BasicDBObject query = new BasicDBObject("id", resultID);
 						collection.deleteOne(query);
 						mongoClient.close();
 						
 						//delete method here from results
 						JOptionPane.showMessageDialog(null, "Now Deleting "+test.toString());
-						update2.setVisible(false);
+						delete.setVisible(false);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -621,7 +635,7 @@ public class Delete {
 			
 			}
 		});
-		return panel5;
+		return financialPanel;
 	}
 
 }

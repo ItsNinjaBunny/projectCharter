@@ -75,12 +75,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
-								+ search.get(i).get("first name") + ",last name: "
-								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
-								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-								+ ",occupation: " + search.get(i).get("occupation")));
-						System.out.println(document.getElementAt(i));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
+								+ search.get(i).get("first name") + ", last name: "
+								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
+								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
 
@@ -93,12 +92,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
-								+ search.get(i).get("first name") + ",last name: "
-								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
-								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-								+ ",occupation: " + search.get(i).get("occupation")));
-						System.out.println(document.getElementAt(i));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
+								+ search.get(i).get("first name") + ", last name: "
+								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
+								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
 					mongoClient.close();
@@ -110,12 +108,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 						
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
-								+ search.get(i).get("first name") + ",last name: "
-								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
-								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-								+ ",occupation: " + search.get(i).get("occupation")));
-						System.out.println(document.getElementAt(i));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
+								+ search.get(i).get("first name") + ", last name: "
+								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
+								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
 
@@ -131,12 +128,11 @@ public class Find {
 						while (it.hasNext()) {
 							search.add((Document) it.next());
 
-							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
-									+ search.get(i).get("first name") + ",last name: "
-									+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
-									+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-									+ ",occupation: " + search.get(i).get("occupation")));
-							System.out.println(document.getElementAt(i));
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
+									+ search.get(i).get("first name") + ", last name: "
+									+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
+									+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+									+ ", occupation: " + search.get(i).get("occupation")));
 							i++;
 						}
 
@@ -150,12 +146,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
-								+ search.get(i).get("first name") + ",last name: "
-								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
-								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-								+ ",occupation: " + search.get(i).get("occupation")));
-						System.out.println(document.getElementAt(i));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
+								+ search.get(i).get("first name") + ", last name: "
+								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
+								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
 
@@ -168,12 +163,11 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",first name: "
-								+ search.get(i).get("first name") + ",last name: "
-								+ search.get(i).get("last name") + ",hire year: " + search.get(i).get("hire year")
-								+ ",ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
-								+ ",occupation: " + search.get(i).get("occupation")));
-						System.out.println(document.getElementAt(i));
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
+								+ search.get(i).get("first name") + ", last name: "
+								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
+								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
 
@@ -191,7 +185,7 @@ public class Find {
 
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void findProperty(String databaseName, String propertyName, DefaultListModel document) {
+	public static void findProperty(String databaseName, String property, DefaultListModel document) {
 
 		try {
 			//Decrypt p = new Decrypt();
@@ -211,16 +205,15 @@ public class Find {
 			int i = 0;
 			
 			//filter what to search for
-			query.append("property name", propertyName);
+			query.append("property name", property);
 			doc = collection.find(query);
 			it = doc.iterator();
 			while (it.hasNext()) {
 					search.add((Document) it.next());
 
-				document.addElement("id: " + String.valueOf(search.get(i).get("id") + ",property name: "
-					+ search.get(i).get("property name") + ",cost: $" + search.get(i).get("cost")
-					+ ",location: " + search.get(i).get("location")));
-					System.out.println(document.getElementAt(i));
+				document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", property name: "
+					+ search.get(i).get("property name") + ", cost: $" + search.get(i).get("cost")
+					+ ", location: " + search.get(i).get("location")));
 					i++;
 			}
 			mongoClient.close();
@@ -231,21 +224,21 @@ public class Find {
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void findProducts(String databaseName, String productName, String category, String supplier, DefaultListModel document) {
+	public static void findProducts(String databaseName, String product, String category, String supplier, DefaultListModel document) {
 
 		try {
 			Decrypt p = new Decrypt();
 
-			productName = productName.toLowerCase();
-			category = category.toLowerCase();
-			supplier = supplier.toLowerCase();
+			//productName = productName.toLowerCase();
+			//category = category.toLowerCase();
+			//supplier = supplier.toLowerCase();
 			
 			Vector<Document> search = new Vector<>();
 			
 			//connects the app to the mongodb database
 			MongoClient mongoClient = connectDatabase(databaseName);
 			MongoDatabase database = mongoClient.getDatabase(databaseName);
-			MongoCollection<Document> collection = database.getCollection("Employees");
+			MongoCollection<Document> collection = database.getCollection("Products");
 			
 			//creates the query for the search method
 			BasicDBObject query = new BasicDBObject();
@@ -254,7 +247,7 @@ public class Find {
 			int i = 0;
 			
 			//filter what to search for
-			if (productName.equals("")) {
+			if (product.equals("")) {
 				if (category.equals("")) {
 					query.append("supplier", supplier);
 					doc = collection.find(query);
@@ -262,28 +255,27 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
-								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
-								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+						
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
+								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
+								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
 								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
 					mongoClient.close();
 				} else if (!supplier.isEmpty()) {
-					query.append("last name", category).append("supplier", supplier);
+					query.append("category", category).append("supplier", supplier);
 
 					doc = collection.find(query);
 					it = doc.iterator();
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
-								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
-								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
+								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
+								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
 								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -295,11 +287,11 @@ public class Find {
 					it = doc.iterator();
 					while (it.hasNext()) {
 						search.add((Document) it.next());
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
-								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
-								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+						
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
+								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
+								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
 								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -308,53 +300,50 @@ public class Find {
 			} else {
 				if (category.equals("")) {
 					if (supplier.isEmpty()) {
-						query.append("first name", productName);
+						query.append("product name", product);
 
 						doc = collection.find(query);
 						it = doc.iterator();
 						while (it.hasNext()) {
 							search.add((Document) it.next());
 
-							document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
-									+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
-									+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
+									+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
+									+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
 									+ p.decryptShiftChars(search.get(i).get("cost").toString())));
-							System.out.println(document.getElementAt(i));
 							i++;
 						}
 
 						mongoClient.close();
 					}
 				} else if (supplier.isEmpty()) {
-					query.append("product name", productName).append("category", category);
+					query.append("product name", product).append("category", category);
 
 					doc = collection.find(query);
 					it = doc.iterator();
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
-								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
-								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
+								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
+								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
 								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
 					mongoClient.close();
 				} else {
-					query.append("product name", productName).append("category", category).append("supplier", supplier);
+					query.append("product name", product).append("category", category).append("supplier", supplier);
 
 					doc = collection.find(query);
 					it = doc.iterator();
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n product name: "
-								+ search.get(i).get("product name") + "\n category: " + search.get(i).get("category")
-								+ "\n supplier: " + search.get(i).get("supplier") + "\n cost: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
+								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
+								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
 								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -372,20 +361,20 @@ public class Find {
 	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void findService(String databaseName, String serviceName, String category, DefaultListModel document) {
+	public static void findService(String databaseName, String service, String category, DefaultListModel document) {
 
 		try {
 			//Decrypt p = new Decrypt();
 
-			serviceName = serviceName.toLowerCase();
-			category = category.toLowerCase();
+			//serviceName = serviceName.toLowerCase();
+			//category = category.toLowerCase();
 			
 			Vector<Document> search = new Vector<>();
 			
 			//connects the app to the mongodb database
 			MongoClient mongoClient = connectDatabase(databaseName);
 			MongoDatabase database = mongoClient.getDatabase(databaseName);
-			MongoCollection<Document> collection = database.getCollection("Properties");
+			MongoCollection<Document> collection = database.getCollection("Services");
 			
 			//creates the query for the search method
 			BasicDBObject query = new BasicDBObject();
@@ -395,17 +384,16 @@ public class Find {
 			
 			//filter what to search for
 			if(category.equals("")) {
-				query.append("service name", serviceName);
+				query.append("service name", service);
 				doc = collection.find(query);
 				it = doc.iterator();
 				while (it.hasNext()) {
-						search.add((Document) it.next());
+					search.add((Document) it.next());
 	
-					document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n service name: "
-						+ search.get(i).get("service name") + "\n cost: " + search.get(i).get("cost")
-						+ "\n category: " + search.get(i).get("category")));
-						System.out.println(document.getElementAt(i));
-						i++;
+					document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", service name: "
+						+ search.get(i).get("service name") + ", cost: " + search.get(i).get("cost")
+						+ ", category: " + search.get(i).get("category")));
+					i++;
 				}
 			}
 			else {
@@ -415,11 +403,10 @@ public class Find {
 				while (it.hasNext()) {
 					search.add((Document) it.next());
 	
-					document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n service name: "
-						+ search.get(i).get("service name") + "\n cost: " + search.get(i).get("cost")
-						+ "\n category: " + search.get(i).get("category")));
-						System.out.println(document.getElementAt(i));
-						i++;
+					document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", service name: "
+							+ search.get(i).get("service name") + ", cost: " + search.get(i).get("cost")
+							+ ", category: " + search.get(i).get("category")));
+					i++;
 				}
 			}
 			mongoClient.close();
@@ -435,16 +422,16 @@ public class Find {
 		try {
 			Decrypt p = new Decrypt();
 
-			accountName = accountName.toLowerCase();
-			accountID = accountID.toLowerCase();
-			bank = bank.toLowerCase();
+			//accountName = accountName.toLowerCase();
+			//accountID = accountID.toLowerCase();
+			//bank = bank.toLowerCase();
 			
 			Vector<Document> search = new Vector<>();
 			
 			//connects the app to the mongodb database
 			MongoClient mongoClient = connectDatabase(databaseName);
 			MongoDatabase database = mongoClient.getDatabase(databaseName);
-			MongoCollection<Document> collection = database.getCollection("Employees");
+			MongoCollection<Document> collection = database.getCollection("Financial Holdings");
 			
 			//creates the query for the search method
 			BasicDBObject query = new BasicDBObject();
@@ -461,11 +448,10 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
-								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
-								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
+								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
+								+ ", bank: " + search.get(i).get("bank") + ", balance: "
 								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -478,11 +464,10 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
-								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
-								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
+								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
+								+ ", bank: " + search.get(i).get("bank") + ", balance: "
 								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -494,11 +479,11 @@ public class Find {
 					it = doc.iterator();
 					while (it.hasNext()) {
 						search.add((Document) it.next());
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
-								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
-								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+						
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
+								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
+								+ ", bank: " + search.get(i).get("bank") + ", balance: "
 								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -514,11 +499,10 @@ public class Find {
 						while (it.hasNext()) {
 							search.add((Document) it.next());
 
-							document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
-									+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
-									+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
+									+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
+									+ ", bank: " + search.get(i).get("bank") + ", balance: "
 									+ p.decryptShiftChars(search.get(i).get("balance").toString())));
-							System.out.println(document.getElementAt(i));
 							i++;
 						}
 
@@ -532,11 +516,10 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
-								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
-								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
+								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
+								+ ", bank: " + search.get(i).get("bank") + ", balance: "
 								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
@@ -549,11 +532,10 @@ public class Find {
 					while (it.hasNext()) {
 						search.add((Document) it.next());
 
-						document.addElement("id: " + String.valueOf(search.get(i).get("id") + "\n account name: "
-								+ search.get(i).get("account name") + "\n account ID: " + search.get(i).get("account ID")
-								+ "\n bank: " + search.get(i).get("bank") + "\n balance: "
+						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
+								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
+								+ ", bank: " + search.get(i).get("bank") + ", balance: "
 								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
-						System.out.println(document.getElementAt(i));
 						i++;
 					}
 
