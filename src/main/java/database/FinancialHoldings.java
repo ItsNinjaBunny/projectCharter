@@ -7,7 +7,7 @@ import com.opencsv.bean.CsvBindByPosition;
 public class FinancialHoldings implements java.io.Serializable {
 	
     
-   //create AcountNumber value that will be at the end pos 4
+  
    
     @CsvBindByPosition(position = 0)
     public int accountID;
@@ -21,6 +21,8 @@ public class FinancialHoldings implements java.io.Serializable {
     @CsvBindByPosition(position = 3)
     public String bankingInstitution;
     
+    @CsvBindByPosition(position = 4)
+    public int accountNumber;
     
 
     public FinancialHoldings(){}
@@ -60,7 +62,14 @@ public class FinancialHoldings implements java.io.Serializable {
         this.bankingInstitution = bankingInstitution;
     }
    
-    
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
     @Override
     public String toString() {

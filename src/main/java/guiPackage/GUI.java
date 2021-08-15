@@ -1355,6 +1355,7 @@ class GUI extends JFrame {
 						doc.append("account name", beans.get(x).getAccountName());
 						doc.append("balance", beans.get(x).getBalance());
 						doc.append("bank", beans.get(x).getBankingInstitution());
+						doc.append("account number", beans.get(x).getAccountNumber());
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1365,6 +1366,7 @@ class GUI extends JFrame {
 						doc.append("account name", beans.get(x).getAccountName());
 						doc.append("balance", beans.get(x).getBalance());
 						doc.append("bank", beans.get(x).getBankingInstitution());
+						doc.append("account number", beans.get(x).getAccountNumber());
 						collection.insertOne(doc);
 					}
 				}
