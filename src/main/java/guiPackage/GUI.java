@@ -1082,7 +1082,7 @@ class GUI extends JFrame {
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
 						.withType(Employee.class).withSkipLines(1).build().parse();
-
+				
 				if (beans.get(0).getId() != 1) {
 					beans = new CsvToBeanBuilder(new FileReader(file))
 							// we ask if the file contians headers upon radial selection it will skip first
@@ -1091,11 +1091,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("first name", beans.get(x).getFirstName());
-						doc.append("last name", beans.get(x).getLastName());
-						doc.append("hire year", beans.get(x).getHireYear());
-						doc.append("ssn", beans.get(x).getSSN().replace("-", ""));
-						doc.append("occupation", beans.get(x).getOccupation());
+						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName().toUpperCase()));
+						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName()));
+						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear()));
+						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "")));
+						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1103,11 +1103,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("first name", beans.get(x).getFirstName());
-						doc.append("last name", beans.get(x).getLastName());
-						doc.append("hire year", beans.get(x).getHireYear());
-						doc.append("ssn", beans.get(x).getSSN().replace("-", ""));
-						doc.append("occupation", beans.get(x).getOccupation());
+						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName()));
+						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName()));
+						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear()));
+						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "")));
+						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1159,9 +1159,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("title", beans.get(x).getTitle());
-						doc.append("cost", beans.get(x).getCost());
-						doc.append("location", beans.get(x).getLocation());
+						doc.append("title", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
+						doc.append("location", Encrypt.encrpytData(beans.get(x).getLocation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1169,9 +1169,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("property name", beans.get(x).getTitle());
-						doc.append("cost", beans.get(x).getCost());
-						doc.append("location", beans.get(x).getLocation());
+						doc.append("property name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
+						doc.append("location", Encrypt.encrpytData(beans.get(x).getLocation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1193,7 +1193,6 @@ class GUI extends JFrame {
 		}
 
 	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadProductsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
@@ -1223,10 +1222,10 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("product name", beans.get(x).getTitle());
-						doc.append("cost", beans.get(x).getCost());
-						doc.append("category", beans.get(x).getCategory());
-						doc.append("supplier", beans.get(x).getSupplier());
+						doc.append("product name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
+						doc.append("supplier", Encrypt.encrpytData(beans.get(x).getSupplier().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1234,10 +1233,10 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("product name", beans.get(x).getTitle());
-						doc.append("cost", beans.get(x).getCost());
-						doc.append("category", beans.get(x).getCategory());
-						doc.append("supplier", beans.get(x).getSupplier());
+						doc.append("product name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
+						doc.append("supplier", Encrypt.encrpytData(beans.get(x).getSupplier().toUpperCase()));
 					}
 				}
 
@@ -1258,7 +1257,6 @@ class GUI extends JFrame {
 		}
 
 	}
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void uploadServiceCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
@@ -1288,9 +1286,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("service name", beans.get(x).getTitle());
-						doc.append("cost", beans.get(x).getCost());
-						doc.append("category", beans.get(x).getCategory());
+						doc.append("service name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1298,9 +1296,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("service name", beans.get(x).getTitle());
-						doc.append("cost", beans.get(x).getCost());
-						doc.append("category", beans.get(x).getCategory());
+						doc.append("service name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
 					}
 				}
 
@@ -1321,7 +1319,6 @@ class GUI extends JFrame {
 		}
 
 	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadFinancialHoldingsCSV(String CompanyName, String CollectionName)
 			throws NumberFormatException {
@@ -1352,10 +1349,10 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("account name", beans.get(x).getAccountName());
-						doc.append("balance", beans.get(x).getBalance());
-						doc.append("bank", beans.get(x).getBankingInstitution());
-						doc.append("account number", beans.get(x).getAccountNumber());
+						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
+						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance().toUpperCase()));
+						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
+						doc.append("account number", Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1363,10 +1360,10 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("account name", beans.get(x).getAccountName());
-						doc.append("balance", beans.get(x).getBalance());
-						doc.append("bank", beans.get(x).getBankingInstitution());
-						doc.append("account number", beans.get(x).getAccountNumber());
+						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
+						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance().toUpperCase()));
+						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
+						doc.append("account number", Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1388,7 +1385,6 @@ class GUI extends JFrame {
 		}
 
 	}
-
 	public static void uploadJSON(String CompanyName, String CollectionName) {
 
 		try {
@@ -1440,7 +1436,6 @@ class GUI extends JFrame {
 		}
 
 	}
-
 	public static String fileupload() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -1474,7 +1469,6 @@ class GUI extends JFrame {
 
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
-
 	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear, String ssn,
 			String occupation) {
 		ssn = ssn.replace("-", "");
@@ -1503,7 +1497,7 @@ class GUI extends JFrame {
 			test.append("hire year",emp.getLastName(true));
 			test.append("ssn", emp.getSSN(true));
 			test.append("occupation", emp.getOccupation(true));
-
+			System.out.println(emp.toString());
 			// adds the document to the database
 			collection.insertOne(test);
 			mongoClient.close();
@@ -1513,7 +1507,6 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
-
 	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank) {
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
@@ -1547,7 +1540,6 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
-
 	public static void insertProperty(String CompanyName, String propertyName, String cost, String location) {
 		progressBar2.setValue(300);
 		progressBar2.setVisible(true);
@@ -1581,7 +1573,6 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
-
 	public static boolean insertProduct(String CompanyName, String productName, String cost, String category,
 			String supplier) {
 		ProductServices prod = new ProductServices(productName, cost, category, supplier);
@@ -1622,7 +1613,6 @@ class GUI extends JFrame {
 		}
 
 	}
-
 	public static void insertService(String CompanyName, String serviceName, String cost, String category) {
 
 		progressBar3.setValue(300);
@@ -1658,7 +1648,7 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
-
+	
 	public static void main(String args[]) {
 		try {
 

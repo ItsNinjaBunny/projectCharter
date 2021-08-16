@@ -155,11 +155,11 @@ public class Employee implements java.io.Serializable {
     @Override
     public String toString() {
         return "id: " + this.id +
-                "First Name: " + this.firstName +
-                "Last Name: " + this.lastName +
-                "Year Hired: " + this.hireYear +
-                "SSN: " + this.ssn +
-                "Occupation: " + this.occupation;
+                "First Name: " + getFirstName(true) +
+                "Last Name: " + getLastName(true) +
+                "Year Hired: " + getHireYear(true) +
+                "SSN: " + getSSN(true) +
+                "Occupation: " + getOccupation();
     }
 
 
