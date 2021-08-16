@@ -78,7 +78,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
 								+ search.get(i).get("first name") + ", last name: "
 								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
 								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
@@ -95,7 +95,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
 								+ search.get(i).get("first name") + ", last name: "
 								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
 								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
@@ -111,7 +111,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
 								+ search.get(i).get("first name") + ", last name: "
 								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
 								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
@@ -131,7 +131,7 @@ public class Find {
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
 									+ search.get(i).get("first name") + ", last name: "
 									+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-									+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+									+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
 									+ ", occupation: " + search.get(i).get("occupation")));
 							i++;
 						}
@@ -149,7 +149,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
 								+ search.get(i).get("first name") + ", last name: "
 								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
 								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
@@ -166,7 +166,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
 								+ search.get(i).get("first name") + ", last name: "
 								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptShiftChars(search.get(i).get("ssn").toString())
+								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
 								+ ", occupation: " + search.get(i).get("occupation")));
 						i++;
 					}
@@ -259,7 +259,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
 								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
 								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+								+ p.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -275,7 +275,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
 								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
 								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+								+ p.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -291,7 +291,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
 								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
 								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+								+ p.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -310,7 +310,7 @@ public class Find {
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
 									+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
 									+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-									+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+									+ p.decryptData(search.get(i).get("cost").toString())));
 							i++;
 						}
 
@@ -327,7 +327,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
 								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
 								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+								+ p.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -343,7 +343,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
 								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
 								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptShiftChars(search.get(i).get("cost").toString())));
+								+ p.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -451,7 +451,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
 								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
 								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+								+ p.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
@@ -467,7 +467,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
 								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
 								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+								+ p.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
@@ -483,7 +483,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
 								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
 								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+								+ p.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
@@ -502,7 +502,7 @@ public class Find {
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
 									+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
 									+ ", bank: " + search.get(i).get("bank") + ", balance: "
-									+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+									+ p.decryptData(search.get(i).get("balance").toString())));
 							i++;
 						}
 
@@ -519,7 +519,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
 								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
 								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+								+ p.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
@@ -535,7 +535,7 @@ public class Find {
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
 								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
 								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptShiftChars(search.get(i).get("balance").toString())));
+								+ p.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
