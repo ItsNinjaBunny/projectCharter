@@ -3,6 +3,9 @@ package database;
 
 import com.opencsv.bean.CsvBindByPosition;
 
+import Encryption.Decrypt;
+import Encryption.Encrypt;
+
 @SuppressWarnings("serial")
 public class FinancialHoldings implements java.io.Serializable {
 	
@@ -22,15 +25,27 @@ public class FinancialHoldings implements java.io.Serializable {
     public String bankingInstitution;
     
     @CsvBindByPosition(position = 4)
-    public int accountNumber;
+    public String accountNumber;
     
 
     public FinancialHoldings(){}
-    public FinancialHoldings(int accountID, String accountName, String balance, String bankingInstitution) {
-        this.accountID  		= accountID;
-        this.accountName 		= accountName;
-        this.balance 	 		= balance;
-        this.bankingInstitution = bankingInstitution;
+    public FinancialHoldings(int accountID, String accountName, String balance, String bankingInstitution, String accountNumber) {
+        setId(accountID);
+        setAccountName(accountName);
+        setBalance(balance);
+        setBankingInstitution(bankingInstitution);
+        setAccountNumber(accountNumber);
+    }
+    public FinancialHoldings(String accountName, String balance, String bankingInstitution, String accountNumber) {
+        setAccountName(accountName);
+        setBalance(balance);
+        setBankingInstitution(bankingInstitution);
+        setAccountNumber(accountNumber);
+    }
+    public FinancialHoldings(String accountName, String balance, String bankingInstitution) {
+        setAccountName(accountName);
+        setBalance(balance);
+        setBankingInstitution(bankingInstitution);
     }
   
     public int getId() {
@@ -38,38 +53,84 @@ public class FinancialHoldings implements java.io.Serializable {
     }
 
     public void setId(int accountID) {
-        this.accountID = accountID ;
+        this.accountID = accountID;
     }
+    
+    
     public String getAccountName() {
         return accountName;
     }
-
+    public String getAccountName(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(accountName);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(accountName);
+    	}
+    }
     public void setAccountName(String accountName) {
-        this.accountName = accountName ;
+        this.accountName = accountName.toUpperCase();
     } 
+    
+    
+    
     public String getBalance() {
         return balance;
     }
-
+    public String getBalance(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(balance);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(balance);
+    	}
+    }
     public void setBalance(String balance ) {
-        this.balance = balance;
+        this.balance = balance.toUpperCase();
     } 
+    
+    
+    
     public String getBankingInstitution() {
         return bankingInstitution;
     }
-
+    public String getBankingInstitution(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(bankingInstitution);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(bankingInstitution);
+    	}
+    }
     public void setBankingInstitution(String bankingInstitution) {
-        this.bankingInstitution = bankingInstitution;
+        this.bankingInstitution = bankingInstitution.toUpperCase();
     }
    
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
-
-    public void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
+    public String getAccountNumber(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(accountNumber);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(accountNumber);
+    	}
     }
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber.toUpperCase();
+    }
+    
+    
 
     @Override
     public String toString() {

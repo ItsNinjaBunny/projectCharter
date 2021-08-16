@@ -1,6 +1,9 @@
 package database;
 import com.opencsv.bean.CsvBindByPosition;
 
+import Encryption.Decrypt;
+import Encryption.Encrypt;
+
 @SuppressWarnings("serial")
 public class ProductServices implements java.io.Serializable {
 	
@@ -22,13 +25,29 @@ public class ProductServices implements java.io.Serializable {
 
     public ProductServices(){}
     public ProductServices(int productServiceID, String title, String cost, String category, String supplier) {
-    	this.productServiceID = productServiceID;
-        this.title			  = title;
-        this.cost 			  = cost;
-        this.category 		  = category;
-        this.supplier 		  = supplier;
+    	setId(productServiceID);
+    	setTitle(title);
+    	setCost(cost);
+    	setCategory(category);
+    	setSupplier(supplier);
+    
     }
-  
+    public ProductServices(String title, String cost, String category, String supplier) {
+    
+    	setTitle(title);
+    	setCost(cost);
+    	setCategory(category);
+    	setSupplier(supplier);
+    
+    }
+    public ProductServices(String title, String cost, String category) {
+        
+    	setTitle(title);
+    	setCost(cost);
+    	setCategory(category);
+   
+    
+    }
     public int getId()
     {
     	return productServiceID;
@@ -37,35 +56,81 @@ public class ProductServices implements java.io.Serializable {
     {
     	this.productServiceID = productServiceID;
     }
+    
+    
     public String getTitle() {
         return title;
     }
-
+    public String getTitle(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(title);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(title);
+    	}
+    }
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title.toUpperCase();
     }
 
+    
+    
+    
     public String getCost() {
         return cost;
     }
-
-    public void setCost(String cost) {
-        this.cost = cost;
+    public String getCost(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(cost);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(cost);
+    	}
     }
+    public void setCost(String cost) {
+        this.cost = cost.toUpperCase();
+    }
+    
+    
+    
 
     public String getCategory() {
         return category;
     }
-
-    public void setCategory(String category) {
-        this.category = category;
+    public String getCategory(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(category);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(category);
+    	}
     }
+    public void setCategory(String category) {
+        this.category = category.toUpperCase();
+    }
+    
+    
     public String getSupplier() {
         return supplier;
     }
-
+    public String getSupplier(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(supplier);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(supplier);
+    	}
+    }
     public void setSupplier(String supplier) {
-        this.supplier = supplier;
+        this.supplier = supplier.toUpperCase();
     }
 
 

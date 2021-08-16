@@ -1475,12 +1475,10 @@ class GUI extends JFrame {
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
 
-	public static void insertEmployee(String CompanyName, String firstname, String lastname, int hireYear, String ssn,
+	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear, String ssn,
 			String occupation) {
 		ssn = ssn.replace("-", "");
-		firstname = firstname.toUpperCase();
-		lastname = lastname.toUpperCase();
-		occupation = occupation.toUpperCase();
+		Employee emp = new Employee(firstname, lastname, hireYear, ssn, occupation);
 		progressBar1.setValue(300);
 		progressBar1.setVisible(true);
 
@@ -1500,11 +1498,11 @@ class GUI extends JFrame {
 			// creates the document to insert into the database
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
-			test.append("first name", firstname);
-			test.append("last name", lastname);
-			test.append("hire year", hireYear);
-			test.append("ssn", ssn);
-			test.append("occupation", occupation);
+			test.append("first name", emp.getFirstName(true));
+			test.append("last name", emp.getLastName(true));
+			test.append("hire year",emp.getLastName(true));
+			test.append("ssn", emp.getSSN(true));
+			test.append("occupation", emp.getOccupation(true));
 
 			// adds the document to the database
 			collection.insertOne(test);
@@ -1516,10 +1514,10 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static void insertFinance(String CompanyName, String accountName, Double Balance, String Bank) {
+	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank) {
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
-
+		FinancialHoldings fin = new FinancialHoldings(accountName, Balance, Bank);
 		try {
 
 			// gathers information about the records being inserted and database information
@@ -1536,9 +1534,9 @@ class GUI extends JFrame {
 			// creates the document to insert into the database
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
-			test.append("account name", accountName);
-			test.append("balance", Balance);
-			test.append("bank", Bank);
+			test.append("account name", fin.getAccountName(true));
+			test.append("balance", fin.getBalance(true));
+			test.append("bank", fin.getBankingInstitution(true));
 
 			// adds the document to the database
 			collection.insertOne(test);
@@ -1550,10 +1548,10 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static void insertProperty(String CompanyName, String propertyName, Double cost, String location) {
+	public static void insertProperty(String CompanyName, String propertyName, String cost, String location) {
 		progressBar2.setValue(300);
 		progressBar2.setVisible(true);
-		propertyName = propertyName.toUpperCase();
+		Property prop = new Property(propertyName, cost, location);
 		try {
 
 			// gathers information about the records being inserted and database information
@@ -1570,9 +1568,9 @@ class GUI extends JFrame {
 			// creates the document to insert into the database
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
-			test.append("property name", propertyName);
-			test.append("cost", cost);
-			test.append("location", location);
+			test.append("property name", prop.getTitle(true));
+			test.append("cost", prop.getCost(true));
+			test.append("location", prop.getLocation(true));
 
 			// adds the document to the database
 			collection.insertOne(test);
@@ -1584,11 +1582,9 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static boolean insertProduct(String CompanyName, String productName, Double cost, String category,
+	public static boolean insertProduct(String CompanyName, String productName, String cost, String category,
 			String supplier) {
-		productName = productName.toUpperCase();
-		category = category.toUpperCase();
-		supplier = supplier.toUpperCase();
+		ProductServices prod = new ProductServices(productName, cost, category, supplier);
 		progressBar4.setValue(300);
 		progressBar4.setVisible(true);
 
@@ -1608,10 +1604,10 @@ class GUI extends JFrame {
 			// creates the document to insert into the database
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
-			test.append("product name", productName);
-			test.append("cost", cost);
-			test.append("category", category);
-			test.append("supplier", supplier);
+			test.append("product name", prod.getTitle(true));
+			test.append("cost", prod.getCost(true));
+			test.append("category", prod.getCategory(true));
+			test.append("supplier", prod.getSupplier(true));
 
 			// adds the document to the database
 			collection.insertOne(test);
@@ -1631,6 +1627,7 @@ class GUI extends JFrame {
 
 		progressBar3.setValue(300);
 		progressBar3.setVisible(true);
+		ProductServices serv = new ProductServices(serviceName, cost, category);
 
 		try {
 
@@ -1648,9 +1645,9 @@ class GUI extends JFrame {
 			// creates the document to insert into the database
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
-			test.append("service name", serviceName);
-			test.append("cost", cost);
-			test.append("category", category);
+			test.append("service name", serv.getTitle(true));
+			test.append("cost", serv.getCategory(true));
+			test.append("category", serv.getCategory(true));
 
 			// adds the document to the database
 			collection.insertOne(test);

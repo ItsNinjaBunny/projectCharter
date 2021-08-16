@@ -2,6 +2,9 @@ package Property;
 
 import com.opencsv.bean.CsvBindByPosition;
 
+import Encryption.Decrypt;
+import Encryption.Encrypt;
+
 @SuppressWarnings("serial")
 public class Property implements java.io.Serializable {
 	
@@ -21,12 +24,17 @@ public class Property implements java.io.Serializable {
     public String location;
     public Property(){}
     public Property(int propertyID, String title, String cost, String location) {
-    	this.id = propertyID;
-        this.propertyName		= title;
-        this.cost 		= cost;
-        this.location 	= location;
+    	setId(propertyID);
+    	setTitle(title);
+    	setCost(cost);
+    	setLocation(location);
     }
-  
+    public Property(String title, String cost, String location) {
+ 
+    	setTitle(title);
+    	setCost(cost);
+    	setLocation(location);
+    }
     public int getId()
     {
     	return id;
@@ -37,28 +45,62 @@ public class Property implements java.io.Serializable {
     	this.id = propertyID;
     }
     
+    
+    
     public String getTitle() {
         return propertyName;
     }
-
+    public String getTitle(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(propertyName);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(propertyName);
+    	}
+    }
     public void setTitle(String title) {
-        this.propertyName = title;
+        this.propertyName = title.toUpperCase();
     }
 
+    
+    
     public String getCost() {
         return cost;
     }
-
+    public String getCost(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(cost);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(cost);
+    	}
+    }
     public void setCost(String cost) {
-        this.cost = cost;
+        this.cost = cost.toUpperCase();
     }
 
+    
+    
     public String getLocation() {
         return location;
     }
-
-    public void setLastName(String location) {
-        this.location = location;
+    public String get(boolean encode) {
+    	if(encode==true)
+    	{
+    		return Encrypt.encrpytData(location);
+    	}
+    	else
+    	{
+    		return Decrypt.decryptData(location);
+    	}
+    }
+    public void setLocation(String location)
+    {
+    	this.location = location.toUpperCase();
     }
 
 
