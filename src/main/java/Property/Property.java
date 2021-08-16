@@ -88,7 +88,7 @@ public class Property implements java.io.Serializable {
     public String getLocation() {
         return location;
     }
-    public String get(boolean encode) {
+    public String getLocation(boolean encode) {
     	if(encode==true)
     	{
     		return Encrypt.encrpytData(location);
