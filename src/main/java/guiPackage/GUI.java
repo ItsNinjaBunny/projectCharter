@@ -8,13 +8,18 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -93,7 +98,20 @@ class GUI extends JFrame {
 		topPanel.setPreferredSize(new Dimension(650, 450));
 		topPanel.setLayout(new BorderLayout());
 		getContentPane().add(topPanel);
-
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(
+					new File("src/main/java/guiPackage/img.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		temp.setLayout(null);
+		temp.setBackground(Color.GRAY);
+		
+		JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(300, 300, image.SCALE_SMOOTH)));
+		label.setBounds(105, 70, 300, 300);
+		temp.add(label, BorderLayout.CENTER);
 		// Create the panels
 		createDirectory();
 		createPanel2();
@@ -115,6 +133,8 @@ class GUI extends JFrame {
 
 		splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		topPanel.add(splitPaneH, BorderLayout.CENTER);
+		topPanel.setBackground(Color.black);
+		directory.setBackground(Color.black);
 		splitPaneH.setLeftComponent(directory);
 		splitPaneH.setRightComponent(temp);
 		splitPaneH.setEnabled(false);
@@ -122,7 +142,7 @@ class GUI extends JFrame {
 
 	}
 
-	String[] messages = { "Select","Single File Upload", "Manual File Entry" };
+	String[] messages = { "Select", "Single File Upload", "Manual File Entry" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox messageList = new JComboBox(messages);
 	JButton goButton = new JButton("GO");
@@ -133,6 +153,7 @@ class GUI extends JFrame {
 
 		directory = new JPanel();
 		directory.setLayout(new GridLayout(5, 1));
+	
 		insertRecords = new JPanel();
 		insertRecords.setLayout(null);
 		insertRecords.remove(messageList);
@@ -142,11 +163,15 @@ class GUI extends JFrame {
 		JButton updateButton = new JButton("UPDATE");
 		JButton deleteButton = new JButton("DELETE");
 		JButton findButton = new JButton("FIND");
-
+		
 		findButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				directory.remove(updateButton);
+				directory.remove(deleteButton);
+				directory.remove(insertButton);
 				topPanel.removeAll();
 				topPanel.revalidate();
 				panel3.removeAll();
@@ -154,8 +179,10 @@ class GUI extends JFrame {
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
+				
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane2);
+				splitPaneH.setDividerLocation(130);
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				splitPaneV.setDividerLocation(300);
 				panel3.setBorder(blackline);
@@ -171,6 +198,10 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				directory.remove(findButton);
+			
+				directory.remove(deleteButton);
+				directory.remove(insertButton);
 				panel3.removeAll();
 				setTitle("Update Records - CompanyVault.exe");
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -179,6 +210,7 @@ class GUI extends JFrame {
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane3);
 				Border blackline = BorderFactory.createLineBorder(Color.black);
+				splitPaneH.setDividerLocation(130);
 				splitPaneV.setDividerLocation(300);
 				panel3.setBorder(blackline);
 				topPanel.removeAll();
@@ -194,14 +226,21 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				directory.remove(findButton);
+				
+				directory.remove(updateButton);
+			
+				directory.remove(insertButton);
 				panel3.removeAll();
 				topPanel.removeAll();
-				setTitle("Find Records - CompanyVault.exe");
+				setTitle("Delete Records - CompanyVault.exe");
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane4);
+				splitPaneH.setDividerLocation(130);
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				splitPaneV.setDividerLocation(300);
 				panel3.setBorder(blackline);
@@ -225,27 +264,35 @@ class GUI extends JFrame {
 		list.add(pane2);
 		list.add(pane3);
 		list.add(pane4);
-		for (JTabbedPane pane : list) {
+		ArrayList<JButton> directory1 = new ArrayList<JButton>();
+		directory1.add(insertButton);
+		directory1.add(updateButton);
+		directory1.add(deleteButton);
+		directory1.add(findButton);
+		directory1.add(homeButton);
+		for(JButton l : directory1) {
+		
+			l.setBackground(Color.BLACK);
 			
 		}
+
+		directory.add(homeButton);
 		homeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				topPanel.removeAll();
-				topPanel.revalidate();
-				setTitle("Menu - CompanyVault.exe");
-				splitPaneH.setLeftComponent(directory);
-				splitPaneH.setRightComponent(temp);
-				topPanel.add(splitPaneH, BorderLayout.CENTER);
-				topPanel.revalidate();
-//				creating third panel from current screen layout 
-//				if needed and to undo off other screens just redo topPanel
-//				topPanel.removeAll();
-//				topPanel.revalidate();
-//				topPanel.add(splitPaneV, BorderLayout.CENTER);
-//				splitPaneV.setLeftComponent(splitPaneH);
-//				splitPaneV.setRightComponent(panel3);
+				dispose();
+				try {
+					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+					UIManager.getLookAndFeelDefaults().put("Button.background",null);
+		            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
+				} catch (Exception evt) {
+				}
+                GUI gui = new GUI(companyName);
+                gui.pack();
+                gui.setLocationRelativeTo(null);
+                gui.setVisible(true);
+
 
 			}
 
@@ -326,6 +373,11 @@ class GUI extends JFrame {
 
 					}
 				}
+				directory.remove(findButton);
+				
+				directory.remove(updateButton);
+			
+				directory.remove(deleteButton);
 				messageList.setSelectedIndex(0);
 				messageList.addActionListener(new directoryAction());
 				JLabel text = new JLabel();
@@ -336,6 +388,7 @@ class GUI extends JFrame {
 				messageList.setBorder(null);
 				insertRecords.add(goButton);
 				insertRecords.add(messageList);
+				insertRecords.setBackground(Color.GRAY);
 				insertRecords.add(text);
 				setTitle("InsertRecords - CompanyVault.exe");
 				
@@ -367,7 +420,7 @@ class GUI extends JFrame {
 		panel3.setPreferredSize(new Dimension(400, 100));
 		panel3.setMinimumSize(new Dimension(50, 50));
 		panel3.add(new JLabel("Results:"), BorderLayout.NORTH);
-		panel3.add( new JScrollPane(),BorderLayout.CENTER);
+		panel3.add(new JScrollPane(), BorderLayout.CENTER);
 	}
 
 	private static JPanel panelEmployee;
@@ -380,7 +433,6 @@ class GUI extends JFrame {
 	public void createEmployeeTab() {
 		panelEmployee = new JPanel();
 		panelEmployee.setLayout(new BorderLayout());
-
 		progressBar1.setValue(0);
 		progressBar1.setBounds(130, 360, 300, 30);
 		progressBar1.setVisible(true);
@@ -424,14 +476,14 @@ class GUI extends JFrame {
 					progressBar1.setVisible(true);
 					progressBar1.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Employee...");
-					
+
 					p.revalidate();
 
 					Encrypt p2 = new Encrypt();
 					String ssn = lSocial.getText().replace("-", "");
 					// make all strings capital then encode them then put them in the
 					// insert methods do this for all uploads csv and manual entry
-					insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),lHireYear.getText(), ssn,
+					insertEmployee(companyName, lFirstName.getText(), lLastName.getText(), lHireYear.getText(), ssn,
 							lOccupation.getText());
 					lFirstName.setText("");
 					lLastName.setText("");
@@ -548,8 +600,8 @@ class GUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
 					p.revalidate();
-					
-					insertProperty(companyName, lPropertyName.getText(),lCost.getText(), lLocation.getText());
+
+					insertProperty(companyName, lPropertyName.getText(), lCost.getText(), lLocation.getText());
 					lPropertyName.setText("");
 					lCost.setText("");
 					lLocation.setText("");
@@ -666,7 +718,8 @@ class GUI extends JFrame {
 					progressBar4.setVisible(true);
 					progressBar4.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Product...");
-					insertProduct(companyName, lProductName.getText(), lCost.getText(), lCategory.getText(), lSupplier.getText());
+					insertProduct(companyName, lProductName.getText(), lCost.getText(), lCategory.getText(),
+							lSupplier.getText());
 					lProductName.setText("");
 					lCost.setText("");
 					lCategory.setText("");
@@ -691,65 +744,62 @@ class GUI extends JFrame {
 		pane.addTab("Products", panelProduct);
 		pane.addTab("Services", panelService);
 		pane.addTab("Financial Holdings", panelFinancial);
-		pane.addChangeListener( new ChangeListener() {
-	        public void stateChanged(ChangeEvent e) {
-	           panel3.removeAll();
-	        }
-	    });
-		
+		pane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				panel3.removeAll();
+			}
+		});
 
 	}
 
 	public void showFrame2() {
 		pane2 = new JTabbedPane();
 
-		pane2.addTab("Employees",Find.searchEmployee(panel3, companyName));
-		pane2.addTab("Properties",Find.searchProperty(panel3,companyName));
-		pane2.addTab("Products", Find.searchProduct(panel3,companyName));
-		pane2.addTab("Services", Find.searchService(panel3,companyName));
-		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3,companyName));
-		pane2.addChangeListener( new ChangeListener() {
-	        public void stateChanged(ChangeEvent e) {
-	           panel3.removeAll();
-	           panel3.revalidate();
-	        }
-	    });
-		
+		pane2.addTab("Employees", Find.searchEmployee(panel3, companyName));
+		pane2.addTab("Properties", Find.searchProperty(panel3, companyName));
+		pane2.addTab("Products", Find.searchProduct(panel3, companyName));
+		pane2.addTab("Services", Find.searchService(panel3, companyName));
+		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3, companyName));
+		pane2.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				panel3.removeAll();
+				panel3.revalidate();
+			}
+		});
 
 	}
 
 	public void showFrame3() {
 		pane3 = new JTabbedPane();
-		pane3.addTab("Employees", Update.updateEmployee(panel3,companyName));
-		pane3.addTab("Properties", Update.updateProperty(panel3,companyName));
-		pane3.addTab("Products", Update.updateProduct(panel3,companyName));
-		pane3.addTab("Services", Update.updateService(panel3,companyName));
-		pane3.addTab("Financial Holdings", Update.updateFinancials(panel3,companyName));
-		pane3.addChangeListener( new ChangeListener() {
-	        public void stateChanged(ChangeEvent e) {
-	           panel3.removeAll();
-	           panel3.revalidate();
-	        }
-	    });
-		
+		pane3.addTab("Employees", Update.updateEmployee(panel3, companyName));
+		pane3.addTab("Properties", Update.updateProperty(panel3, companyName));
+		pane3.addTab("Products", Update.updateProduct(panel3, companyName));
+		pane3.addTab("Services", Update.updateService(panel3, companyName));
+		pane3.addTab("Financial Holdings", Update.updateFinancials(panel3, companyName));
+		pane3.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				panel3.removeAll();
+				panel3.revalidate();
+			}
+		});
 
 	}
-	
+
 	public void showFrame4() {
 		pane4 = new JTabbedPane();
 		pane4.addTab("Employees", Delete.deleteEmployee(panel3, companyName));
-		pane4.addTab("Properties",Delete.deleteProperty(panel3, companyName));
-		pane4.addTab("Products", Delete.deleteProduct(panel3,companyName));
-		pane4.addTab("Services", Delete.deleteService(panel3,companyName));
-		pane4.addTab("Financial Holdings",Delete.deleteFinancials(panel3,companyName));
-		pane4.addChangeListener( new ChangeListener() {
-	        public void stateChanged(ChangeEvent e) {
-	           panel3.removeAll();
-	           panel3.revalidate();
-	        }
-	    });
+		pane4.addTab("Properties", Delete.deleteProperty(panel3, companyName));
+		pane4.addTab("Products", Delete.deleteProduct(panel3, companyName));
+		pane4.addTab("Services", Delete.deleteService(panel3, companyName));
+		pane4.addTab("Financial Holdings", Delete.deleteFinancials(panel3, companyName));
+		pane4.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				panel3.removeAll();
+				panel3.revalidate();
+			}
+		});
 	}
-	
+
 	JRadioButton rb1, rb2;
 	JButton b;
 	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services",
@@ -764,6 +814,7 @@ class GUI extends JFrame {
 	public void singleFilePanel() {
 		singleFilePanel = new JPanel();
 		singleFilePanel.setLayout(null);
+		singleFilePanel.setBackground(Color.gray);
 		JLabel text = new JLabel();
 		progressBar = new JProgressBar();
 		progressBar.setValue(0);
@@ -804,7 +855,7 @@ class GUI extends JFrame {
 		csvList.setSelectedIndex(0);
 		singleFilePanel.add(text);
 		singleFilePanel.add(rb1);
-	
+
 		singleFilePanel.add(b);
 		singleFilePanel.add(text1);
 		singleFilePanel.add(csvList);
@@ -871,18 +922,6 @@ class GUI extends JFrame {
 								uploadEmployeeCSV(companyName, msg);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
-								dispose();
-								try {
-									UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-								} catch (Exception evt) {
-								}
-				                GUI gui = new GUI(companyName);
-				                gui.pack();
-				                gui.setLocationRelativeTo(null);
-				                gui.setVisible(true);
-								
-								
-								
 
 							}
 
@@ -927,6 +966,15 @@ class GUI extends JFrame {
 								uploadPropertyCSV(companyName, msg);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
+								dispose();
+								try {
+									UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+								} catch (Exception evt) {
+								}
+								GUI gui = new GUI(companyName);
+								gui.pack();
+								gui.setLocationRelativeTo(null);
+								gui.setVisible(true);
 							}
 
 						});
@@ -968,6 +1016,15 @@ class GUI extends JFrame {
 								uploadProductsCSV(companyName, msg);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
+								dispose();
+								try {
+									UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+								} catch (Exception evt) {
+								}
+								GUI gui = new GUI(companyName);
+								gui.pack();
+								gui.setLocationRelativeTo(null);
+								gui.setVisible(true);
 							}
 
 						});
@@ -1008,6 +1065,15 @@ class GUI extends JFrame {
 								uploadServiceCSV(companyName, msg);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
+								dispose();
+								try {
+									UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+								} catch (Exception evt) {
+								}
+								GUI gui = new GUI(companyName);
+								gui.pack();
+								gui.setLocationRelativeTo(null);
+								gui.setVisible(true);
 
 							}
 
@@ -1050,6 +1116,15 @@ class GUI extends JFrame {
 								uploadFinancialHoldingsCSV(companyName, msg);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
+								dispose();
+								try {
+									UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+								} catch (Exception evt) {
+								}
+								GUI gui = new GUI(companyName);
+								gui.pack();
+								gui.setLocationRelativeTo(null);
+								gui.setVisible(true);
 
 							}
 
@@ -1103,7 +1178,7 @@ class GUI extends JFrame {
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
 						.withType(Employee.class).withSkipLines(1).build().parse();
-				
+
 				if (beans.get(0).getId() != 1) {
 					beans = new CsvToBeanBuilder(new FileReader(file))
 							// we ask if the file contians headers upon radial selection it will skip first
@@ -1142,7 +1217,7 @@ class GUI extends JFrame {
 				e.printStackTrace();
 			}
 			progressBar.setValue(300);
-		
+
 			mongoClient.close();
 			JOptionPane.showMessageDialog(null, "CSV Upload Complete");
 
@@ -1179,7 +1254,7 @@ class GUI extends JFrame {
 							// header line
 							.withType(Property.class).withSkipLines(0).build().parse();
 					for (int x = 0; x < beans.size(); x++) {
-						
+
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("title", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
 						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
@@ -1215,6 +1290,7 @@ class GUI extends JFrame {
 		}
 
 	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadProductsCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
@@ -1280,6 +1356,7 @@ class GUI extends JFrame {
 		}
 
 	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void uploadServiceCSV(String CompanyName, String CollectionName) throws NumberFormatException {
 
@@ -1343,6 +1420,7 @@ class GUI extends JFrame {
 		}
 
 	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void uploadFinancialHoldingsCSV(String CompanyName, String CollectionName)
 			throws NumberFormatException {
@@ -1376,7 +1454,8 @@ class GUI extends JFrame {
 						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
 						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance()));
 						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
-						doc.append("account number", Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
+						doc.append("account number",
+								Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1387,7 +1466,8 @@ class GUI extends JFrame {
 						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
 						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance().toUpperCase()));
 						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
-						doc.append("account number", Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
+						doc.append("account number",
+								Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1409,6 +1489,7 @@ class GUI extends JFrame {
 		}
 
 	}
+
 	public static void uploadJSON(String CompanyName, String CollectionName) {
 
 		try {
@@ -1460,6 +1541,7 @@ class GUI extends JFrame {
 		}
 
 	}
+
 	public static String fileupload() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -1493,12 +1575,13 @@ class GUI extends JFrame {
 
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
+
 	// pass Jprogressbar as a parameter
-	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear, String ssn,
-			String occupation) {
+	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear,
+			String ssn, String occupation) {
 		ssn = ssn.replace("-", "");
 		Employee emp = new Employee(firstname, lastname, hireYear, ssn, occupation);
-		
+
 		progressBar1.setValue(300);
 		progressBar1.setVisible(true);
 
@@ -1520,7 +1603,7 @@ class GUI extends JFrame {
 			test.append("id", (collection.count() + 1));
 			test.append("first name", emp.getFirstName(true));
 			test.append("last name", emp.getLastName(true));
-			test.append("hire year",emp.getLastName(true));
+			test.append("hire year", emp.getLastName(true));
 			test.append("ssn", emp.getSSN(true));
 			test.append("occupation", emp.getOccupation(true));
 			System.out.println(emp.toString());
@@ -1533,6 +1616,7 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
+
 	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank) {
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
@@ -1566,6 +1650,7 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
+
 	public static void insertProperty(String CompanyName, String propertyName, String cost, String location) {
 		progressBar2.setValue(300);
 		progressBar2.setVisible(true);
@@ -1599,6 +1684,7 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
+
 	public static boolean insertProduct(String CompanyName, String productName, String cost, String category,
 			String supplier) {
 		ProductServices prod = new ProductServices(productName, cost, category, supplier);
@@ -1639,6 +1725,7 @@ class GUI extends JFrame {
 		}
 
 	}
+
 	public static void insertService(String CompanyName, String serviceName, String cost, String category) {
 
 		progressBar3.setValue(300);
@@ -1674,12 +1761,14 @@ class GUI extends JFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
-	
+
 	public static void main(String args[]) {
 		try {
 
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-
+			UIManager.getLookAndFeelDefaults().put("Button.background",null);
+            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
+           
 		} catch (Exception evt) {
 		}
 		// Create an instance of the test application

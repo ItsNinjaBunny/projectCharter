@@ -28,7 +28,7 @@ public class logIn {
 	//When testing use user name: "user" and password: "password" when entering in the user name and password fields
 	
     //https://beginnersbook.com/2015/07/java-swing-tutorial/
-	
+	//hide menus options make them pick home
 	//creates global variables that are utilized
     private static JPanel panel;
     private static JFrame frame;

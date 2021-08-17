@@ -699,7 +699,7 @@ public class Find {
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
 				
-				findProperty( "northwind",firstText.getText(), document);
+				findProperty( companyName,firstText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);

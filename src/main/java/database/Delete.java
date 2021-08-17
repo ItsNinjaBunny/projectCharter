@@ -30,7 +30,7 @@ public class Delete {
 	private static JPanel productPanel;
 	private static JPanel servicePanel;
 	private static JPanel financialPanel;
-	private static String db = "northwind";
+	
 	
 	private static MongoClient connectDatabase(String databaseName) {
 		
@@ -118,7 +118,7 @@ public class Delete {
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				Find.findEmployee(db, firstName, lastName, ssn, document);
+				Find.findEmployee(companyName, firstName, lastName, ssn, document);
 				
 				JList vector = new JList(document);
 								
@@ -137,7 +137,7 @@ public class Delete {
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
-						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoDatabase database = mongoClient.getDatabase(companyName);
 						MongoCollection<Document> collection = database.getCollection("Employees");
 						
 						String test = String.valueOf(vector.getSelectedValue());
@@ -223,7 +223,7 @@ public class Delete {
 				
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
-				Find.findProperty(db, propertyText.getText(), document);
+				Find.findProperty(companyName, propertyText.getText(), document);
 				
 				System.out.println(document.get(0));
 				@SuppressWarnings({ })
@@ -247,7 +247,7 @@ public class Delete {
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
-						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoDatabase database = mongoClient.getDatabase(companyName);
 						MongoCollection<Document> collection = database.getCollection("Properties");
 						
 						String test = String.valueOf(vector.getSelectedValue());
@@ -346,7 +346,7 @@ public class Delete {
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				Find.findProducts(db, product, category, supplier, document);
+				Find.findProducts(companyName, product, category, supplier, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -368,7 +368,7 @@ public class Delete {
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
-						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoDatabase database = mongoClient.getDatabase(companyName);
 						MongoCollection<Document> collection = database.getCollection("Products");
 						
 						String test = String.valueOf(vector.getSelectedValue());
@@ -468,7 +468,7 @@ public class Delete {
 				
 				
 				//insert find records for this type
-				Find.findService(db, service, category, document);
+				Find.findService(companyName, service, category, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -488,7 +488,7 @@ public class Delete {
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
-						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoDatabase database = mongoClient.getDatabase(companyName);
 						MongoCollection<Document> collection = database.getCollection("Services");
 						
 						String value = String.valueOf(vector.getSelectedValue());
@@ -588,7 +588,7 @@ public class Delete {
 				
 				
 				//insert find records for this type
-				Find.findFinancials(db, account, accID, bank, document);
+				Find.findFinancials(companyName, account, accID, bank, document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -608,7 +608,7 @@ public class Delete {
 					public void actionPerformed(ActionEvent e) {
 						
 						MongoClient mongoClient = connectDatabase(companyName);
-						MongoDatabase database = mongoClient.getDatabase(db);
+						MongoDatabase database = mongoClient.getDatabase(companyName);
 						MongoCollection<Document> collection = database.getCollection("Financial Holdings");
 						
 						String test = String.valueOf(vector.getSelectedValue());
