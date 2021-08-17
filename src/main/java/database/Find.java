@@ -50,8 +50,8 @@ public class Find {
 
 		try {
 			
-			firstName = Encrypt.encrpytData(firstName.toUpperCase());
-			lastName = Encrypt.encrpytData(lastName.toUpperCase());
+			firstName = Encrypt.encryptData(firstName.toUpperCase());
+			lastName = Encrypt.encryptData(lastName.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -189,7 +189,7 @@ public class Find {
 
 		try {
 			
-			property = Encrypt.encrpytData(property.toUpperCase());
+			property = Encrypt.encryptData(property.toUpperCase());
 			//propertyName = propertyName.toLowerCase();
 			Vector<Document> search = new Vector<>();
 			
@@ -228,9 +228,9 @@ public class Find {
 		try {
 			
 
-			product = Encrypt.encrpytData(product.toUpperCase());
-			category = Encrypt.encrpytData(category.toUpperCase());
-			supplier = Encrypt.encrpytData(supplier.toUpperCase());
+			product = Encrypt.encryptData(product.toUpperCase());
+			category = Encrypt.encryptData(category.toUpperCase());
+			supplier = Encrypt.encryptData(supplier.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -365,8 +365,8 @@ public class Find {
 		try {
 			//Decrypt p = new Decrypt();
 
-			service = Encrypt.encrpytData(service.toUpperCase());
-			category = Encrypt.encrpytData(category.toUpperCase());
+			service = Encrypt.encryptData(service.toUpperCase());
+			category = Encrypt.encryptData(category.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -421,9 +421,9 @@ public class Find {
 		try {
 		
 
-			accountName = Encrypt.encrpytData(accountName.toUpperCase());
-			accountID = Encrypt.encrpytData(accountID.toUpperCase());
-			bank =  Encrypt.encrpytData(bank.toUpperCase());
+			accountName = Encrypt.encryptData(accountName.toUpperCase());
+			accountID = Encrypt.encryptData(accountID.toUpperCase());
+			bank =  Encrypt.encryptData(bank.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			

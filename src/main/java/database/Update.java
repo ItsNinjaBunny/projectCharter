@@ -66,7 +66,7 @@ public class Update {
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(lastLabel);
-		list.add(hireYearLabel);
+		list.add(ssnLabel);
 		list.add(hireYearLabel);
 		list.add(occupationLabel);
 		hireYearLabel.setVisible(false);
@@ -223,8 +223,8 @@ public class Update {
 								//do update function here
 								resultID = Integer.parseInt(tester[0]);
 								
-								MongoClient mongoClient = connectDatabase("northwind");
-								MongoDatabase database = mongoClient.getDatabase("northwind");
+								MongoClient mongoClient = connectDatabase(companyName);
+								MongoDatabase database = mongoClient.getDatabase(companyName);
 								MongoCollection<Document> collection = database.getCollection("Employees");
 								
 								JOptionPane.showMessageDialog(null, "Updating...");
@@ -284,11 +284,11 @@ public class Update {
 		propertyPanel.setLayout(null);
 		JButton search = new JButton("SEARCH");
 				
-		JLabel firstLabel = new JLabel("Property Name: ");
+		JLabel propertyLabel = new JLabel("Property Name: ");
 		JLabel costLabel = new JLabel("Cost: ");
 		JLabel locationLabel = new JLabel("Location: ");
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
+		list.add(propertyLabel);
 		list.add(costLabel);
 		list.add(locationLabel);
 		costLabel.setVisible(false);
@@ -304,11 +304,11 @@ public class Update {
 			propertyPanel.add(label);
 		}
 		
-		JTextField property = new JTextField();
+		JTextField propertyText = new JTextField();
 		JTextField costText = new JTextField();
 		JTextField locationText = new JTextField();
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(property);
+		list1.add(propertyText);
 		list1.add(costText);
 		list1.add(locationText);
 		
@@ -330,6 +330,7 @@ public class Update {
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		propertyPanel.add(search);
+		
 		JButton upload = new JButton("UPLOAD");
 		upload.setBounds(320, 74, 100, 20);
 		upload.setVisible(false);
@@ -339,11 +340,8 @@ public class Update {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				resultID = Integer.parseInt(tester[0]);
 				
-				MongoClient mongoClient = connectDatabase("northwind");
-				MongoDatabase database = mongoClient.getDatabase("northwind");
-				MongoCollection<Document> collection = database.getCollection("Properties");
+				
 				
 				//do update function here
 				JOptionPane.showMessageDialog(null, "Updating...");
@@ -356,7 +354,7 @@ public class Update {
 				footnotes.removeAll();
 				costText.setText("");
 				locationText.setText("");
-				property.setText("");
+				propertyText.setText("");
 				
 				
 								
@@ -372,7 +370,7 @@ public class Update {
 				update.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
-				Find.findProperty(companyName,property.getText(), document);
+				Find.findProperty(companyName,propertyText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -400,7 +398,7 @@ public class Update {
 						update.setVisible(true);
 					
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
+						
 						System.out.println(test);
 						String[] result = test.split(": ");
 						String[] id = result[1].split(", ");
@@ -412,6 +410,48 @@ public class Update {
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
 						footnotes.add(scroll, BorderLayout.CENTER);
+						
+						upload.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								
+								MongoClient mongoClient = connectDatabase(companyName);
+								MongoDatabase database = mongoClient.getDatabase(companyName);
+								MongoCollection<Document> collection = database.getCollection("Properties");
+								
+								resultID = Integer.parseInt(tester[0]);
+								
+								JOptionPane.showMessageDialog(null, "uploading....");
+								
+								search.setVisible(true);
+								upload.setVisible(false);
+								propertyLabel.setVisible(false);
+								costLabel.setVisible(false);
+								locationLabel.setVisible(false);
+								footnotes.removeAll();
+								
+								String property = propertyText.getText().toUpperCase();
+								String cost = costText.getText().toUpperCase();
+								String location = locationText.getText().toUpperCase();
+								
+								if(!property.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("property name", Encrypt.encryptData(property)));
+								if(!cost.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost", cost));
+								if(!location.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("location", location));
+								
+								mongoClient.close();
+								propertyText.setText("");
+								costText.setText("");
+								locationText.setText("");;
+								footnotes.removeAll();
+								footnotes.revalidate();
+							}
+							
+							
+						});
 						
 					}
 				});
@@ -484,7 +524,6 @@ public class Update {
 		productPanel.add(realUpdate);
 		realUpdate.addActionListener(new ActionListener() {
 			
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//do update function here

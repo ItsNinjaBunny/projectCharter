@@ -63,7 +63,7 @@ public class FinancialHoldings implements java.io.Serializable {
     public String getAccountName(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(accountName);
+    		return Encrypt.encryptData(accountName);
     	}
     	else
     	{
@@ -82,7 +82,7 @@ public class FinancialHoldings implements java.io.Serializable {
     public String getBalance(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(balance);
+    		return Encrypt.encryptData(balance);
     	}
     	else
     	{
@@ -101,7 +101,7 @@ public class FinancialHoldings implements java.io.Serializable {
     public String getBankingInstitution(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(bankingInstitution);
+    		return Encrypt.encryptData(bankingInstitution);
     	}
     	else
     	{
@@ -119,7 +119,7 @@ public class FinancialHoldings implements java.io.Serializable {
     public String getAccountNumber(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(accountNumber);
+    		return Encrypt.encryptData(accountNumber);
     	}
     	else
     	{

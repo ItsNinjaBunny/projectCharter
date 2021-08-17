@@ -1187,11 +1187,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName().toUpperCase()));
-						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName().toUpperCase()));
-						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear().toUpperCase()));
-						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "").toUpperCase()));
-						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation().toUpperCase()));
+						doc.append("first name", Encrypt.encryptData(beans.get(x).getFirstName().toUpperCase()));
+						doc.append("last name", Encrypt.encryptData(beans.get(x).getLastName().toUpperCase()));
+						doc.append("hire year", Encrypt.encryptData(beans.get(x).getHireYear().toUpperCase()));
+						doc.append("ssn", Encrypt.encryptData(beans.get(x).getSSN().replace("-", "").toUpperCase()));
+						doc.append("occupation", Encrypt.encryptData(beans.get(x).getOccupation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1199,11 +1199,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName().toUpperCase()));
-						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName().toUpperCase()));
-						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear().toUpperCase()));
-						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "").toUpperCase()));
-						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation().toUpperCase()));
+						doc.append("first name", Encrypt.encryptData(beans.get(x).getFirstName().toUpperCase()));
+						doc.append("last name", Encrypt.encryptData(beans.get(x).getLastName().toUpperCase()));
+						doc.append("hire year", Encrypt.encryptData(beans.get(x).getHireYear().toUpperCase()));
+						doc.append("ssn", Encrypt.encryptData(beans.get(x).getSSN().replace("-", "").toUpperCase()));
+						doc.append("occupation", Encrypt.encryptData(beans.get(x).getOccupation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1256,9 +1256,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("title", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
-						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
-						doc.append("location", Encrypt.encrpytData(beans.get(x).getLocation().toUpperCase()));
+						doc.append("title", Encrypt.encryptData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encryptData(beans.get(x).getCost().toUpperCase()));
+						doc.append("location", Encrypt.encryptData(beans.get(x).getLocation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1266,9 +1266,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("property name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
-						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
-						doc.append("location", Encrypt.encrpytData(beans.get(x).getLocation().toUpperCase()));
+						doc.append("property name", Encrypt.encryptData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encryptData(beans.get(x).getCost().toUpperCase()));
+						doc.append("location", Encrypt.encryptData(beans.get(x).getLocation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1320,10 +1320,10 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("product name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
-						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
-						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
-						doc.append("supplier", Encrypt.encrpytData(beans.get(x).getSupplier().toUpperCase()));
+						doc.append("product name", Encrypt.encryptData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encryptData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encryptData(beans.get(x).getCategory().toUpperCase()));
+						doc.append("supplier", Encrypt.encryptData(beans.get(x).getSupplier().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1331,10 +1331,10 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("product name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
-						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
-						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
-						doc.append("supplier", Encrypt.encrpytData(beans.get(x).getSupplier().toUpperCase()));
+						doc.append("product name", Encrypt.encryptData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encryptData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encryptData(beans.get(x).getCategory().toUpperCase()));
+						doc.append("supplier", Encrypt.encryptData(beans.get(x).getSupplier().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1386,9 +1386,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("service name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
-						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
-						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
+						doc.append("service name", Encrypt.encryptData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encryptData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encryptData(beans.get(x).getCategory().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1396,9 +1396,9 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("service name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
-						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
-						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
+						doc.append("service name", Encrypt.encryptData(beans.get(x).getTitle().toUpperCase()));
+						doc.append("cost", Encrypt.encryptData(beans.get(x).getCost().toUpperCase()));
+						doc.append("category", Encrypt.encryptData(beans.get(x).getCategory().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1451,11 +1451,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
-						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance()));
-						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
+						doc.append("account name", Encrypt.encryptData(beans.get(x).getAccountName().toUpperCase()));
+						doc.append("balance", Encrypt.encryptData(beans.get(x).getBalance()));
+						doc.append("bank", Encrypt.encryptData(beans.get(x).getBankingInstitution().toUpperCase()));
 						doc.append("account number",
-								Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
+								Encrypt.encryptData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1463,11 +1463,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
-						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance().toUpperCase()));
-						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
+						doc.append("account name", Encrypt.encryptData(beans.get(x).getAccountName().toUpperCase()));
+						doc.append("balance", Encrypt.encryptData(beans.get(x).getBalance().toUpperCase()));
+						doc.append("bank", Encrypt.encryptData(beans.get(x).getBankingInstitution().toUpperCase()));
 						doc.append("account number",
-								Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
+								Encrypt.encryptData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}

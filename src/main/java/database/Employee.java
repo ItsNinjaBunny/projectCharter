@@ -63,7 +63,7 @@ public class Employee implements java.io.Serializable {
     public String getFirstName(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(firstName);
+    		return Encrypt.encryptData(firstName);
     	}
     	else
     	{
@@ -83,7 +83,7 @@ public class Employee implements java.io.Serializable {
     public String getLastName(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(lastName);
+    		return Encrypt.encryptData(lastName);
     	}
     	else
     	{
@@ -103,7 +103,7 @@ public class Employee implements java.io.Serializable {
     public String getHireYear(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(hireYear);
+    		return Encrypt.encryptData(hireYear);
     	}
     	else
     	{
@@ -122,7 +122,7 @@ public class Employee implements java.io.Serializable {
     public String getSSN(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(ssn);
+    		return Encrypt.encryptData(ssn);
     	}
     	else
     	{
@@ -141,7 +141,7 @@ public class Employee implements java.io.Serializable {
     public String getOccupation(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(occupation);
+    		return Encrypt.encryptData(occupation);
     	}
     	else
     	{

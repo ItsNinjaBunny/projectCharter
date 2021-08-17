@@ -53,7 +53,7 @@ public class Property implements java.io.Serializable {
     public String getTitle(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(propertyName);
+    		return Encrypt.encryptData(propertyName);
     	}
     	else
     	{
@@ -72,7 +72,7 @@ public class Property implements java.io.Serializable {
     public String getCost(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(cost);
+    		return Encrypt.encryptData(cost);
     	}
     	else
     	{
@@ -91,7 +91,7 @@ public class Property implements java.io.Serializable {
     public String getLocation(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(location);
+    		return Encrypt.encryptData(location);
     	}
     	else
     	{

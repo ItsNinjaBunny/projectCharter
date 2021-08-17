@@ -8,7 +8,7 @@ public class Encrypt{
 
 	private static Base64.Encoder encoder = Base64.getEncoder();
 	
-	public static String encrpytData(String data)
+	public static String encryptData(String data)
 	{
 		String strEncrypted = encoder.encodeToString(data.getBytes(StandardCharsets.UTF_8));
 		

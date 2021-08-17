@@ -64,7 +64,7 @@ public class ProductServices implements java.io.Serializable {
     public String getTitle(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(title);
+    		return Encrypt.encryptData(title);
     	}
     	else
     	{
@@ -84,7 +84,7 @@ public class ProductServices implements java.io.Serializable {
     public String getCost(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(cost);
+    		return Encrypt.encryptData(cost);
     	}
     	else
     	{
@@ -104,7 +104,7 @@ public class ProductServices implements java.io.Serializable {
     public String getCategory(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(category);
+    		return Encrypt.encryptData(category);
     	}
     	else
     	{
@@ -122,7 +122,7 @@ public class ProductServices implements java.io.Serializable {
     public String getSupplier(boolean encode) {
     	if(encode==true)
     	{
-    		return Encrypt.encrpytData(supplier);
+    		return Encrypt.encryptData(supplier);
     	}
     	else
     	{
