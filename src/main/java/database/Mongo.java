@@ -151,6 +151,7 @@ public class Mongo {
 				try (BufferedReader br = new BufferedReader(new FileReader(fileupload()))) {
 				      String line;
 				      while ((line = br.readLine()) != null) {
+				    	  System.out.println(line);
 				         docs.add(new InsertOneModel<>(Document.parse(line)));
 				         count++;
 				         if (count == batch) {

@@ -5,7 +5,7 @@ import java.util.Base64;
 public class Decrypt {
 
 	
-private static Base64.Decoder dec = Base64.getDecoder();
+private static Base64.Decoder dec = Base64.getMimeDecoder();
 	
 	/*
 	 * 	IF you receive an "Illegal Argument Exception" or other type of error from this method:
@@ -16,5 +16,8 @@ private static Base64.Decoder dec = Base64.getDecoder();
 		 String decodedData = new String(dec.decode(data));
 		 
 		 return decodedData;
+	}
+	public static void main(String[] args) {
+		System.out.println(decryptData("SFVNQU4gUkVTT1VSQ0VT"));
 	}
 }

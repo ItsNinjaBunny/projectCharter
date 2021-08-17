@@ -57,7 +57,7 @@ public class Employee implements java.io.Serializable {
     
     
     public String getFirstName() {
-        return Encrypt.encrpytData(firstName);
+        return firstName;
     }
     
     public String getFirstName(boolean encode) {
@@ -136,7 +136,7 @@ public class Employee implements java.io.Serializable {
     
     
     public String getOccupation() {
-        return Encrypt.encrpytData(occupation);
+        return occupation;
     }
     public String getOccupation(boolean encode) {
     	if(encode==true)

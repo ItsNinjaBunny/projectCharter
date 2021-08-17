@@ -544,13 +544,7 @@ public class Update {
 						jOccupation.setVisible(true);
 						lHireYear.setVisible(true);
 						lOccupation.setVisible(true);
-						
-						firstText.setText(result[2].replace("last name", ""));
-						lastText.setText(result[3].replace("hire year", ""));
-						hireText.setText(result[6].replace("occupation", ""));
-						lHireYear.setText(result[4].replace("ssn",""));
-						lOccupation.setText(result[5]);
-						
+
 						realUpdate.addActionListener(new ActionListener() {
 							
 							@SuppressWarnings({ "rawtypes", "unchecked" })

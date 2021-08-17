@@ -80,10 +80,9 @@ class GUI extends JFrame {
 		return this.companyName;
 	}
 
-	JPanel topPanel;
+	private static JPanel topPanel;
 
 	public GUI(String companyName) {
-
 		this.companyName = companyName;
 
 		setTitle("Menu - CompanyVault.exe");
@@ -123,7 +122,7 @@ class GUI extends JFrame {
 
 	}
 
-	String[] messages = { "Select", "Single File Upload", "Manual File Entry" };
+	String[] messages = { "Select","Single File Upload", "Manual File Entry" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox messageList = new JComboBox(messages);
 	JButton goButton = new JButton("GO");
@@ -148,21 +147,23 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			panel3.removeAll();
+				topPanel.removeAll();
+				topPanel.revalidate();
+				panel3.removeAll();
 				setTitle("Find Records - CompanyVault.exe");
+				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane2);
-				topPanel.removeAll();
-				topPanel.revalidate();
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				splitPaneV.setDividerLocation(300);
 				panel3.setBorder(blackline);
-				
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
 				topPanel.add(splitPaneV, BorderLayout.CENTER);
+				topPanel.revalidate();
+				revalidate();
 			}
 		});
 		
@@ -172,6 +173,7 @@ class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panel3.removeAll();
 				setTitle("Update Records - CompanyVault.exe");
+				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
@@ -185,6 +187,7 @@ class GUI extends JFrame {
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
 				topPanel.add(splitPaneV);
+				topPanel.revalidate();
 			}
 		});
 		deleteButton.addActionListener(new ActionListener() {
@@ -192,7 +195,9 @@ class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel3.removeAll();
+				topPanel.removeAll();
 				setTitle("Find Records - CompanyVault.exe");
+				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
@@ -206,6 +211,7 @@ class GUI extends JFrame {
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
 				topPanel.add(splitPaneV, BorderLayout.CENTER);
+				topPanel.revalidate();
 			}
 		});
 		directory.add(insertButton);
@@ -228,13 +234,11 @@ class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				topPanel.removeAll();
 				topPanel.revalidate();
-				topPanel.add(splitPaneH, BorderLayout.CENTER);
 				setTitle("Menu - CompanyVault.exe");
-				splitPaneH.setEnabled(false);
-				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(temp);
-				
+				topPanel.add(splitPaneH, BorderLayout.CENTER);
+				topPanel.revalidate();
 //				creating third panel from current screen layout 
 //				if needed and to undo off other screens just redo topPanel
 //				topPanel.removeAll();
@@ -277,9 +281,9 @@ class GUI extends JFrame {
 
 									@Override
 									public void actionPerformed(ActionEvent e) {
-
+										splitPaneH.setLeftComponent(directory);
 										splitPaneH.setRightComponent(singleFilePanel);
-										pack();
+										
 
 									}
 
@@ -291,7 +295,7 @@ class GUI extends JFrame {
 
 									@Override
 									public void actionPerformed(ActionEvent e) {
-
+										splitPaneH.setLeftComponent(directory);
 										splitPaneH.setRightComponent(pane);
 
 									}
@@ -334,8 +338,11 @@ class GUI extends JFrame {
 				insertRecords.add(messageList);
 				insertRecords.add(text);
 				setTitle("InsertRecords - CompanyVault.exe");
-				splitPaneH.setLeftComponent(directory);
+				
+				splitPaneH.setEnabled(false);
+				splitPaneV.setEnabled(false);
 				splitPaneH.setRightComponent(insertRecords);
+				splitPaneH.setLeftComponent(directory);
 				topPanel.removeAll();
 				topPanel.revalidate();
 				topPanel.add(splitPaneH, BorderLayout.CENTER);
@@ -417,14 +424,14 @@ class GUI extends JFrame {
 					progressBar1.setVisible(true);
 					progressBar1.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Employee...");
-					int hireYear = Integer.parseInt(lHireYear.getText());
+					
 					p.revalidate();
 
 					Encrypt p2 = new Encrypt();
 					String ssn = lSocial.getText().replace("-", "");
 					// make all strings capital then encode them then put them in the
 					// insert methods do this for all uploads csv and manual entry
-					insertEmployee(companyName, lFirstName.getText(), lLastName.getText(), hireYear, p2.shiftChars(ssn),
+					insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),lHireYear.getText(), ssn,
 							lOccupation.getText());
 					lFirstName.setText("");
 					lLastName.setText("");
@@ -485,8 +492,8 @@ class GUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
 					p.revalidate();
-					Double balance = Double.parseDouble(lBalance.getText());
-					insertFinance(companyName, lAccountName.getText(), balance, lBank.getText());
+
+					insertFinance(companyName, lAccountName.getText(), lBalance.getText(), lBank.getText());
 					lAccountName.setText("");
 					lBalance.setText("");
 					lBank.setText("");
@@ -541,8 +548,8 @@ class GUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Uploading Finances...");
 
 					p.revalidate();
-					double cost = Double.parseDouble(lCost.getText());
-					insertProperty(companyName, lPropertyName.getText(), cost, lLocation.getText());
+					
+					insertProperty(companyName, lPropertyName.getText(),lCost.getText(), lLocation.getText());
 					lPropertyName.setText("");
 					lCost.setText("");
 					lLocation.setText("");
@@ -654,12 +661,12 @@ class GUI extends JFrame {
 					progressBar4.setValue(0);
 
 				} else {
-					double cost = Double.parseDouble(lCost.getText());
+
 					progressBar4.setValue(40);
 					progressBar4.setVisible(true);
 					progressBar4.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Product...");
-					insertProduct(companyName, lProductName.getText(), cost, lCategory.getText(), lSupplier.getText());
+					insertProduct(companyName, lProductName.getText(), lCost.getText(), lCategory.getText(), lSupplier.getText());
 					lProductName.setText("");
 					lCost.setText("");
 					lCategory.setText("");
@@ -797,7 +804,7 @@ class GUI extends JFrame {
 		csvList.setSelectedIndex(0);
 		singleFilePanel.add(text);
 		singleFilePanel.add(rb1);
-		singleFilePanel.add(rb2);
+	
 		singleFilePanel.add(b);
 		singleFilePanel.add(text1);
 		singleFilePanel.add(csvList);
@@ -864,6 +871,18 @@ class GUI extends JFrame {
 								uploadEmployeeCSV(companyName, msg);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
+								dispose();
+								try {
+									UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+								} catch (Exception evt) {
+								}
+				                GUI gui = new GUI(companyName);
+				                gui.pack();
+				                gui.setLocationRelativeTo(null);
+				                gui.setVisible(true);
+								
+								
+								
 
 							}
 
@@ -881,6 +900,8 @@ class GUI extends JFrame {
 								text2.setVisible(false);
 								text3.setVisible(false);
 								uploadJSON(companyName, msg);
+								splitPaneH.setLeftComponent(directory);
+								splitPaneH.setRightComponent(temp);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
 
@@ -1092,10 +1113,10 @@ class GUI extends JFrame {
 
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName().toUpperCase()));
-						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName()));
-						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear()));
-						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "")));
-						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation()));
+						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName().toUpperCase()));
+						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear().toUpperCase()));
+						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "").toUpperCase()));
+						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				} else {
@@ -1103,11 +1124,11 @@ class GUI extends JFrame {
 					for (int x = 0; x < beans.size(); x++) {
 
 						Document doc = new Document("id", beans.get(x).getId());
-						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName()));
-						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName()));
-						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear()));
-						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "")));
-						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation()));
+						doc.append("first name", Encrypt.encrpytData(beans.get(x).getFirstName().toUpperCase()));
+						doc.append("last name", Encrypt.encrpytData(beans.get(x).getLastName().toUpperCase()));
+						doc.append("hire year", Encrypt.encrpytData(beans.get(x).getHireYear().toUpperCase()));
+						doc.append("ssn", Encrypt.encrpytData(beans.get(x).getSSN().replace("-", "").toUpperCase()));
+						doc.append("occupation", Encrypt.encrpytData(beans.get(x).getOccupation().toUpperCase()));
 						collection.insertOne(doc);
 					}
 				}
@@ -1121,6 +1142,7 @@ class GUI extends JFrame {
 				e.printStackTrace();
 			}
 			progressBar.setValue(300);
+		
 			mongoClient.close();
 			JOptionPane.showMessageDialog(null, "CSV Upload Complete");
 
@@ -1157,7 +1179,7 @@ class GUI extends JFrame {
 							// header line
 							.withType(Property.class).withSkipLines(0).build().parse();
 					for (int x = 0; x < beans.size(); x++) {
-
+						
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("title", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
 						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
@@ -1237,6 +1259,7 @@ class GUI extends JFrame {
 						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
 						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
 						doc.append("supplier", Encrypt.encrpytData(beans.get(x).getSupplier().toUpperCase()));
+						collection.insertOne(doc);
 					}
 				}
 
@@ -1299,6 +1322,7 @@ class GUI extends JFrame {
 						doc.append("service name", Encrypt.encrpytData(beans.get(x).getTitle().toUpperCase()));
 						doc.append("cost", Encrypt.encrpytData(beans.get(x).getCost().toUpperCase()));
 						doc.append("category", Encrypt.encrpytData(beans.get(x).getCategory().toUpperCase()));
+						collection.insertOne(doc);
 					}
 				}
 
@@ -1350,7 +1374,7 @@ class GUI extends JFrame {
 
 						Document doc = new Document("id", beans.get(x).getId());
 						doc.append("account name", Encrypt.encrpytData(beans.get(x).getAccountName().toUpperCase()));
-						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance().toUpperCase()));
+						doc.append("balance", Encrypt.encrpytData(beans.get(x).getBalance()));
 						doc.append("bank", Encrypt.encrpytData(beans.get(x).getBankingInstitution().toUpperCase()));
 						doc.append("account number", Encrypt.encrpytData(beans.get(x).getAccountNumber().toUpperCase()));
 						collection.insertOne(doc);

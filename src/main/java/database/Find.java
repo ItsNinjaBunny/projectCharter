@@ -27,6 +27,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import Encryption.Decrypt;
+import Encryption.Encrypt;
 
 public class Find {
 	private static JPanel panel;
@@ -48,10 +49,9 @@ public class Find {
 	public static void findEmployee(String databaseName, String firstName, String lastName, String SSN, DefaultListModel document) {
 
 		try {
-			Decrypt p = new Decrypt();
-
-			//firstName = firstName.toLowerCase();
-			//lastName = lastName.toLowerCase();
+			
+			firstName = Encrypt.encrpytData(firstName.toUpperCase());
+			lastName = Encrypt.encrpytData(lastName.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -76,10 +76,10 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
-								+ search.get(i).get("first name") + ", last name: "
-								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
-								+ ", occupation: " + search.get(i).get("occupation")));
+								+ Decrypt.decryptData(search.get(i).get("first name").toString()) + ", last name: "
+								+ Decrypt.decryptData(search.get(i).get("last name").toString()) + ", hire year: " + Decrypt.decryptData(search.get(i).get("hire year").toString())
+								+ ", ssn: " + Decrypt.decryptData(search.get(i).get("ssn").toString())
+								+ ", occupation: " + Decrypt.decryptData(search.get(i).get("occupation").toString())));
 						i++;
 					}
 
@@ -93,11 +93,11 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
-								+ search.get(i).get("first name") + ", last name: "
-								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
-								+ ", occupation: " + search.get(i).get("occupation")));
-						i++;
+								+ Decrypt.decryptData(search.get(i).get("first name").toString()) + ", last name: "
+								+ Decrypt.decryptData(search.get(i).get("last name").toString()) + ", hire year: " + Decrypt.decryptData(search.get(i).get("hire year").toString())
+								+ ", ssn: " + Decrypt.decryptData(search.get(i).get("ssn").toString())
+								+ ", occupation: " + Decrypt.decryptData(search.get(i).get("occupation").toString())));
+					i++;
 					}
 					mongoClient.close();
 				} else {
@@ -109,11 +109,11 @@ public class Find {
 						search.add((Document) it.next());
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
-								+ search.get(i).get("first name") + ", last name: "
-								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
-								+ ", occupation: " + search.get(i).get("occupation")));
-						i++;
+								+ Decrypt.decryptData(search.get(i).get("first name").toString()) + ", last name: "
+								+ Decrypt.decryptData(search.get(i).get("last name").toString()) + ", hire year: " + Decrypt.decryptData(search.get(i).get("hire year").toString())
+								+ ", ssn: " + Decrypt.decryptData(search.get(i).get("ssn").toString())
+								+ ", occupation: " + Decrypt.decryptData(search.get(i).get("occupation").toString())));
+					i++;
 					}
 
 					mongoClient.close();
@@ -129,11 +129,11 @@ public class Find {
 							search.add((Document) it.next());
 
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
-									+ search.get(i).get("first name") + ", last name: "
-									+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-									+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
-									+ ", occupation: " + search.get(i).get("occupation")));
-							i++;
+									+ Decrypt.decryptData(search.get(i).get("first name").toString()) + ", last name: "
+									+ Decrypt.decryptData(search.get(i).get("last name").toString()) + ", hire year: " + Decrypt.decryptData(search.get(i).get("hire year").toString())
+									+ ", ssn: " + Decrypt.decryptData(search.get(i).get("ssn").toString())
+									+ ", occupation: " + Decrypt.decryptData(search.get(i).get("occupation").toString())));
+						i++;
 						}
 
 						mongoClient.close();
@@ -147,11 +147,11 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
-								+ search.get(i).get("first name") + ", last name: "
-								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
-								+ ", occupation: " + search.get(i).get("occupation")));
-						i++;
+								+ Decrypt.decryptData(search.get(i).get("first name").toString()) + ", last name: "
+								+ Decrypt.decryptData(search.get(i).get("last name").toString()) + ", hire year: " + Decrypt.decryptData(search.get(i).get("hire year").toString())
+								+ ", ssn: " + Decrypt.decryptData(search.get(i).get("ssn").toString())
+								+ ", occupation: " + Decrypt.decryptData(search.get(i).get("occupation").toString())));
+					i++;
 					}
 
 					mongoClient.close();
@@ -164,11 +164,11 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", first name: "
-								+ search.get(i).get("first name") + ", last name: "
-								+ search.get(i).get("last name") + ", hire year: " + search.get(i).get("hire year")
-								+ ", ssn: " + p.decryptData(search.get(i).get("ssn").toString())
-								+ ", occupation: " + search.get(i).get("occupation")));
-						i++;
+								+ Decrypt.decryptData(search.get(i).get("first name").toString()) + ", last name: "
+								+ Decrypt.decryptData(search.get(i).get("last name").toString()) + ", hire year: " + Decrypt.decryptData(search.get(i).get("hire year").toString())
+								+ ", ssn: " + Decrypt.decryptData(search.get(i).get("ssn").toString())
+								+ ", occupation: " + Decrypt.decryptData(search.get(i).get("occupation").toString())));
+					i++;
 					}
 
 					mongoClient.close();
@@ -188,8 +188,8 @@ public class Find {
 	public static void findProperty(String databaseName, String property, DefaultListModel document) {
 
 		try {
-			//Decrypt p = new Decrypt();
-
+			
+			property = Encrypt.encrpytData(property.toUpperCase());
 			//propertyName = propertyName.toLowerCase();
 			Vector<Document> search = new Vector<>();
 			
@@ -205,15 +205,14 @@ public class Find {
 			int i = 0;
 			
 			//filter what to search for
-			query.append("property name", property);
+			query.append("property name",property);
 			doc = collection.find(query);
 			it = doc.iterator();
 			while (it.hasNext()) {
 					search.add((Document) it.next());
-
-				document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", property name: "
-					+ search.get(i).get("property name") + ", cost: $" + search.get(i).get("cost")
-					+ ", location: " + search.get(i).get("location")));
+					document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", property name: "
+					+ Decrypt.decryptData(search.get(i).get("property name").toString()) + ", cost: $" +  Decrypt.decryptData(search.get(i).get("cost").toString())
+					+ ", location: " +Decrypt.decryptData(search.get(i).get("location").toString())));
 					i++;
 			}
 			mongoClient.close();
@@ -227,11 +226,11 @@ public class Find {
 	public static void findProducts(String databaseName, String product, String category, String supplier, DefaultListModel document) {
 
 		try {
-			Decrypt p = new Decrypt();
+			
 
-			//productName = productName.toLowerCase();
-			//category = category.toLowerCase();
-			//supplier = supplier.toLowerCase();
+			product = Encrypt.encrpytData(product.toUpperCase());
+			category = Encrypt.encrpytData(category.toUpperCase());
+			supplier = Encrypt.encrpytData(supplier.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -257,9 +256,9 @@ public class Find {
 
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
-								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
-								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptData(search.get(i).get("cost").toString())));
+								+ Decrypt.decryptData(search.get(i).get("product name").toString()) + ", category: " + Decrypt.decryptData(search.get(i).get("category").toString()) 
+								+ ", supplier: " + Decrypt.decryptData(search.get(i).get("supplier").toString())  + ",cost: "
+								+ Decrypt.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -273,9 +272,9 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
-								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
-								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptData(search.get(i).get("cost").toString())));
+								+ Decrypt.decryptData(search.get(i).get("product name").toString()) + ", category: " + Decrypt.decryptData(search.get(i).get("category").toString()) 
+								+ ", supplier: " + Decrypt.decryptData(search.get(i).get("supplier").toString())  + ",cost: "
+								+ Decrypt.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -289,9 +288,9 @@ public class Find {
 						search.add((Document) it.next());
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
-								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
-								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptData(search.get(i).get("cost").toString())));
+								+ Decrypt.decryptData(search.get(i).get("product name").toString()) + ", category: " + Decrypt.decryptData(search.get(i).get("category").toString()) 
+								+ ", supplier: " + Decrypt.decryptData(search.get(i).get("supplier").toString())  + ",cost: "
+								+ Decrypt.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -308,9 +307,9 @@ public class Find {
 							search.add((Document) it.next());
 
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
-									+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
-									+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-									+ p.decryptData(search.get(i).get("cost").toString())));
+									+ Decrypt.decryptData(search.get(i).get("product name").toString()) + ", category: " + Decrypt.decryptData(search.get(i).get("category").toString()) 
+									+ ", supplier: " + Decrypt.decryptData(search.get(i).get("supplier").toString())  + ",cost: "
+									+ Decrypt.decryptData(search.get(i).get("cost").toString())));
 							i++;
 						}
 
@@ -325,9 +324,9 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
-								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
-								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptData(search.get(i).get("cost").toString())));
+								+ Decrypt.decryptData(search.get(i).get("product name").toString()) + ", category: " + Decrypt.decryptData(search.get(i).get("category").toString()) 
+								+ ", supplier: " + Decrypt.decryptData(search.get(i).get("supplier").toString())  + ",cost: "
+								+ Decrypt.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -341,9 +340,9 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", product name: "
-								+ search.get(i).get("product name") + ", category: " + search.get(i).get("category")
-								+ ", supplier: " + search.get(i).get("supplier") + ",cost: "
-								+ p.decryptData(search.get(i).get("cost").toString())));
+								+ Decrypt.decryptData(search.get(i).get("product name").toString()) + ", category: " + Decrypt.decryptData(search.get(i).get("category").toString()) 
+								+ ", supplier: " + Decrypt.decryptData(search.get(i).get("supplier").toString())  + ",cost: "
+								+ Decrypt.decryptData(search.get(i).get("cost").toString())));
 						i++;
 					}
 
@@ -366,8 +365,8 @@ public class Find {
 		try {
 			//Decrypt p = new Decrypt();
 
-			//serviceName = serviceName.toLowerCase();
-			//category = category.toLowerCase();
+			service = Encrypt.encrpytData(service.toUpperCase());
+			category = Encrypt.encrpytData(category.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -391,8 +390,8 @@ public class Find {
 					search.add((Document) it.next());
 	
 					document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", service name: "
-						+ search.get(i).get("service name") + ", cost: " + search.get(i).get("cost")
-						+ ", category: " + search.get(i).get("category")));
+							+ Decrypt.decryptData(search.get(i).get("service name").toString()) + ", cost: " + Decrypt.decryptData(search.get(i).get("cost").toString())
+							+ ", category: " + Decrypt.decryptData(search.get(i).get("category").toString())));
 					i++;
 				}
 			}
@@ -404,8 +403,8 @@ public class Find {
 					search.add((Document) it.next());
 	
 					document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", service name: "
-							+ search.get(i).get("service name") + ", cost: " + search.get(i).get("cost")
-							+ ", category: " + search.get(i).get("category")));
+							+ Decrypt.decryptData(search.get(i).get("service name").toString()) + ", cost: " + Decrypt.decryptData(search.get(i).get("cost").toString())
+							+ ", category: " + Decrypt.decryptData(search.get(i).get("category").toString())));
 					i++;
 				}
 			}
@@ -418,13 +417,13 @@ public class Find {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void findFinancials(String databaseName, String accountName, String accountID, String bank, DefaultListModel document) {
-
+//work on find encryupt search decrypt output
 		try {
-			Decrypt p = new Decrypt();
+		
 
-			//accountName = accountName.toLowerCase();
-			//accountID = accountID.toLowerCase();
-			//bank = bank.toLowerCase();
+			accountName = Encrypt.encrpytData(accountName.toUpperCase());
+			accountID = Encrypt.encrpytData(accountID.toUpperCase());
+			bank =  Encrypt.encrpytData(bank.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
 			
@@ -449,15 +448,15 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
-								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
-								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptData(search.get(i).get("balance").toString())));
+								+  Decrypt.decryptData(search.get(i).get("account name").toString()) + ", account number: " + Decrypt.decryptData(search.get(i).get("account number").toString())
+								+ ", bank: " +  Decrypt.decryptData(search.get(i).get("bank").toString()) + ", balance: "
+								+  Decrypt.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
 					mongoClient.close();
 				} else if (!bank.isEmpty()) {
-					query.append("accountID", accountID).append("bank", bank);
+					query.append("account number", accountID).append("bank", bank);
 
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -465,15 +464,15 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
-								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
-								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptData(search.get(i).get("balance").toString())));
+								+  Decrypt.decryptData(search.get(i).get("account name").toString()) + ", account number: " + Decrypt.decryptData(search.get(i).get("account number").toString())
+								+ ", bank: " +  Decrypt.decryptData(search.get(i).get("bank").toString()) + ", balance: "
+								+  Decrypt.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
 					mongoClient.close();
 				} else {
-					query.append("account ID", accountID);
+					query.append("account number", accountID);
 
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -481,9 +480,9 @@ public class Find {
 						search.add((Document) it.next());
 						
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
-								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
-								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptData(search.get(i).get("balance").toString())));
+								+  Decrypt.decryptData(search.get(i).get("account name").toString()) + ", account number: " + Decrypt.decryptData(search.get(i).get("account number").toString())
+								+ ", bank: " +  Decrypt.decryptData(search.get(i).get("bank").toString()) + ", balance: "
+								+  Decrypt.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
@@ -500,16 +499,16 @@ public class Find {
 							search.add((Document) it.next());
 
 							document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
-									+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
-									+ ", bank: " + search.get(i).get("bank") + ", balance: "
-									+ p.decryptData(search.get(i).get("balance").toString())));
+									+  Decrypt.decryptData(search.get(i).get("account name").toString()) + ", account number: " + Decrypt.decryptData(search.get(i).get("account number").toString())
+									+ ", bank: " +  Decrypt.decryptData(search.get(i).get("bank").toString()) + ", balance: "
+									+  Decrypt.decryptData(search.get(i).get("balance").toString())));
 							i++;
 						}
 
 						mongoClient.close();
 					}
 				} else if (bank.isEmpty()) {
-					query.append("account name", accountName).append("account ID", accountID);
+					query.append("account name", accountName).append("account number", accountID);
 
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -517,15 +516,15 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
-								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
-								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptData(search.get(i).get("balance").toString())));
+								+  Decrypt.decryptData(search.get(i).get("account name").toString()) + ", account ID: " + Decrypt.decryptData(search.get(i).get("account ID").toString())
+								+ ", bank: " +  Decrypt.decryptData(search.get(i).get("bank").toString()) + ", balance: "
+								+  Decrypt.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
 					mongoClient.close();
 				} else {
-					query.append("account name", accountName).append("account ID", accountID).append("bank", bank);
+					query.append("account name", accountName).append("account number", accountID).append("bank", bank);
 
 					doc = collection.find(query);
 					it = doc.iterator();
@@ -533,9 +532,9 @@ public class Find {
 						search.add((Document) it.next());
 
 						document.addElement("id: " + String.valueOf(search.get(i).get("id") + ", account name: "
-								+ search.get(i).get("account name") + ", account ID: " + search.get(i).get("account ID")
-								+ ", bank: " + search.get(i).get("bank") + ", balance: "
-								+ p.decryptData(search.get(i).get("balance").toString())));
+								+  Decrypt.decryptData(search.get(i).get("account name").toString()) + ", account ID: " + Decrypt.decryptData(search.get(i).get("account ID").toString())
+								+ ", bank: " +  Decrypt.decryptData(search.get(i).get("bank").toString()) + ", balance: "
+								+  Decrypt.decryptData(search.get(i).get("balance").toString())));
 						i++;
 					}
 
@@ -599,10 +598,6 @@ public class Find {
 		button.setBounds(320, 52, 100, 20);
 		panel.add(button);
 		
-		JButton update = new JButton("update");
-		update.setBounds(320, 52, 100, 20);
-		panel.add(update);
-		update.setVisible(false);
 		button.addActionListener(new ActionListener() {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -616,8 +611,7 @@ public class Find {
 				footnotes.removeAll();
 				footnotes.revalidate();
 			
-				button.setVisible(false);
-				update.setVisible(true);
+				button.setVisible(true);
 				
 				
 				String firstName = firstText.getText();
@@ -642,20 +636,7 @@ public class Find {
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
-				update.addActionListener(new ActionListener() {
-				
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
-						System.out.println(test);
-						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
-					}
-				});
+			
 				
 				footnotes.revalidate();
 			
@@ -717,7 +698,8 @@ public class Find {
 				
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
-				//Find.findRecords(firstName, document);
+				
+				findProperty( "northwind",firstText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -802,7 +784,7 @@ public class Find {
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
 				//Find.findRecords(firstName, lastName, document);
-				
+				findProducts(companyName, firstText.getText(), lastText.getText(), hireText.getText(), document) ;
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
 				
@@ -885,6 +867,7 @@ public class Find {
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
 				//Find.findRecords(firstName, lastName, hireYear, document);
+				findService(companyName, firstText.getText(), lastText.getText(), document) ;
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -913,7 +896,7 @@ public class Find {
 		
 		
 		JLabel firstLabel = new JLabel("Account name: ");
-		JLabel accountLabel = new JLabel("Account ID: ");
+		JLabel accountLabel = new JLabel("Account Number: ");
 		JLabel lastLabel = new JLabel("Bank: ");
 		
 		
@@ -965,6 +948,7 @@ public class Find {
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
 				//Find.findRecords(firstName, lastName, hireYear, document);
+				findFinancials(companyName, firstText.getText(), lastText.getText(), banlText.getText(), document) ;
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
