@@ -34,415 +34,71 @@ import com.mongodb.client.model.Updates;
 import Encryption.Encrypt;
 
 public class Update {
+
+	private static JPanel employeePanel;
+	private static JPanel propertyPanel;
+	private static JPanel productPanel;
+	private static JPanel servicePanel;
+	private static JPanel financialPanel;
+	private static int resultID;
+	private static String[] tester;
 	
-
-	public static void updateEmployee(String companyName, String firstName, String lastName, String hireYear,String ssn, String occupation ) {
-
-		try {
-			
-			System.out.print(ssn);
-			MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + companyName + "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
-			MongoClient mongoClient = new MongoClient(uri);
-			MongoDatabase database = mongoClient.getDatabase(companyName);			
-			MongoCollection<Document> collection = database.getCollection("Employees");
-			
-			if(collection.find(new Document("ssn", ssn)).first()==null) {
-				JOptionPane.showMessageDialog(null, "The Employee does not exist in our system. Make sure you are entering in the correct Employee ssn");
-			}else {
-				Document test = collection.find(new Document("ssn", ssn)).first();
-				if(test.get("ssn")==ssn) 
-					{
-					JOptionPane.showMessageDialog(null, "Now Updating"+test.toString());
-					System.out.println(test.toString());
-					collection.updateOne(Filters.eq("ssn", ssn), Updates.set("first name", firstName));
-					collection.updateOne(Filters.eq("ssn", ssn), Updates.set("last name", lastName));
-					collection.updateOne(Filters.eq("ssn", ssn), Updates.set("hire year", hireYear));
-					collection.updateOne(Filters.eq("ssn", ssn), Updates.set("occupation", occupation));
-					
-				}else {
-					JOptionPane.showMessageDialog(null, "The Employee does not exist in our system. Make sure you are entering in the correct Employee ssn");
-				}
-			}
-//			Document test1 = collection.find(new Document("ssn", ssn)).first();
-//			System.out.println("\nNEW CREDENTIALS...\n\n\nObjectID: " + test1.get("_id") + "\nID:" + test1.get("id")
-//					+ "\nFirst Name: " + test1.get("first name") + "\nLast Name: " + test1.get("last name")
-//					+ "\nHire Year: " + test1.get("hire year"));
-			mongoClient.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	private static JPanel panelEmployee;
-	static JFrame n;
-	private static JProgressBar progressBar1 = new JProgressBar();
-	private static JProgressBar progressBar2 = new JProgressBar();
-	private static JProgressBar progressBar3 = new JProgressBar();
-	private static JProgressBar progressBar4 = new JProgressBar();
-	private static JProgressBar progressBar5 = new JProgressBar();
-	//Panel that will be used for Update Input
-	//
-	public static JPanel createEmployeeTab(JFrame n) {
-		panelEmployee = new JPanel();
-		panelEmployee.setLayout(new BorderLayout());
-
-		progressBar1.setValue(0);
-		progressBar1.setBounds(130, 360, 300, 30);
-		progressBar1.setVisible(true);
-
-		JPanel p = new JPanel();
-		JLabel jFirstName = new JLabel("First Name:");
-		JTextField lFirstName = new JTextField(20);
-		JLabel jLastName = new JLabel("Last Name:");
-		JTextField lLastName = new JTextField(20);
-		JLabel jHireYear = new JLabel("Hire Year:");
-		JTextField lHireYear = new JTextField(20);
-		JLabel jSocial = new JLabel("SSN:");
-		JTextField lSocial = new JTextField(20);
-		JLabel jOccupation = new JLabel("Occupation:");
-		JTextField lOccupation = new JTextField(20);
-		p.setLayout(new GridLayout(6, 1));
-		p.add(jFirstName);
-		p.add(lFirstName);
-		p.add(jLastName);
-		p.add(lLastName);
-		p.add(jHireYear);
-		p.add(lHireYear);
-		p.add(jSocial);
-		p.add(lSocial);
-		p.add(jOccupation);
-		p.add(lOccupation);
-
-		JButton Submit = new JButton("Submit");
-		Submit.setSize(new Dimension(1, 1));
-
-		Submit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			
-				progressBar1.setValue(40);
-				progressBar1.setVisible(true);
-				progressBar1.setValue(40);
+	private static MongoClient connectDatabase(String databaseName) {
+		
+		MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + databaseName + "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+		MongoClient mongoClient = new MongoClient(uri);
 				
-				p.revalidate();
-				
-				Encrypt p2 = new Encrypt();
-				String ssn = lSocial.getText().replace("-","");
-				//make all strings capital then encode them then put them in the 
-				//insert methods do this for all uploads csv and manual entry
-				//updateEmployee(companyName, lFirstName.getText(), lLastName.getText(),lHireYear.getText() ,
-						//ssn, lOccupation.getText());
-				lFirstName.setText("");
-				lLastName.setText("");
-				lHireYear.setText("");
-				lSocial.setText("");
-				lOccupation.setText("");
-				progressBar1.setValue(0);
-				p.revalidate();
-				n.dispose();
-				
-			}
-		});
-		p.add(Submit);
-		p.add(progressBar1);
-		panelEmployee.add(p, BorderLayout.PAGE_START);
-		return panelEmployee;
-
+		return mongoClient;
 	}
-
-	private static JPanel panelFinancial;
-
-	public static JPanel createFinancialTab() {
-		panelFinancial = new JPanel();
-		panelFinancial.setLayout(new BorderLayout());
-
-		progressBar5.setValue(0);
-		progressBar5.setBounds(130, 360, 300, 30);
-		progressBar5.setVisible(true);
-		JPanel p = new JPanel();
-		JLabel jAccountName = new JLabel("Account Name:");
-		JTextField lAccountName = new JTextField(20);
-		JLabel jBalance = new JLabel("Balance:");
-		JTextField lBalance = new JTextField(20);
-		JLabel jBank = new JLabel("Banking Institution:");
-		JTextField lBank = new JTextField(20);
-
-		p.setLayout(new GridLayout(6, 1));
-		p.add(jAccountName);
-		p.add(lAccountName);
-		p.add(jBalance);
-		p.add(lBalance);
-		p.add(jBank);
-		p.add(lBank);
-
-		JButton Submit = new JButton("Submit");
-		Submit.setSize(new Dimension(1, 1));
-		Submit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (lAccountName.getText().isEmpty() || lBalance.getText().isEmpty() || lBank.getText().isEmpty()) {
-
-					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
-					progressBar5.setValue(0);
-
-				}else {
-				progressBar5.setValue(40);
-				progressBar5.setVisible(true);
-				progressBar5.setValue(40);
-				JOptionPane.showMessageDialog(null, "Uploading Finances...");
-
-				p.revalidate();
-				Double balance = Double.parseDouble(lBalance.getText());
-				//insertFinance(companyName, lAccountName.getText(), balance, lBank.getText());
-				lAccountName.setText("");
-				lBalance.setText("");
-				lBank.setText("");
-				progressBar5.setValue(0);
-				p.revalidate();
-				}
-			}
-		});
-		p.add(Submit);
-		p.add(progressBar5);
-		panelFinancial.add(p, BorderLayout.NORTH);
-		return panelFinancial;
-
-	}
-
-	private static JPanel panelProperties;
-
-	public static JPanel createPropertiesTab() {
-		panelProperties = new JPanel();
-		panelProperties.setLayout(new BorderLayout());
-		progressBar2.setValue(0);
-		progressBar2.setBounds(130, 360, 300, 30);
-		progressBar2.setVisible(true);
-		JPanel p = new JPanel();
-		JLabel jPropertyName = new JLabel("Property Name:");
-		JTextField lPropertyName = new JTextField(20);
-		JLabel jCost = new JLabel("Cost:");
-		JTextField lCost = new JTextField(20);
-		JLabel jLocation = new JLabel("Location:");
-		JTextField lLocation = new JTextField(20);
-		p.setLayout(new GridLayout(6, 1));
-		p.add(jPropertyName);
-		p.add(lPropertyName);
-		p.add(jCost);
-		p.add(lCost);
-		p.add(jLocation);
-		p.add(lLocation);
-		JButton Submit = new JButton("Submit");
-		Submit.setSize(new Dimension(1, 1));
-		Submit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (lPropertyName.getText().isEmpty() || lCost.getText().isEmpty() || lLocation.getText().isEmpty()) {
-
-					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
-					progressBar2.setValue(0);
-
-				}else {
-				progressBar2.setValue(40);
-				progressBar2.setVisible(true);
-				progressBar2.setValue(40);
-				JOptionPane.showMessageDialog(null, "Uploading Finances...");
-
-				p.revalidate();
-				double cost = Double.parseDouble(lCost.getText());
-				//insertProperty(companyName, lPropertyName.getText(), cost, lLocation.getText());
-				lPropertyName.setText("");
-				lCost.setText("");
-				lLocation.setText("");
-				progressBar2.setValue(0);
-				p.revalidate();
-				}
-
-			}
-		});
-
-		p.add(Submit);
-		p.add(progressBar2);
-		panelProperties.add(p, BorderLayout.NORTH);
-		return panelProperties;
-	}
-
-	private static JPanel panelService;
-
-	public static JPanel createServiceTab() {
-		panelService = new JPanel();
-		panelService.setLayout(new BorderLayout());
-		progressBar3.setValue(0);
-		progressBar3.setBounds(130, 360, 300, 30);
-		progressBar3.setVisible(true);
-		JPanel p = new JPanel();
-		JLabel jServiceName = new JLabel("Service Name:");
-		JTextField lServiceName = new JTextField(20);
-		JLabel jCost = new JLabel("Cost:");
-		JTextField lCost = new JTextField(20);
-		JLabel jCategory = new JLabel("Category:");
-		JTextField lCategory = new JTextField(20);
-		p.setLayout(new GridLayout(4, 1));
-		p.add(jServiceName);
-		p.add(lServiceName);
-		p.add(jCost);
-		p.add(lCost);
-		p.add(jCategory);
-		p.add(lCategory);
-		JButton Submit = new JButton("Submit");
-		Submit.setSize(new Dimension(1, 1));
-		Submit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (lServiceName.getText().isEmpty() || lCost.getText().isEmpty() || lCategory.getText().isEmpty()) {
-
-					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
-					progressBar3.setValue(0);
-
-				} else {
-					progressBar3.setValue(40);
-					progressBar3.setVisible(true);
-					progressBar3.setValue(40);
-					JOptionPane.showMessageDialog(null, "Uploading Service...");
-
-					p.revalidate();
-
-					//insertService(companyName, lServiceName.getText(), lCost.getText(), lCategory.getText());
-					lServiceName.setText("");
-					lCost.setText("");
-					lCategory.setText("");
-					progressBar3.setValue(0);
-					p.revalidate();
-				}
-
-			}
-		});
-		p.add(Submit);
-		p.add(progressBar3);
-		panelService.add(p, BorderLayout.NORTH);
-		return panelService;
-	}
-
-	private static JPanel panelProduct;
-
-	public static JPanel  createProductTab() {
-		panelProduct = new JPanel();
-		panelProduct.setLayout(new BorderLayout());
-		progressBar4.setValue(0);
-		progressBar4.setBounds(130, 360, 300, 30);
-		progressBar4.setVisible(true);
-		JPanel p = new JPanel();
-		JLabel jProductName = new JLabel("Product Name:");
-		JTextField lProductName = new JTextField(20);
-		JLabel jCost = new JLabel("Cost:");
-		JTextField lCost = new JTextField(20);
-		JLabel jCategory = new JLabel("Category:");
-		JTextField lCategory = new JTextField(20);
-		JLabel jSupplier = new JLabel("Supplier:");
-		JTextField lSupplier = new JTextField(20);
-
-		p.setLayout(new GridLayout(5, 1));
-		p.add(jProductName);
-		p.add(lProductName);
-		p.add(jCost);
-		p.add(lCost);
-		p.add(jCategory);
-		p.add(lCategory);
-		p.add(jSupplier);
-		p.add(lSupplier);
-		JButton Submit = new JButton("Submit");
-		Submit.setSize(new Dimension(1, 1));
-		Submit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (lProductName.getText().isEmpty() || lCost.getText().isEmpty() || lCategory.getText().isEmpty()
-						|| lSupplier.getText().isEmpty()) {
-
-					JOptionPane.showMessageDialog(null, "Incorrect credentials one or more fields left blank");
-					progressBar4.setValue(0);
-
-				} else {
-					double cost = Double.parseDouble(lCost.getText());
-					progressBar4.setValue(40);
-					progressBar4.setVisible(true);
-					progressBar4.setValue(40);
-					JOptionPane.showMessageDialog(null, "Uploading Product...");
-					//insertProduct(companyName, lProductName.getText(), cost, lCategory.getText(),
-							//lSupplier.getText());
-					lProductName.setText("");
-					lCost.setText("");
-					lCategory.setText("");
-					lSupplier.setText("");
-					progressBar4.setValue(0);
-					p.revalidate();
-				}
-
-				p.revalidate();
-
-			}
-		});
-		p.add(Submit);
-		p.add(progressBar4);
-		panelProduct.add(p, BorderLayout.NORTH);
-		return panelProduct;
-	}
-
-	private static JPanel panel;
-	private static JPanel panel2;
-	private static JPanel panel3;
-	private static JPanel panel4;
-	private static JPanel panel5;
+	
 	public static JPanel updateEmployee(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
-		panel = new JPanel();
-		panel.setLayout(null);
+		employeePanel = new JPanel();
+		employeePanel.setLayout(null);
 		
 		
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
-		JLabel hireLabel = new JLabel("SSN: ");
-		JLabel jHireYear = new JLabel("Hire Year:");
-		JLabel jOccupation = new JLabel("Occupation:");
+		JLabel ssnLabel = new JLabel("SSN: ");
+		JLabel hireYearLabel = new JLabel("Hire Year:");
+		JLabel occupationLabel = new JLabel("Occupation:");
 		
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(lastLabel);
-		list.add(hireLabel);
-		list.add(jHireYear);
-		list.add(jOccupation);
-		jHireYear.setVisible(false);
-		jOccupation.setVisible(false);
+		list.add(hireYearLabel);
+		list.add(hireYearLabel);
+		list.add(occupationLabel);
+		hireYearLabel.setVisible(false);
+		occupationLabel.setVisible(false);
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			panel.add(label);
+			employeePanel.add(label);
 		}
 		
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
-		JTextField hireText = new JTextField();
-		JTextField lHireYear = new JTextField(20);
-		JTextField lOccupation = new JTextField(20);
+		JTextField ssn = new JTextField();
+		JTextField hireText = new JTextField(20);
+		JTextField occupationText = new JTextField(20);
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
 		list1.add(lastText);
+		list1.add(ssn);
+		list1.add(occupationText);
 		list1.add(hireText);
-		list1.add(lOccupation);
-		list1.add(lHireYear);
-		lHireYear.setVisible(false);
-		lOccupation.setVisible(false);
+		hireText.setVisible(false);
+		occupationText.setVisible(false);
 		
 		int h = 20;
 		int w = 100;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel.add(label);
+			employeePanel.add(label);
 		}
 		
 
@@ -450,38 +106,42 @@ public class Update {
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
-		panel.add(search);
+		employeePanel.add(search);
 		
 		JButton update = new JButton("UPDATE");
 		update.setBounds(320, 74, 100, 20);
 		update.setVisible(false);
-		JButton realUpdate = new JButton("-UPDATE-");
+		JButton upload = new JButton("UPLOAD");
 		
-		realUpdate.setBounds(320, 74, 100, 20);
-		realUpdate.setVisible(false);
-		panel.add(realUpdate);
-		realUpdate.addActionListener(new ActionListener() {
+		upload.setBounds(320, 74, 100, 20);
+		upload.setVisible(false);
+		employeePanel.add(upload);
+		upload.addActionListener(new ActionListener() {
 			
-			@SuppressWarnings({ "rawtypes", "unchecked" })
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				
 				//do update function here
 				JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
-				realUpdate.setVisible(false);
-				jHireYear.setVisible(false);
-				jOccupation.setVisible(false);
-				lHireYear.setVisible(false);
-				lOccupation.setVisible(false);
+				upload.setVisible(false);
+				hireYearLabel.setVisible(false);
+				occupationLabel.setVisible(false);
+				hireText.setVisible(false);
+				occupationText.setVisible(false);
 				footnotes.removeAll();
 				firstText.setText("");
 				lastText.setText("");
+				ssn.setText("");
 				hireText.setText("");
-				lHireYear.setText("");
-				lOccupation.setText("");
-				
+				occupationText.setText("");
+			
 			}});
-		panel.add(update);
+		employeePanel.add(update);
 		
 				
 		search.addActionListener(new ActionListener() {
@@ -491,7 +151,7 @@ public class Update {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				String hireYear = hireText.getText().replace("-", "");
+				String hireYear = ssn.getText().replace("-", "");
 				
 				
 				footnotes.removeAll();
@@ -530,41 +190,76 @@ public class Update {
 						
 						String test = String.valueOf(vector.getSelectedValue());
 						//collection.deleteOne(query).first();
-						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(", ");
+						tester = id;
+						
+						//System.out.println(resultID);
 						footnotes.removeAll();
 						//Update method here from results
 						
 						update.setVisible(false);
-						realUpdate.setVisible(true);
-						jHireYear.setVisible(true);
-						jOccupation.setVisible(true);
-						lHireYear.setVisible(true);
-						lOccupation.setVisible(true);
-
-						realUpdate.addActionListener(new ActionListener() {
+						upload.setVisible(true);
+						hireYearLabel.setVisible(true);
+						occupationLabel.setVisible(true);
+						hireText.setVisible(true);
+						occupationText.setVisible(true);
+						
+						firstText.setText("");
+						lastText.setText("");
+						ssn.setText("");
+//						firstText.setText(result[2].replace("last name", ""));
+//						lastText.setText(result[3].replace("hire year", ""));
+//						hireText.setText(result[6].replace("occupation", ""));
+//						lHireYear.setText(result[4].replace("ssn",""));
+//						lOccupation.setText(result[5]);
+						
+						
+						
+						upload.addActionListener(new ActionListener() {
 							
-							@SuppressWarnings({ "rawtypes", "unchecked" })
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								//do update function here
+								resultID = Integer.parseInt(tester[0]);
+								
+								MongoClient mongoClient = connectDatabase("northwind");
+								MongoDatabase database = mongoClient.getDatabase("northwind");
+								MongoCollection<Document> collection = database.getCollection("Employees");
+								
 								JOptionPane.showMessageDialog(null, "Updating...");
 								search.setVisible(true);
-								realUpdate.setVisible(false);
-								jHireYear.setVisible(false);
-								jOccupation.setVisible(false);
-								lHireYear.setVisible(false);
-								lOccupation.setVisible(false);
+								upload.setVisible(false);
+								hireYearLabel.setVisible(false);
+								occupationLabel.setVisible(false);
+								hireText.setVisible(false);
+								occupationText.setVisible(false);
 								footnotes.removeAll();
+								
+								
+								
+								String first = firstText.getText();
+								String last = lastText.getText();
+								String ssnText = ssn.getText();
+								String hire = hireText.getText();
+								String occupation = occupationText.getText();
+								
+								if(!first.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", first));
+								if(!last.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("last name", last));
+								if(!ssnText.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", ssnText));
+								if(!hire.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("hire year", hire));
+								if(!occupation.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("occupation", occupation));
+				
 								firstText.setText("");
 								lastText.setText("");
+								ssn.setText("");
 								hireText.setText("");
-								lHireYear.setText("");
-								lOccupation.setText("");
-								
+								occupationText.setText("");
 							}});
 						update.setVisible(false);
 						JScrollPane scroll = new JScrollPane();
@@ -580,13 +275,13 @@ public class Update {
 			
 			}
 		});
-		return panel;
+		return employeePanel;
 	}
 
 	//Property update method panel
 	public static JPanel updateProperty(JPanel footnotes,String companyName) {
-		panel2 = new JPanel();
-		panel2.setLayout(null);
+		propertyPanel = new JPanel();
+		propertyPanel.setLayout(null);
 		JButton search = new JButton("SEARCH");
 				
 		JLabel firstLabel = new JLabel("Property Name: ");
@@ -606,14 +301,14 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 120, 25);
 			y += 30;
-			panel2.add(label);
+			propertyPanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
+		JTextField property = new JTextField();
 		JTextField costText = new JTextField();
 		JTextField locationText = new JTextField();
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
+		list1.add(property);
 		list1.add(costText);
 		list1.add(locationText);
 		
@@ -624,30 +319,36 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel2.add(label);
+			propertyPanel.add(label);
 		}
 		
-		JButton update1 = new JButton("UPDATE");
-		update1.setBounds(320, 74, 100, 20);
-		update1.setVisible(false);
-		panel2.add(update1);
+		JButton update = new JButton("UPDATE");
+		update.setBounds(320, 74, 100, 20);
+		update.setVisible(false);
+		propertyPanel.add(update);
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
-		panel2.add(search);
-		JButton realUpdate = new JButton("-UPDATE-");
-		realUpdate.setBounds(320, 74, 100, 20);
-		realUpdate.setVisible(false);
-		panel2.add(realUpdate);
-		realUpdate.addActionListener(new ActionListener() {
+		propertyPanel.add(search);
+		JButton upload = new JButton("UPLOAD");
+		upload.setBounds(320, 74, 100, 20);
+		upload.setVisible(false);
+		propertyPanel.add(upload);
+		upload.addActionListener(new ActionListener() {
 			
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				resultID = Integer.parseInt(tester[0]);
+				
+				MongoClient mongoClient = connectDatabase("northwind");
+				MongoDatabase database = mongoClient.getDatabase("northwind");
+				MongoCollection<Document> collection = database.getCollection("Properties");
+				
 				//do update function here
 				JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
-				realUpdate.setVisible(false);
+				upload.setVisible(false);
 				costLabel.setVisible(false);
 				locationLabel.setVisible(false);
 				costText.setVisible(false);
@@ -655,9 +356,10 @@ public class Update {
 				footnotes.removeAll();
 				costText.setText("");
 				locationText.setText("");
-				firstText.setText("");
+				property.setText("");
 				
 				
+								
 			}});
 		search.addActionListener(new ActionListener() {
 		
@@ -667,10 +369,10 @@ public class Update {
 			
 				footnotes.removeAll();
 				footnotes.revalidate();
-				update1.setVisible(true);
+				update.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
 				//searches by property name
-				Find.findProperty(companyName,firstText.getText(), document);
+				Find.findProperty(companyName,property.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -687,7 +389,7 @@ public class Update {
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
 				
-				update1.addActionListener(new ActionListener() {
+				update.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -695,17 +397,16 @@ public class Update {
 						locationLabel.setVisible(true);
 						locationText.setVisible(true);
 						costText.setVisible(true);
-						update1.setVisible(true);
+						update.setVisible(true);
 					
 						String test = String.valueOf(vector.getSelectedValue());
 						//collection.deleteOne(query).first();
 						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
-						update1.setVisible(false);
-						realUpdate.setVisible(true);
+						String[] id = result[1].split(", ");
+						tester = id;
+						update.setVisible(false);
+						upload.setVisible(true);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -718,15 +419,15 @@ public class Update {
 			
 			}
 		});
-		return panel2;
+		return propertyPanel;
 	}
 	
 	
 	//Products search
 	public static JPanel updateProduct(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
-		panel3 = new JPanel();
-		panel3.setLayout(null);
+		productPanel = new JPanel();
+		productPanel.setLayout(null);
 		
 		
 		JLabel firstLabel = new JLabel("Product name: ");
@@ -744,7 +445,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			panel3.add(label);
+			productPanel.add(label);
 		}
 		
 		JTextField firstText = new JTextField();
@@ -764,23 +465,23 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel3.add(label);
+			productPanel.add(label);
 		}
 		
 
 		JButton update2 = new JButton("UPDATE");
 		update2.setBounds(320, 74, 100, 20);
 		update2.setVisible(false);
-		panel3.add(update2);
+		productPanel.add(update2);
 		
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
-		panel3.add(search);
+		productPanel.add(search);
 		JButton realUpdate = new JButton("-UPDATE-");
 		realUpdate.setBounds(320, 74, 100, 20);
 		realUpdate.setVisible(false);
-		panel3.add(realUpdate);
+		productPanel.add(realUpdate);
 		realUpdate.addActionListener(new ActionListener() {
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -859,14 +560,14 @@ public class Update {
 				
 			}
 		});
-		return panel3;
+		return productPanel;
 	}
 	
 	//search service
 	public static JPanel updateService(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
-		panel4 = new JPanel();
-		panel4.setLayout(null);
+		servicePanel = new JPanel();
+		servicePanel.setLayout(null);
 		
 		
 		JLabel firstLabel = new JLabel("Service name: ");
@@ -884,7 +585,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			panel4.add(label);
+			servicePanel.add(label);
 		}
 		
 		JTextField firstText = new JTextField();
@@ -902,22 +603,22 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel4.add(label);
+			servicePanel.add(label);
 		}
 		
 
 		JButton update3 = new JButton("UPDATE");
 		update3.setBounds(320, 74, 100, 20);
 		update3.setVisible(false);
-		panel4.add(update3);
+		servicePanel.add(update3);
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
-		panel4.add(search);
+		servicePanel.add(search);
 		JButton realUpdate = new JButton("-UPDATE-");
 		realUpdate.setBounds(320, 74, 100, 20);
 		realUpdate.setVisible(false);
-		panel4.add(realUpdate);
+		servicePanel.add(realUpdate);
 		realUpdate.addActionListener(new ActionListener() {
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -994,14 +695,14 @@ public class Update {
 				
 			}
 		});
-		return panel4;
+		return servicePanel;
 	}
 	
 	//search Financials
 	public static JPanel updateFinancials(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
-		panel5 = new JPanel();
-		panel5.setLayout(null);
+		financialPanel = new JPanel();
+		financialPanel.setLayout(null);
 		
 		
 		JLabel firstLabel = new JLabel("Account name: ");
@@ -1020,7 +721,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 100, 25);
 			y += 30;
-			panel5.add(label);
+			financialPanel.add(label);
 		}
 		
 		JTextField firstText = new JTextField();
@@ -1040,21 +741,21 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			panel5.add(label);
+			financialPanel.add(label);
 		}
 		JButton update2 = new JButton("UPDATE");
 		update2.setBounds(320, 74, 100, 20);
 		update2.setVisible(false);
-		panel5.add(update2);
+		financialPanel.add(update2);
 		
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
-		panel5.add(search);
+		financialPanel.add(search);
 		JButton realUpdate = new JButton("-UPDATE-");
 		realUpdate.setBounds(320, 74, 100, 20);
 		realUpdate.setVisible(false);
-		panel5.add(realUpdate);
+		financialPanel.add(realUpdate);
 		realUpdate.addActionListener(new ActionListener() {
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -1130,7 +831,7 @@ public class Update {
 			
 			}
 		});
-		return panel5;
+		return financialPanel;
 	}
 
 }
