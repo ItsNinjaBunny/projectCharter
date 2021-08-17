@@ -1469,10 +1469,12 @@ class GUI extends JFrame {
 
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
+	// pass Jprogressbar as a parameter
 	public static void insertEmployee(String CompanyName, String firstname, String lastname, String hireYear, String ssn,
 			String occupation) {
 		ssn = ssn.replace("-", "");
 		Employee emp = new Employee(firstname, lastname, hireYear, ssn, occupation);
+		
 		progressBar1.setValue(300);
 		progressBar1.setVisible(true);
 
