@@ -1,6 +1,5 @@
 package guiPackage;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -19,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.text.StyledEditorKit.FontSizeAction;
 
 import org.bson.Document;
 
@@ -59,7 +57,8 @@ public class logIn {
     }
     
     //initializes all the graphical user interface objects
-    public static void run() {
+    @SuppressWarnings({ "static-access", "serial" })
+	public static void run() {
     	panel = new JPanel(){ 
     	    public void paintComponent(Graphics g){
     	        // Draw what you want to appear on your JPanel here.

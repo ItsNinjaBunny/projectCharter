@@ -2,49 +2,28 @@ package database;
 
 import com.mongodb.*;
 
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.InsertOneModel;
 import com.mongodb.client.model.Updates;
-import com.mongodb.util.JSON;
-import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
 import org.bson.Document;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-import java.awt.Desktop;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.file.Paths;
+
 
 public class Mongo {
 
@@ -96,6 +75,8 @@ public class Mongo {
 				MongoClientURI uri = new MongoClientURI("" + "mongodb://" + User + ":" + Password + "@" + databasehost
 						+ "?" + "ssl=true&replicaSet=" + replicaSet + "&authSource=admin&retryWrites=true" + "");
 				MongoClient mongoClient = new MongoClient(uri);
+				
+				mongoClient.close();
 			} catch (IOException e) {
 				System.out.println("Bad credentials try again");
 			}
@@ -166,6 +147,7 @@ public class Mongo {
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+				mongoClient.close();
 	        }catch (Exception e) {
 	            e.printStackTrace();
 	        }
@@ -182,6 +164,7 @@ public class Mongo {
 
 	            // convert CSV  directly
 				try{
+					@SuppressWarnings({ "unchecked", "rawtypes" })
 					List<Employee> beans = new CsvToBeanBuilder(new FileReader(fileupload()))
 							//we ask if the file contians headers upon radial selection it will skip first header line
 			                .withType(Employee.class).withSkipLines(0)
@@ -205,6 +188,7 @@ public class Mongo {
 		      
 	            System.out.println("Done");
 
+	            mongoClient.close();
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
@@ -249,6 +233,7 @@ public class Mongo {
 					+ "\nFirst Name: " + test1.get("first name") + "\nLast Name: " + test1.get("last name")
 					+ "\nHire Year: " + test1.get("hire year"));
 
+			mongoClient.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -280,13 +265,13 @@ public class Mongo {
 					+ "\nHire Year: " + test.get("hire year"));
 			collection.deleteOne(new Document("id", id));
 
+			mongoClient.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void insertEmployee() {
-		int count = 0;
 
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -320,7 +305,7 @@ public class Mongo {
 			// adds the document to the database
 			collection.insertOne(test);
 
-			
+			mongoClient.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -343,11 +328,6 @@ public class Mongo {
 
 			BasicDBObject object = new BasicDBObject();
 			object.put("id", id);
-
-			//
-			
-			FindIterable<Document> dbobject = collection.find(object);
-			Iterator iterator = dbobject.iterator();
 			
 
 			// prints the document to the console
@@ -356,6 +336,7 @@ public class Mongo {
 					+ "\nFirst Name: " + test.get("first name") + "\nLast Name: " + test.get("last name")
 					+ "\nHire Year: " + test.get("hire year"));
 
+			mongoClient.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

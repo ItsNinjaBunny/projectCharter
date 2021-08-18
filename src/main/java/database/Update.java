@@ -2,26 +2,19 @@ package database;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 
 import org.bson.Document;
 import com.mongodb.MongoClient;
@@ -255,6 +248,7 @@ public class Update {
 								if(!occupation.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("occupation", Encrypt.encryptData(occupation)));
 				
+								mongoClient.close();
 								firstText.setText("");
 								lastText.setText("");
 								ssn.setText("");
@@ -620,6 +614,7 @@ public class Update {
 								if(!cost.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost",  Encrypt.encryptData(cost)));
 								
+								mongoClient.close();
 								productText.setText("");
 								categoryText.setText("");
 								supplierText.setText("");
@@ -789,6 +784,7 @@ public class Update {
 								if(!cost.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost", Encrypt.encryptData(cost)));
 								
+								mongoClient.close();
 								serviceText.setText("");
 								categoryText.setText("");
 								costText.setText("");
@@ -954,6 +950,7 @@ public class Update {
 								if(!balance.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("balance", Encrypt.encryptData(balance)));
 								
+								mongoClient.close();
 								accountName.setText("");
 								accountID.setText("");
 								bankText.setText("");

@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,7 +65,6 @@ class GUI extends JFrame {
 	private JPanel directory;
 	private JPanel panel2;
 	private JPanel panel3;
-	private JPanel updatePanel;
 	// hardcode entry tabbed page
 	private JTabbedPane pane;
 	// pane2 for search method
@@ -87,6 +85,7 @@ class GUI extends JFrame {
 
 	private static JPanel topPanel;
 
+	@SuppressWarnings("static-access")
 	public GUI(String companyName) {
 		this.companyName = companyName;
 
@@ -479,7 +478,6 @@ class GUI extends JFrame {
 
 					p.revalidate();
 
-					Encrypt p2 = new Encrypt();
 					String ssn = lSocial.getText().replace("-", "");
 					// make all strings capital then encode them then put them in the
 					// insert methods do this for all uploads csv and manual entry
