@@ -1,9 +1,16 @@
 package guiPackage;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.text.StyledEditorKit.FontSizeAction;
 
 import org.bson.Document;
 
@@ -41,6 +49,8 @@ public class logIn {
     public static void main(String[] args) {
     	try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.getLookAndFeelDefaults().put("Button.background", Color.gray);
+            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
 		} catch (Exception evt) {
 		}
     	run();
@@ -51,35 +61,37 @@ public class logIn {
     	panel = new JPanel();
         
         frame = new JFrame();
-        frame.setTitle("CompanyVault - I.B.A.G™");
-        frame.setBounds(100, 100, 500, 300);
+        frame.setTitle("CompanyVault - I.B.A");
+        frame.setBounds(100, 100, 600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
         panel.setLayout(null);
         
         companyLabel = new JLabel("Company name: ");
-        companyLabel.setBounds(10, 20, 140, 25);
+        companyLabel.setBounds(50, 125, 140, 25);
         panel.add(companyLabel);
         
         companyText = new JTextField();
-        companyText.setBounds(150, 20, 180, 25);
+        companyText.setBounds(150, 125, 150, 25);
+        companyText.setBackground(Color.LIGHT_GRAY);
         panel.add(companyText);
 
         userLabel = new JLabel("Username: ");
-        userLabel.setBounds(10, 50, 140, 25);
+        userLabel.setBounds(50, 160, 140, 25);
         panel.add(userLabel);
 
         passwordLabel = new JLabel("Password: ");
-        passwordLabel.setBounds(10, 80, 140, 25);
+        passwordLabel.setBounds(50, 195, 140, 25);
         panel.add(passwordLabel);
 
         userText = new JTextField();
-        userText.setBounds(150, 50, 180, 25);
+        userText.setBounds(150, 160, 150, 25);
+        userText.setBackground(Color.LIGHT_GRAY);
         panel.add(userText);
-
         passwordText = new JPasswordField();
-        passwordText.setBounds(150, 80, 180, 25);
+        passwordText.setBounds(150, 195, 150, 25);
+        passwordText.setBackground(Color.LIGHT_GRAY);
         panel.add(passwordText);
 
         button = new JButton("Login");
@@ -91,7 +103,7 @@ public class logIn {
         	//On button click it it calls on the logInto method and a dialog message is appears on what happened
             @Override
             public void actionPerformed(ActionEvent e) {
-            	button.setForeground(Color.BLACK);
+            	
                 // TODO Auto-generated method stub
                 String user = String.valueOf(userText.getText().trim());
                 String company = String.valueOf(companyText.getText().trim());
@@ -120,11 +132,29 @@ public class logIn {
                 passwordText.setText("");
             }
         });
-        
+        BufferedImage image = null;
+		try {
+			image = ImageIO.read(
+					new File("src/main/java/guiPackage/img1.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		panel.setBackground(Color.gray);
+		
+		JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(200, 200, image.SCALE_SMOOTH)));
+		label.setBounds(290, 28, 300, 300);
+		JLabel label1 = new JLabel("Welcome to CompanyVault");
+		label1.setBounds(50, 75, 500, 35);
+	
+	
+		panel.add(label);
+		panel.add(label1);
         frame.setContentPane(panel);
         frame.getContentPane().add(button);
         frame.getRootPane().setDefaultButton(button);
-        button.setBounds(10, 110, 80, 25);
+        button.setBounds(200, 230, 100, 25);
         frame.setLocationRelativeTo(companyLabel);
         frame.setVisible(true);
     }

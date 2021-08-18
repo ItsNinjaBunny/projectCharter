@@ -920,8 +920,9 @@ public class Find {
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
-		list1.add(banlText);
 		list1.add(lastText);
+		list1.add(banlText);
+		
 	
 		
 		int h = 20;

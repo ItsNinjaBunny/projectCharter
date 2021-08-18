@@ -18,6 +18,6 @@ private static Base64.Decoder dec = Base64.getMimeDecoder();
 		 return decodedData;
 	}
 	public static void main(String[] args) {
-		System.out.println(decryptData("SFVNQU4gUkVTT1VSQ0VT"));
+		System.out.println(decryptData("MQ=="));
 	}
 }
