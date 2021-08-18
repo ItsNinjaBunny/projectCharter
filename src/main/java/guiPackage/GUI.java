@@ -37,6 +37,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.ColorUIResource;
 
 import org.bson.Document;
 
@@ -99,8 +100,7 @@ class GUI extends JFrame {
 		getContentPane().add(topPanel);
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(
-					new File("src/main/java/guiPackage/img.png"));
+			image =  ImageIO.read(GUI.class.getResourceAsStream("img.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1766,7 +1766,7 @@ class GUI extends JFrame {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			UIManager.getLookAndFeelDefaults().put("Button.background",null);
             UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
-           
+		
 		} catch (Exception evt) {
 		}
 		// Create an instance of the test application

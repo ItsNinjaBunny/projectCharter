@@ -48,14 +48,17 @@ public class Update {
 		JButton search = new JButton("SEARCH");
 		employeePanel = new JPanel();
 		employeePanel.setLayout(null);
-		
+		employeePanel.setBackground(Color.gray);
 		
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
 		JLabel ssnLabel = new JLabel("SSN: ");
 		JLabel hireYearLabel = new JLabel("Hire Year:");
 		JLabel occupationLabel = new JLabel("Occupation:");
-		
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Update");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		employeePanel.add(instLabel);
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(firstLabel);
 		list.add(lastLabel);
@@ -69,6 +72,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
+			label.setForeground(Color.white);
 			employeePanel.add(label);
 		}
 		
@@ -81,8 +85,8 @@ public class Update {
 		list1.add(firstText);
 		list1.add(lastText);
 		list1.add(ssn);
-		list1.add(occupationText);
 		list1.add(hireText);
+		list1.add(occupationText);
 		hireText.setVisible(false);
 		occupationText.setVisible(false);
 		
@@ -91,13 +95,15 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
+			label.setBackground(Color.LIGHT_GRAY);
+		
 			employeePanel.add(label);
 		}
 		
 
-		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		search.setBackground(Color.black);
+		search.setForeground(Color.white);
+	
 		search.setBounds(320, 52, 100, 20);
 		employeePanel.add(search);
 		
@@ -132,7 +138,11 @@ public class Update {
 				ssn.setText("");
 				hireText.setText("");
 				occupationText.setText("");
-			
+				JScrollPane scroll = new JScrollPane();
+				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				scroll.setVisible(true);
+				footnotes.add(scroll, BorderLayout.CENTER);
 			}});
 		employeePanel.add(update);
 		
@@ -190,14 +200,15 @@ public class Update {
 						//System.out.println(resultID);
 						footnotes.removeAll();
 						//Update method here from results
-						
+						instLabel.setVisible(false);
+						instLabel.setText("1.Update Fields  2.Upload ");
+						instLabel.setVisible(true);
 						update.setVisible(false);
 						upload.setVisible(true);
 						hireYearLabel.setVisible(true);
 						occupationLabel.setVisible(true);
 						hireText.setVisible(true);
 						occupationText.setVisible(true);
-						
 						firstText.setText("");
 						lastText.setText("");
 						ssn.setText("");
@@ -254,14 +265,17 @@ public class Update {
 								ssn.setText("");
 								hireText.setText("");
 								occupationText.setText("");
+								instLabel.setVisible(false);
+								instLabel.setText("1.Search  2.Select One  3.Update");
+								instLabel.setVisible(true);
+								footnotes.removeAll();
+								JScrollPane scroll = new JScrollPane();
+								scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+								scroll.setVisible(true);
+								footnotes.add(scroll, BorderLayout.CENTER);
+								footnotes.revalidate();
 							}});
-						update.setVisible(false);
-						JScrollPane scroll = new JScrollPane();
-						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-						scroll.setVisible(true);
-						footnotes.add(scroll, BorderLayout.CENTER);
-						footnotes.revalidate();
 					}
 				});
 				
@@ -276,6 +290,11 @@ public class Update {
 	public static JPanel updateProperty(JPanel footnotes,String companyName) {
 		propertyPanel = new JPanel();
 		propertyPanel.setLayout(null);
+		propertyPanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Update");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		propertyPanel.add(instLabel);
 		JButton search = new JButton("SEARCH");
 				
 		JLabel propertyLabel = new JLabel("Property Name: ");
@@ -295,6 +314,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 120, 25);
 			y += 30;
+			label.setForeground(Color.white);
 			propertyPanel.add(label);
 		}
 		
@@ -313,6 +333,7 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
+			label.setBackground(Color.LIGHT_GRAY);
 			propertyPanel.add(label);
 		}
 		
@@ -320,8 +341,8 @@ public class Update {
 		update.setBounds(320, 74, 100, 20);
 		update.setVisible(false);
 		propertyPanel.add(update);
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		search.setBackground(Color.black);
+		search.setForeground(Color.white);
 		search.setBounds(320, 52, 100, 20);
 		propertyPanel.add(search);
 		
@@ -349,7 +370,8 @@ public class Update {
 				costText.setText("");
 				locationText.setText("");
 				propertyText.setText("");
-				
+				footnotes.removeAll();
+				footnotes.setBackground(Color.gray);
 				
 								
 			}});
@@ -390,7 +412,10 @@ public class Update {
 						locationText.setVisible(true);
 						costText.setVisible(true);
 						update.setVisible(true);
-					
+						instLabel.setVisible(false);
+						instLabel.setText("1.Update Fields  2.Upload ");
+						instLabel.setVisible(true);
+						
 						String test = String.valueOf(vector.getSelectedValue());
 						
 						System.out.println(test);
@@ -420,7 +445,6 @@ public class Update {
 								
 								search.setVisible(true);
 								upload.setVisible(false);
-								propertyLabel.setVisible(false);
 								costLabel.setVisible(false);
 								locationLabel.setVisible(false);
 								footnotes.removeAll();
@@ -439,8 +463,16 @@ public class Update {
 								mongoClient.close();
 								propertyText.setText("");
 								costText.setText("");
-								locationText.setText("");;
+								locationText.setText("");
+								instLabel.setVisible(false);
+								instLabel.setText("1.Search  2.Select One  3.Update");
+								instLabel.setVisible(true);
 								footnotes.removeAll();
+								JScrollPane scroll = new JScrollPane();
+								scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+								scroll.setVisible(true);
+								footnotes.add(scroll, BorderLayout.CENTER);
 								footnotes.revalidate();
 							}
 							
@@ -457,13 +489,16 @@ public class Update {
 	}
 	
 	
-	//Products search
+	//Update Products 
 	public static JPanel updateProduct(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
 		productPanel = new JPanel();
 		productPanel.setLayout(null);
-		
-		
+		productPanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Update");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		productPanel.add(instLabel);
 		JLabel productLabel = new JLabel("Product name: ");
 		JLabel categoryLabel = new JLabel("Category: ");
 		JLabel supplierLabel = new JLabel("Supplier: ");
@@ -480,6 +515,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
+			label.setForeground(Color.white);
 			productPanel.add(label);
 		}
 		
@@ -500,6 +536,7 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
+			label.setBackground(Color.LIGHT_GRAY);
 			productPanel.add(label);
 		}
 		
@@ -509,8 +546,8 @@ public class Update {
 		update.setVisible(false);
 		productPanel.add(update);
 		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		search.setBackground(Color.black);
+		search.setForeground(Color.white);
 		search.setBounds(320, 52, 100, 20);
 		productPanel.add(search);
 		JButton upload = new JButton("UPLOAD");
@@ -534,7 +571,8 @@ public class Update {
 				categoryText.setText("");
 				productText.setText("");
 				supplierText.setText("");
-				
+				footnotes.removeAll();
+				footnotes.setBackground(Color.gray);
 				
 			}});
 		search.addActionListener(new ActionListener() {
@@ -572,6 +610,9 @@ public class Update {
 					public void actionPerformed(ActionEvent e) {
 						costText.setVisible(true);
 						costLabel.setVisible(true);
+						instLabel.setVisible(false);
+						instLabel.setText("1.Update Fields  2.Upload ");
+						instLabel.setVisible(true);
 						
 						
 						String test = String.valueOf(vector.getSelectedValue());
@@ -620,7 +661,15 @@ public class Update {
 								supplierText.setText("");
 								costText.setText("");
 								
+								instLabel.setVisible(false);
+								instLabel.setText("1.Search  2.Select One  3.Update");
+								instLabel.setVisible(true);
 								footnotes.removeAll();
+								JScrollPane scroll = new JScrollPane();
+								scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+								scroll.setVisible(true);
+								footnotes.add(scroll, BorderLayout.CENTER);
 								footnotes.revalidate();
 							}
 						});
@@ -635,13 +684,16 @@ public class Update {
 		return productPanel;
 	}
 	
-	//search service
+	//Update service
 	public static JPanel updateService(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
 		servicePanel = new JPanel();
 		servicePanel.setLayout(null);
-		
-		
+		servicePanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Update");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		servicePanel.add(instLabel);
 		JLabel serviceLabel = new JLabel("Service name: ");
 		JLabel categoryLabel = new JLabel("Category: ");
 		JLabel costLabel = new JLabel("Cost: ");
@@ -657,6 +709,7 @@ public class Update {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
+			label.setForeground(Color.white);
 			servicePanel.add(label);
 		}
 		
@@ -674,6 +727,7 @@ public class Update {
 		int w = 100;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
+			label.setBackground(Color.LIGHT_GRAY);
 			h += 30;
 			servicePanel.add(label);
 		}
@@ -683,8 +737,8 @@ public class Update {
 		update.setBounds(320, 74, 100, 20);
 		update.setVisible(false);
 		servicePanel.add(update);
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		search.setBackground(Color.black);
+		search.setForeground(Color.white);
 		search.setBounds(320, 52, 100, 20);
 		servicePanel.add(search);
 		JButton upload = new JButton("UPLOAD");
@@ -707,7 +761,8 @@ public class Update {
 				costText.setText("");
 				categoryText.setText("");
 				serviceText.setText("");
-			
+				footnotes.removeAll();
+				footnotes.setBackground(Color.gray);
 				
 				
 			}});
@@ -744,7 +799,9 @@ public class Update {
 					public void actionPerformed(ActionEvent e) {
 						costLabel.setVisible(true);
 						costText.setVisible(true);
-						
+						instLabel.setVisible(false);
+						instLabel.setText("1.Update Fields  2.Upload ");
+						instLabel.setVisible(true);
 						
 						String test = String.valueOf(vector.getSelectedValue());
 						
@@ -788,6 +845,17 @@ public class Update {
 								serviceText.setText("");
 								categoryText.setText("");
 								costText.setText("");
+							
+								instLabel.setVisible(false);
+								instLabel.setText("1.Search  2.Select One  3.Update");
+								instLabel.setVisible(true);
+								footnotes.removeAll();
+								JScrollPane scroll = new JScrollPane();
+								scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+								scroll.setVisible(true);
+								footnotes.add(scroll, BorderLayout.CENTER);
+								footnotes.revalidate();
 							}
 						});
 					}
@@ -799,13 +867,17 @@ public class Update {
 		return servicePanel;
 	}
 	
-	//search Financials
+	//Update Financials
 	public static JPanel updateFinancials(JPanel footnotes,String companyName) {
 		JButton search = new JButton("SEARCH");
 		financialPanel = new JPanel();
 		financialPanel.setLayout(null);
-		
-		
+		financialPanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Update");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		financialPanel.add(instLabel);
+		footnotes.setBackground(Color.gray);
 		JLabel accNameLabel = new JLabel("Account name: ");
 		JLabel accIDLabel = new JLabel("Account ID: ");
 		JLabel bankLabel = new JLabel("Bank: ");
@@ -820,8 +892,9 @@ public class Update {
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
-			label.setBounds(x, y, 100, 25);
+			label.setBounds(x, y, 120, 25);
 			y += 30;
+			label.setForeground(Color.white);
 			financialPanel.add(label);
 		}
 		
@@ -842,15 +915,15 @@ public class Update {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
+			label.setBackground(Color.LIGHT_GRAY);
 			financialPanel.add(label);
 		}
 		JButton update = new JButton("UPDATE");
 		update.setBounds(320, 74, 100, 20);
 		update.setVisible(false);
 		financialPanel.add(update);
-		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		search.setBackground(Color.black);
+		search.setForeground(Color.white);
 		search.setBounds(320, 52, 100, 20);
 		financialPanel.add(search);
 		JButton upload = new JButton("UPLOAD");
@@ -909,7 +982,10 @@ public class Update {
 					public void actionPerformed(ActionEvent e) {
 						balanceText.setVisible(true);
 						balanceLabel.setVisible(true);
-						
+						instLabel.setVisible(false);
+						instLabel.setText("1.Update Fields  2.Upload ");
+						instLabel.setVisible(true);
+					
 						String test = String.valueOf(vector.getSelectedValue());
 						
 						System.out.println(test);
@@ -955,7 +1031,16 @@ public class Update {
 								accountID.setText("");
 								bankText.setText("");
 								balanceText.setText("");
-								
+								instLabel.setVisible(false);
+								instLabel.setText("1.Search  2.Select One  3.Update");
+								instLabel.setVisible(true);
+								footnotes.removeAll();
+								JScrollPane scroll = new JScrollPane();
+								scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+								scroll.setVisible(true);
+								footnotes.add(scroll, BorderLayout.CENTER);
+								footnotes.revalidate();
 							}
 						});
 					}

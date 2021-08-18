@@ -63,6 +63,7 @@ public class logIn {
     	    public void paintComponent(Graphics g){
     	        // Draw what you want to appear on your JPanel here.
     	    		super.paintComponent(g);
+    	    		 g.setColor(Color.white); 
     	    	  g.drawLine(317,70, 317, 290);
     	    	  
     	    	 
@@ -80,6 +81,7 @@ public class logIn {
         
         companyLabel = new JLabel("Company name: ");
         companyLabel.setBounds(50, 125, 140, 25);
+        companyLabel.setForeground(Color.white);
         panel.add(companyLabel);
         
         companyText = new JTextField();
@@ -89,10 +91,12 @@ public class logIn {
 
         userLabel = new JLabel("Username: ");
         userLabel.setBounds(50, 160, 140, 25);
+        userLabel.setForeground(Color.white);
         panel.add(userLabel);
 
         passwordLabel = new JLabel("Password: ");
         passwordLabel.setBounds(50, 195, 140, 25);
+        passwordLabel.setForeground(Color.white);
         panel.add(passwordLabel);
 
         userText = new JTextField();
@@ -105,9 +109,8 @@ public class logIn {
         panel.add(passwordText);
 
         button = new JButton("Login");
-        button.setForeground(Color.BLACK);
-        button.setOpaque(true);
-        button.setBackground(Color.gray);
+        button.setForeground(Color.white);
+        button.setBackground(Color.black);
         
         button.addActionListener(new ActionListener() {
         	//On button click it it calls on the logInto method and a dialog message is appears on what happened
@@ -144,20 +147,18 @@ public class logIn {
         });
         BufferedImage image = null;
 		try {
-			image = ImageIO.read(
-					new File("src/main/java/guiPackage/img1.png"));
+			image =  ImageIO.read(logIn.class.getResourceAsStream("img1.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		panel.setBackground(Color.gray);
 		
 		JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(200, 200, image.SCALE_SMOOTH)));
 		label.setBounds(290, 28, 300, 300);
 		JLabel label1 = new JLabel("Welcome to CompanyVault");
 		label1.setBounds(50, 75, 500, 35);
-	
+		label1.setForeground(Color.white);
 	
 		panel.add(label);
 		panel.add(label1);
