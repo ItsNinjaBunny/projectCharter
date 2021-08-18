@@ -49,17 +49,28 @@ public class logIn {
     public static void main(String[] args) {
     	try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			UIManager.getLookAndFeelDefaults().put("Button.background", Color.gray);
+			UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
             UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
-		} catch (Exception evt) {
+           
+
+    	} catch (Exception evt) {
 		}
     	run();
     }
     
     //initializes all the graphical user interface objects
     public static void run() {
-    	panel = new JPanel();
-        
+    	panel = new JPanel(){ 
+    	    public void paintComponent(Graphics g){
+    	        // Draw what you want to appear on your JPanel here.
+    	    		super.paintComponent(g);
+    	    	  g.drawLine(317,70, 317, 290);
+    	    	  
+    	    	 
+    	    	 
+    	    }
+    	};
+    	panel.setOpaque(true);
         frame = new JFrame();
         frame.setTitle("CompanyVault - I.B.A");
         frame.setBounds(100, 100, 600, 400);
@@ -97,7 +108,7 @@ public class logIn {
         button = new JButton("Login");
         button.setForeground(Color.BLACK);
         button.setOpaque(true);
-        
+        button.setBackground(Color.gray);
         
         button.addActionListener(new ActionListener() {
         	//On button click it it calls on the logInto method and a dialog message is appears on what happened
