@@ -126,7 +126,7 @@ public class Update {
 				
 				
 				//do update function here
-				JOptionPane.showMessageDialog(null, "Updating...");
+				//JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
 				upload.setVisible(false);
 				hireYearLabel.setVisible(false);
@@ -238,22 +238,22 @@ public class Update {
 								
 								
 								
-								String first = firstText.getText();
-								String last = lastText.getText();
-								String ssnText = ssn.getText();
-								String hire = hireText.getText();
-								String occupation = occupationText.getText();
+								String first = firstText.getText().toUpperCase();
+								String last = lastText.getText().toUpperCase();
+								String ssnText = ssn.getText().toUpperCase();
+								String hire = hireText.getText().toUpperCase();
+								String occupation = occupationText.getText().toUpperCase();
 								
 								if(!first.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", first));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", Encrypt.encryptData(first)));
 								if(!last.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("last name", last));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("last name", Encrypt.encryptData(last)));
 								if(!ssnText.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", ssnText));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", Encrypt.encryptData(ssnText)));
 								if(!hire.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("hire year", hire));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("hire year", Encrypt.encryptData(hire)));
 								if(!occupation.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("occupation", occupation));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("occupation", Encrypt.encryptData(occupation)));
 				
 								firstText.setText("");
 								lastText.setText("");
@@ -344,7 +344,7 @@ public class Update {
 				
 				
 				//do update function here
-				JOptionPane.showMessageDialog(null, "Updating...");
+				//JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
 				upload.setVisible(false);
 				costLabel.setVisible(false);
@@ -422,7 +422,7 @@ public class Update {
 								
 								resultID = Integer.parseInt(tester[0]);
 								
-								JOptionPane.showMessageDialog(null, "uploading....");
+								JOptionPane.showMessageDialog(null, "uploading...");
 								
 								search.setVisible(true);
 								upload.setVisible(false);
@@ -470,15 +470,16 @@ public class Update {
 		productPanel.setLayout(null);
 		
 		
-		JLabel firstLabel = new JLabel("Product name: ");
-		JLabel lastLabel = new JLabel("Category: ");
-		JLabel hireLabel = new JLabel("Supplier: ");
+		JLabel productLabel = new JLabel("Product name: ");
+		JLabel categoryLabel = new JLabel("Category: ");
+		JLabel supplierLabel = new JLabel("Supplier: ");
 		JLabel costLabel = new JLabel("Cost: ");
 		costLabel.setVisible(false);
+		
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
-		list.add(hireLabel);
+		list.add(productLabel);
+		list.add(categoryLabel);
+		list.add(supplierLabel);
 		list.add(costLabel);
 		int x = 10;
 		int y = 20;
@@ -488,16 +489,16 @@ public class Update {
 			productPanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
-		JTextField hireText = new JTextField();
+		JTextField productText = new JTextField();
+		JTextField categoryText = new JTextField();
+		JTextField supplierText = new JTextField();
 		JTextField costText = new JTextField();
-	costText.setVisible(false);
+		costText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
-		list1.add(hireText);
+		list1.add(productText);
+		list1.add(categoryText);
+		list1.add(supplierText);
 		list1.add(costText);
 		
 		int h = 20;
@@ -509,36 +510,36 @@ public class Update {
 		}
 		
 
-		JButton update2 = new JButton("UPDATE");
-		update2.setBounds(320, 74, 100, 20);
-		update2.setVisible(false);
-		productPanel.add(update2);
+		JButton update = new JButton("UPDATE");
+		update.setBounds(320, 74, 100, 20);
+		update.setVisible(false);
+		productPanel.add(update);
 		
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		productPanel.add(search);
-		JButton realUpdate = new JButton("-UPDATE-");
-		realUpdate.setBounds(320, 74, 100, 20);
-		realUpdate.setVisible(false);
-		productPanel.add(realUpdate);
-		realUpdate.addActionListener(new ActionListener() {
+		JButton upload = new JButton("UPLOAD");
+		upload.setBounds(320, 74, 100, 20);
+		upload.setVisible(false);
+		productPanel.add(upload);
+		upload.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//do update function here
-				JOptionPane.showMessageDialog(null, "Updating...");
+				//JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
-				realUpdate.setVisible(false);
+				upload.setVisible(false);
 				costLabel.setVisible(false);
 				
 				costText.setVisible(false);
 				
 				footnotes.removeAll();
 				costText.setText("");
-				lastText.setText("");
-				firstText.setText("");
-				hireText.setText("");
+				categoryText.setText("");
+				productText.setText("");
+				supplierText.setText("");
 				
 				
 			}});
@@ -549,13 +550,13 @@ public class Update {
 			public void actionPerformed(ActionEvent e) {
 				
 			
-				update2.setVisible(true);
+				update.setVisible(true);
 				footnotes.removeAll();
 				footnotes.revalidate();				
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				//Find.findRecords(firstName, lastName, document);
+				Find.findProducts(companyName, productText.getText() ,categoryText.getText(), supplierText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -571,28 +572,65 @@ public class Update {
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
-				update2.addActionListener(new ActionListener() {
+				update.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						costText.setVisible(true);
-						costLabel.setVisible(true);	
+						costLabel.setVisible(true);
+						
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
+						
 						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(", ");
+						tester = id;
 						
-						update2.setVisible(false);
-						realUpdate.setVisible(true);
+						update.setVisible(false);
+						upload.setVisible(true);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
 						footnotes.add(scroll, BorderLayout.CENTER);
+						
+						upload.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								
+								MongoClient mongoClient = connectDatabase(companyName);
+								MongoDatabase database = mongoClient.getDatabase(companyName);
+								MongoCollection<Document> collection = database.getCollection("Products");
+								
+								resultID = Integer.parseInt(tester[0]);
+								
+								String product = productText.getText().toUpperCase();
+								String category = categoryText.getText().toUpperCase();
+								String supplier = supplierText.getText().toUpperCase();
+								String cost = costText.getText();
+								
+								if(!product.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("product name", Encrypt.encryptData(product)));
+								if(!category.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("category", Encrypt.encryptData(category)));							
+								if(!supplier.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("supplier", Encrypt.encryptData(supplier)));
+								if(!cost.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost",  Encrypt.encryptData(cost)));
+								
+								productText.setText("");
+								categoryText.setText("");
+								supplierText.setText("");
+								costText.setText("");
+								
+								footnotes.removeAll();
+								footnotes.revalidate();
+							}
+						});
 					}
+					
 				});
 				footnotes.revalidate();
 			
@@ -609,14 +647,14 @@ public class Update {
 		servicePanel.setLayout(null);
 		
 		
-		JLabel firstLabel = new JLabel("Service name: ");
-		JLabel lastLabel = new JLabel("Category: ");
+		JLabel serviceLabel = new JLabel("Service name: ");
+		JLabel categoryLabel = new JLabel("Category: ");
 		JLabel costLabel = new JLabel("Cost: ");
 		costLabel.setVisible(false);
 		
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(lastLabel);
+		list.add(serviceLabel);
+		list.add(categoryLabel);
 		list.add(costLabel);
 		
 		int x = 10;
@@ -627,14 +665,14 @@ public class Update {
 			servicePanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
+		JTextField serviceText = new JTextField();
+		JTextField categoryText = new JTextField();
 		JTextField costText = new JTextField();
 		costText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
-		list1.add(lastText);
+		list1.add(serviceText);
+		list1.add(categoryText);
 		list1.add(costText);
 		
 		int h = 20;
@@ -646,35 +684,34 @@ public class Update {
 		}
 		
 
-		JButton update3 = new JButton("UPDATE");
-		update3.setBounds(320, 74, 100, 20);
-		update3.setVisible(false);
-		servicePanel.add(update3);
+		JButton update = new JButton("UPDATE");
+		update.setBounds(320, 74, 100, 20);
+		update.setVisible(false);
+		servicePanel.add(update);
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		servicePanel.add(search);
-		JButton realUpdate = new JButton("-UPDATE-");
-		realUpdate.setBounds(320, 74, 100, 20);
-		realUpdate.setVisible(false);
-		servicePanel.add(realUpdate);
-		realUpdate.addActionListener(new ActionListener() {
+		JButton upload = new JButton("UPLOAD");
+		upload.setBounds(320, 74, 100, 20);
+		upload.setVisible(false);
+		servicePanel.add(upload);
+		upload.addActionListener(new ActionListener() {
 			
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//do update function here
 				JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
-				realUpdate.setVisible(false);
+				upload.setVisible(false);
 				costLabel.setVisible(false);
 				
 				costText.setVisible(false);
 				
 				footnotes.removeAll();
 				costText.setText("");
-				lastText.setText("");
-				firstText.setText("");
+				categoryText.setText("");
+				serviceText.setText("");
 			
 				
 				
@@ -686,13 +723,13 @@ public class Update {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				update3.setVisible(true);
+				update.setVisible(true);
 				footnotes.removeAll();
 				footnotes.revalidate();
 				
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				//Find.findService(, lastName, hireYear, document);
+				Find.findService(companyName, serviceText.getText(), categoryText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -706,28 +743,57 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				update3.addActionListener(new ActionListener() {
+				update.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						costLabel.setVisible(true);
 						costText.setVisible(true);
+						
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
+						
 						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(", ");
+						tester = id;
 						//delete method here from results
-						update3.setVisible(false);
-						realUpdate.setVisible(true);
+						update.setVisible(false);
+						upload.setVisible(true);
 						
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
 						footnotes.add(scroll, BorderLayout.CENTER);
+						
+						upload.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+							
+								MongoClient mongoClient = connectDatabase(companyName);
+								MongoDatabase database = mongoClient.getDatabase(companyName);
+								MongoCollection<Document> collection = database.getCollection("Services");
+								
+								resultID = Integer.parseInt(tester[0]);
+								
+								String service = serviceText.getText().toUpperCase();
+								String category = categoryText.getText().toUpperCase();
+								String cost = costText.getText();
+								
+								if(!service.equals("")) 
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("service name",  Encrypt.encryptData(service)));
+								if(!category.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("category", Encrypt.encryptData(category)));
+								if(!cost.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost", Encrypt.encryptData(cost)));
+								
+								serviceText.setText("");
+								categoryText.setText("");
+								costText.setText("");
+							}
+						});
 					}
 				});
 				footnotes.revalidate();
@@ -744,15 +810,15 @@ public class Update {
 		financialPanel.setLayout(null);
 		
 		
-		JLabel firstLabel = new JLabel("Account name: ");
-		JLabel accountLabel = new JLabel("Account ID: ");
-		JLabel lastLabel = new JLabel("Bank: ");
+		JLabel accNameLabel = new JLabel("Account name: ");
+		JLabel accIDLabel = new JLabel("Account ID: ");
+		JLabel bankLabel = new JLabel("Bank: ");
 		JLabel balanceLabel = new JLabel("Balance: ");
 		balanceLabel.setVisible(false);
 		ArrayList<JLabel> list = new ArrayList<>();
-		list.add(firstLabel);
-		list.add(accountLabel);
-		list.add(lastLabel);
+		list.add(accNameLabel);
+		list.add(accIDLabel);
+		list.add(bankLabel);
 		list.add(balanceLabel);
 		
 		int x = 10;
@@ -763,16 +829,16 @@ public class Update {
 			financialPanel.add(label);
 		}
 		
-		JTextField firstText = new JTextField();
-		JTextField lastText = new JTextField();
+		JTextField accountName = new JTextField();
+		JTextField accountID = new JTextField();
 		JTextField bankText = new JTextField();
 		JTextField balanceText = new JTextField();
 		balanceText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(firstText);
+		list1.add(accountName);
+		list1.add(accountID);
 		list1.add(bankText);
-		list1.add(lastText);
 		list1.add(balanceText);
 		balanceLabel.setVisible(false);
 		int h = 20;
@@ -782,28 +848,27 @@ public class Update {
 			h += 30;
 			financialPanel.add(label);
 		}
-		JButton update2 = new JButton("UPDATE");
-		update2.setBounds(320, 74, 100, 20);
-		update2.setVisible(false);
-		financialPanel.add(update2);
+		JButton update = new JButton("UPDATE");
+		update.setBounds(320, 74, 100, 20);
+		update.setVisible(false);
+		financialPanel.add(update);
 		
 		search.setForeground(Color.BLACK);
 		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		financialPanel.add(search);
-		JButton realUpdate = new JButton("-UPDATE-");
-		realUpdate.setBounds(320, 74, 100, 20);
-		realUpdate.setVisible(false);
-		financialPanel.add(realUpdate);
-		realUpdate.addActionListener(new ActionListener() {
+		JButton upload = new JButton("UPLOAD");
+		upload.setBounds(320, 74, 100, 20);
+		upload.setVisible(false);
+		financialPanel.add(upload);
+		upload.addActionListener(new ActionListener() {
 			
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//do update function here
 				JOptionPane.showMessageDialog(null, "Updating...");
 				search.setVisible(true);
-				realUpdate.setVisible(false);
+				upload.setVisible(false);
 				balanceText.setVisible(false);
 				balanceLabel.setVisible(false);
 				
@@ -811,8 +876,8 @@ public class Update {
 				footnotes.removeAll();
 				balanceText.setText("");
 				bankText.setText("");
-				lastText.setText("");
-				firstText.setText("");
+				accountID.setText("");
+				accountName.setText("");
 			
 				
 				
@@ -825,10 +890,10 @@ public class Update {
 				
 				footnotes.removeAll();
 				footnotes.revalidate();
-				update2.setVisible(true);
+				update.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				//Find.findRecords(firstName, lastName, hireYear, document);
+				Find.findFinancials(companyName, accountName.getText(), accountID.getText(), bankText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -842,27 +907,60 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				update2.addActionListener(new ActionListener() {
+				update.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						balanceText.setVisible(true);
 						balanceLabel.setVisible(true);
+						
 						String test = String.valueOf(vector.getSelectedValue());
-						//collection.deleteOne(query).first();
+						
 						System.out.println(test);
 						String[] result = test.split(": ");
-						for(int i = 0; i < result.length; i++) {
-							System.out.println(result[i]);
-						}
+						String[] id = result[1].split(", ");
+						tester = id;
 						//delete method here from results
-						update2.setVisible(false);
-						realUpdate.setVisible(true);
+						update.setVisible(false);
+						upload.setVisible(true);
 						JScrollPane scroll = new JScrollPane();
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
 						footnotes.add(scroll, BorderLayout.CENTER);
+						
+						upload.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								
+								MongoClient mongoClient = connectDatabase(companyName);
+								MongoDatabase database = mongoClient.getDatabase(companyName);
+								MongoCollection<Document> collection = database.getCollection("Financial Holdings");
+								
+								resultID = Integer.parseInt(tester[0]);
+								
+								String account = accountName.getText().toUpperCase();
+								String accID = accountID.getText();
+								String bank = bankText.getText().toUpperCase();
+								String balance = balanceText.getText();
+								
+								if(!account.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("account name", Encrypt.encryptData(account)));
+								if(!accID.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("account number", Encrypt.encryptData(accID)));
+								if(!bank.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("bank", Encrypt.encryptData(bank)));
+								if(!balance.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("balance", Encrypt.encryptData(balance)));
+								
+								accountName.setText("");
+								accountID.setText("");
+								bankText.setText("");
+								balanceText.setText("");
+								
+							}
+						});
 					}
 				});
 				footnotes.revalidate();

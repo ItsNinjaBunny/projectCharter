@@ -422,7 +422,7 @@ public class Find {
 		
 
 			accountName = Encrypt.encryptData(accountName.toUpperCase());
-			accountID = Encrypt.encryptData(accountID.toUpperCase());
+			accountID = Encrypt.encryptData(accountID);
 			bank =  Encrypt.encryptData(bank.toUpperCase());
 			
 			Vector<Document> search = new Vector<>();
