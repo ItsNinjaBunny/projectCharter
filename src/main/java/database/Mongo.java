@@ -4,15 +4,17 @@ import com.mongodb.*;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.InsertOneModel;
 import com.mongodb.client.model.Updates;
 import com.opencsv.bean.CsvToBeanBuilder;
+
+import Encryption.Encrypt;
+
 import com.mongodb.BasicDBObject;
 import org.bson.Document;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -39,6 +41,7 @@ public class Mongo {
 		//deleteEmployee();
 		/*Upload file types*/
 		//uploadCSV(1) ;
+		uploadJSON("northwind", "tester");
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception evt) {
@@ -101,7 +104,7 @@ public class Mongo {
 			e.printStackTrace();
 		}
 		//currently picks file and gets file path
-		JFileChooser chooser = new JFileChooser("C:/Users");
+		JFileChooser chooser = new JFileChooser("/users/");
         
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnVal = chooser.showOpenDialog(null);
@@ -119,34 +122,22 @@ public class Mongo {
 	        	CompanyName= CompanyName.toLowerCase();
 	        	MongoClientURI uri = new MongoClientURI("" + "mongodb://User_1:Passw0rd1@"+CompanyName+"-shard-00-00.yjpzu.mongodb.net:27017/test?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true" );
 				MongoClient mongoClient = new MongoClient(uri);
-				MongoDatabase database = mongoClient.getDatabase(CompanyName);			
-				MongoCollection<Document> collection = database.getCollection( CollectionName);
+				MongoDatabase database = mongoClient.getDatabase("test");			
+				MongoCollection<Document> collection = database.getCollection("employeeRecords");
 
 	            // convert JSON to DBObject directly
+				JSONObject obj = (JSONObject) new JSONParser().parse(new FileReader(fileupload()));
 
-				int count = 0;
-				int batch = 100;
-
-				List<InsertOneModel<Document>> docs = new ArrayList<>();
+				String firstName = (String) obj.get("first name");
+				String lastName = (String) obj.get("last name");
 				
-				try (BufferedReader br = new BufferedReader(new FileReader(fileupload()))) {
-				      String line;
-				      while ((line = br.readLine()) != null) {
-				    	  System.out.println(line);
-				         docs.add(new InsertOneModel<>(Document.parse(line)));
-				         count++;
-				         if (count == batch) {
-				           collection.bulkWrite(docs, new BulkWriteOptions().ordered(false));
-				           docs.clear();
-				           count = 0;
-				        }
-				    }
-
-	            System.out.println("Done");
-
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+				firstName = Encrypt.encryptData(firstName.toUpperCase());
+				lastName = Encrypt.encryptData(lastName.toUpperCase());
+				
+				Document doc = new Document();
+				doc.append("first name", firstName).append("last name", lastName);
+				collection.insertOne(doc);
+				
 				mongoClient.close();
 	        }catch (Exception e) {
 	            e.printStackTrace();
