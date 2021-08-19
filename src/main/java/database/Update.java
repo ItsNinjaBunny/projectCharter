@@ -27,7 +27,7 @@ import com.mongodb.client.model.Updates;
 import Encryption.Encrypt;
 
 public class Update {
-
+ 
 	private static JPanel employeePanel;
 	private static JPanel propertyPanel;
 	private static JPanel productPanel;
@@ -460,9 +460,9 @@ public class Update {
 								if(!property.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("property name", Encrypt.encryptData(property)));
 								if(!cost.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost", cost));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("cost", Encrypt.encryptData(cost)));
 								if(!location.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("location", location));
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("location", Encrypt.encryptData(location)));
 								
 								mongoClient.close();
 								propertyText.setText("");

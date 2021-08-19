@@ -44,11 +44,7 @@ public class Delete {
 		JButton search = new JButton("SEARCH");
 		employeePanel = new JPanel();
 		employeePanel.setLayout(null);
-		employeePanel.setBackground(Color.gray);
-		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
-		instLabel.setBounds(280,20,300,20);
-		instLabel.setForeground(Color.white);
-		employeePanel.add(instLabel);
+		
 		
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
@@ -64,9 +60,7 @@ public class Delete {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
-			label.setForeground(Color.white);
 			employeePanel.add(label);
-		
 		}
 		
 		JTextField firstText = new JTextField();
@@ -83,14 +77,13 @@ public class Delete {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
-			
 			employeePanel.add(label);
 		}
 		
 
 		
-		
-		
+		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		employeePanel.add(search);
 		
@@ -138,9 +131,6 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				for (JTextField label : list1) {
-					label.setText("");
-				}
 				
 				delete.addActionListener(new ActionListener() {
 				
@@ -176,7 +166,6 @@ public class Delete {
 		});
 		return employeePanel;
 	}
-
 	//Property search method panel
 	public static JPanel deleteProperty(JPanel footnotes,String companyName) {
 		propertyPanel = new JPanel();
