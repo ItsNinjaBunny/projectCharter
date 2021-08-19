@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.ColorUIResource;
 
 import org.bson.Document;
 
@@ -600,7 +602,7 @@ class GUI extends JFrame {
 					progressBar2.setValue(40);
 					progressBar2.setVisible(true);
 					progressBar2.setValue(40);
-					JOptionPane.showMessageDialog(null, "Uploading Finances...");
+					JOptionPane.showMessageDialog(null, "Uploading Properties...");
 
 					p.revalidate();
 
@@ -1606,7 +1608,7 @@ class GUI extends JFrame {
 			test.append("id", (collection.count() + 1));
 			test.append("first name", emp.getFirstName(true));
 			test.append("last name", emp.getLastName(true));
-			test.append("hire year", emp.getLastName(true));
+			test.append("hire year", emp.getHireYear(true));
 			test.append("ssn", emp.getSSN(true));
 			test.append("occupation", emp.getOccupation(true));
 			System.out.println(emp.toString());
@@ -1623,7 +1625,7 @@ class GUI extends JFrame {
 	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank, String accountNumber) {
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
-		FinancialHoldings fin = new FinancialHoldings(accountName, Balance, Bank);
+		FinancialHoldings fin = new FinancialHoldings(accountName, Balance, Bank,accountNumber);
 		try {
 
 			// gathers information about the records being inserted and database information
@@ -1753,7 +1755,7 @@ class GUI extends JFrame {
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
 			test.append("service name", serv.getTitle(true));
-			test.append("cost", serv.getCategory(true));
+			test.append("cost", serv.getCost(true));
 			test.append("category", serv.getCategory(true));
 
 			// adds the document to the database
