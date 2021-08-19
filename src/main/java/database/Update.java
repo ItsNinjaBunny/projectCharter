@@ -159,7 +159,7 @@ public class Update {
 				
 				footnotes.removeAll();
 				footnotes.revalidate();
-			
+
 				search.setVisible(true);
 				update.setVisible(true);
 				
@@ -167,12 +167,12 @@ public class Update {
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
 				
-				String db = "northwind";
+			
 				
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				Find.findEmployee(db, firstName, lastName, hireYear, document);
+				Find.findEmployee(companyName, firstName, lastName, hireYear, document);
 				
 				JList vector = new JList(document);
 								
@@ -185,7 +185,9 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				update.addActionListener(new ActionListener() {
 				
 					@Override
@@ -401,7 +403,9 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				
 				update.addActionListener(new ActionListener() {
 					
@@ -603,7 +607,9 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				update.addActionListener(new ActionListener() {
 					
 					@Override
@@ -793,6 +799,9 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				update.addActionListener(new ActionListener() {
 					
 					@Override
@@ -976,6 +985,9 @@ public class Update {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				update.addActionListener(new ActionListener() {
 					
 					@Override

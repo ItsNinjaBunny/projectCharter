@@ -138,6 +138,9 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				
 				delete.addActionListener(new ActionListener() {
 				
@@ -251,7 +254,9 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-				
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				
 				delete.addActionListener(new ActionListener() {
 					
@@ -376,6 +381,9 @@ public class Delete {
 				scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				footnotes.add(scroll, BorderLayout.CENTER);
 				
 				delete.addActionListener(new ActionListener() {
@@ -502,6 +510,9 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				delete.addActionListener(new ActionListener() {
 					
 					@Override
@@ -625,6 +636,9 @@ public class Delete {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				delete.addActionListener(new ActionListener() {
 					
 					@Override

@@ -144,19 +144,20 @@ class GUI extends JFrame {
 	String[] messages = { "Select", "Single File Upload", "Manual File Entry" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox messageList = new JComboBox(messages);
+	
 	JButton goButton = new JButton("GO");
 	JPanel insertRecords;
 
 	// creation of the static directory on the left hand side
 	public void createDirectory() {
-
+		
 		directory = new JPanel();
 		directory.setLayout(new GridLayout(5, 1));
 
 		insertRecords = new JPanel();
 		insertRecords.setLayout(null);
 		insertRecords.remove(messageList);
-
+		messageList.setForeground(Color.white);
 		JButton insertButton = new JButton("INSERT RECORDS");
 		JButton homeButton = new JButton("HOME");
 		JButton updateButton = new JButton("UPDATE");
@@ -516,6 +517,8 @@ class GUI extends JFrame {
 		JTextField lBalance = new JTextField(20);
 		JLabel jBank = new JLabel("Banking Institution:");
 		JTextField lBank = new JTextField(20);
+		JLabel jAccountNumber = new JLabel("Account Number:");
+		JTextField lAccountNumber= new JTextField(20);
 
 		p.setLayout(new GridLayout(6, 1));
 		p.add(jAccountName);
@@ -524,6 +527,8 @@ class GUI extends JFrame {
 		p.add(lBalance);
 		p.add(jBank);
 		p.add(lBank);
+		p.add(jAccountNumber);
+		p.add(lAccountNumber);
 
 		JButton Submit = new JButton("Submit");
 		Submit.setSize(new Dimension(1, 1));
@@ -544,10 +549,11 @@ class GUI extends JFrame {
 
 					p.revalidate();
 
-					insertFinance(companyName, lAccountName.getText(), lBalance.getText(), lBank.getText());
+					insertFinance(companyName, lAccountName.getText(), lBalance.getText(), lBank.getText(), lAccountNumber.getText());
 					lAccountName.setText("");
 					lBalance.setText("");
 					lBank.setText("");
+					lAccountNumber.setText("");
 					progressBar5.setValue(0);
 					p.revalidate();
 				}
@@ -822,7 +828,7 @@ class GUI extends JFrame {
 		progressBar.setVisible(false);
 
 		singleFilePanel.add(progressBar);
-		text.setText("Please select the type of file(CSV or JSON)");
+		text.setText("1. Please select the type of file");
 		text.setBounds(140, 10, 500, 100);
 
 		rb1 = new JRadioButton("CSV");
@@ -836,7 +842,7 @@ class GUI extends JFrame {
 		b = new JButton("Select File");
 		JLabel text1 = new JLabel();
 
-		text1.setText("Please select the collection where the file will be stored");
+		text1.setText("2. Please select the collection where the file will be stored");
 		text1.setBounds(140, 170, 500, 10);
 		csvList.setBounds(180, 205, 150, 40);
 		csvList.setBorder(null);
@@ -1616,7 +1622,7 @@ class GUI extends JFrame {
 		JOptionPane.showMessageDialog(null, "Upload Complete");
 	}
 
-	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank) {
+	public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank, String accountNumber) {
 		progressBar5.setValue(300);
 		progressBar5.setVisible(true);
 		FinancialHoldings fin = new FinancialHoldings(accountName, Balance, Bank);
@@ -1637,9 +1643,10 @@ class GUI extends JFrame {
 			Document test = new Document();
 			test.append("id", (collection.count() + 1));
 			test.append("account name", fin.getAccountName(true));
+			
 			test.append("balance", fin.getBalance(true));
 			test.append("bank", fin.getBankingInstitution(true));
-
+			test.append("account number", fin.getAccountNumber(true));
 			// adds the document to the database
 			collection.insertOne(test);
 			mongoClient.close();
@@ -1770,6 +1777,8 @@ class GUI extends JFrame {
 			UIManager.getLookAndFeelDefaults().put("Label.textForeground", new Color(255, 255, 255));
 			UIManager.getLookAndFeelDefaults().put("TextField.background", Color.lightGray);
 			UIManager.getLookAndFeelDefaults().put("Panel.background", Color.gray);
+			UIManager.getLookAndFeelDefaults().put("ComboBox.background", Color.black);
+			UIManager.getLookAndFeelDefaults().put("ComboBox.textForeground", Color.white);
 		} catch (Exception evt) {
 		}
 		// Create an instance of the test application

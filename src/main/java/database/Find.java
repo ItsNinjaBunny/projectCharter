@@ -645,7 +645,9 @@ public class Find {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
-
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				footnotes.revalidate();
 
 			}
@@ -695,7 +697,7 @@ public class Find {
 
 				footnotes.removeAll();
 				footnotes.revalidate();
-
+			
 				DefaultListModel document = new DefaultListModel();
 				// searches by property name
 
@@ -713,6 +715,9 @@ public class Find {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				footnotes.revalidate();
 
 			}
@@ -770,7 +775,7 @@ public class Find {
 
 				footnotes.removeAll();
 				footnotes.revalidate();
-
+			
 				DefaultListModel document = new DefaultListModel();
 				// insert find records for this type
 				// Find.findRecords(firstName, lastName, document);
@@ -788,6 +793,9 @@ public class Find {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				footnotes.revalidate();
 
 			}
@@ -841,7 +849,7 @@ public class Find {
 
 				footnotes.removeAll();
 				footnotes.revalidate();
-
+				
 				DefaultListModel document = new DefaultListModel();
 				// insert find records for this type
 				// Find.findRecords(firstName, lastName, hireYear, document);
@@ -859,6 +867,9 @@ public class Find {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				footnotes.revalidate();
 
 			}
@@ -906,7 +917,6 @@ public class Find {
 			panelFinancial.add(label);
 		}
 
-		
 		searchButton.setBounds(320, 52, 100, 20);
 		panelFinancial.add(searchButton);
 		searchButton.addActionListener(new ActionListener() {
@@ -917,7 +927,7 @@ public class Find {
 
 				footnotes.removeAll();
 				footnotes.revalidate();
-
+				
 				DefaultListModel document = new DefaultListModel();
 				// insert find records for this type
 				// Find.findRecords(firstName, lastName, hireYear, document);
@@ -935,6 +945,9 @@ public class Find {
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setVisible(true);
 				footnotes.add(scroll, BorderLayout.CENTER);
+				for (JTextField label : list1) {
+					label.setText("");
+				}
 				footnotes.revalidate();
 
 			}
