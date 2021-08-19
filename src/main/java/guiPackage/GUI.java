@@ -100,14 +100,14 @@ class GUI extends JFrame {
 		getContentPane().add(topPanel);
 		BufferedImage image = null;
 		try {
-			image =  ImageIO.read(GUI.class.getResourceAsStream("img.png"));
+			image = ImageIO.read(GUI.class.getResourceAsStream("img.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		temp.setLayout(null);
 		temp.setBackground(Color.GRAY);
-		
+
 		JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(300, 300, image.SCALE_SMOOTH)));
 		label.setBounds(105, 70, 300, 300);
 		temp.add(label, BorderLayout.CENTER);
@@ -152,7 +152,7 @@ class GUI extends JFrame {
 
 		directory = new JPanel();
 		directory.setLayout(new GridLayout(5, 1));
-	
+
 		insertRecords = new JPanel();
 		insertRecords.setLayout(null);
 		insertRecords.remove(messageList);
@@ -162,12 +162,12 @@ class GUI extends JFrame {
 		JButton updateButton = new JButton("UPDATE");
 		JButton deleteButton = new JButton("DELETE");
 		JButton findButton = new JButton("FIND");
-		
+
 		findButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				directory.remove(updateButton);
 				directory.remove(deleteButton);
 				directory.remove(insertButton);
@@ -178,7 +178,7 @@ class GUI extends JFrame {
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
-				
+
 				splitPaneH.setLeftComponent(directory);
 				splitPaneH.setRightComponent(pane2);
 				splitPaneH.setDividerLocation(130);
@@ -192,13 +192,13 @@ class GUI extends JFrame {
 				revalidate();
 			}
 		});
-		
+
 		updateButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				directory.remove(findButton);
-			
+
 				directory.remove(deleteButton);
 				directory.remove(insertButton);
 				panel3.removeAll();
@@ -214,7 +214,7 @@ class GUI extends JFrame {
 				panel3.setBorder(blackline);
 				topPanel.removeAll();
 				topPanel.revalidate();
-				
+
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
 				topPanel.add(splitPaneV);
@@ -225,11 +225,11 @@ class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				directory.remove(findButton);
-				
+
 				directory.remove(updateButton);
-			
+
 				directory.remove(insertButton);
 				panel3.removeAll();
 				topPanel.removeAll();
@@ -245,7 +245,7 @@ class GUI extends JFrame {
 				panel3.setBorder(blackline);
 				topPanel.removeAll();
 				topPanel.revalidate();
-				
+
 				splitPaneV.setLeftComponent(splitPaneH);
 				splitPaneV.setRightComponent(panel3);
 				topPanel.add(splitPaneV, BorderLayout.CENTER);
@@ -269,10 +269,10 @@ class GUI extends JFrame {
 		directory1.add(deleteButton);
 		directory1.add(findButton);
 		directory1.add(homeButton);
-		for(JButton l : directory1) {
-		
+		for (JButton l : directory1) {
+
 			l.setBackground(Color.BLACK);
-			
+
 		}
 
 		directory.add(homeButton);
@@ -283,15 +283,18 @@ class GUI extends JFrame {
 				dispose();
 				try {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-					UIManager.getLookAndFeelDefaults().put("Button.background",null);
-		            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
+					UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
+					UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255, 255, 255));
+					UIManager.getLookAndFeelDefaults().put("Label.textForeground", new Color(255, 255, 255));
+					UIManager.getLookAndFeelDefaults().put("TextField.background", Color.lightGray);
+					UIManager.getLookAndFeelDefaults().put("Panel.background", Color.gray);
+
 				} catch (Exception evt) {
 				}
-                GUI gui = new GUI(companyName);
-                gui.pack();
-                gui.setLocationRelativeTo(null);
-                gui.setVisible(true);
-
+				GUI gui = new GUI(companyName);
+				gui.pack();
+				gui.setLocationRelativeTo(null);
+				gui.setVisible(true);
 
 			}
 
@@ -329,7 +332,6 @@ class GUI extends JFrame {
 									public void actionPerformed(ActionEvent e) {
 										splitPaneH.setLeftComponent(directory);
 										splitPaneH.setRightComponent(singleFilePanel);
-										
 
 									}
 
@@ -373,9 +375,9 @@ class GUI extends JFrame {
 					}
 				}
 				directory.remove(findButton);
-				
+
 				directory.remove(updateButton);
-			
+
 				directory.remove(deleteButton);
 				messageList.setSelectedIndex(0);
 				messageList.addActionListener(new directoryAction());
@@ -390,7 +392,7 @@ class GUI extends JFrame {
 				insertRecords.setBackground(Color.GRAY);
 				insertRecords.add(text);
 				setTitle("InsertRecords - CompanyVault.exe");
-				
+
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setRightComponent(insertRecords);
@@ -398,7 +400,6 @@ class GUI extends JFrame {
 				topPanel.removeAll();
 				topPanel.revalidate();
 				topPanel.add(splitPaneH, BorderLayout.CENTER);
-				
 
 			}
 		});
@@ -1764,9 +1765,11 @@ class GUI extends JFrame {
 		try {
 
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			UIManager.getLookAndFeelDefaults().put("Button.background",null);
-            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
-		
+			UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
+			UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255, 255, 255));
+			UIManager.getLookAndFeelDefaults().put("Label.textForeground", new Color(255, 255, 255));
+			UIManager.getLookAndFeelDefaults().put("TextField.background", Color.lightGray);
+			UIManager.getLookAndFeelDefaults().put("Panel.background", Color.gray);
 		} catch (Exception evt) {
 		}
 		// Create an instance of the test application

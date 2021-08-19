@@ -46,10 +46,13 @@ public class logIn {
 
     public static void main(String[] args) {
     	try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+    		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
             UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
-           
+            UIManager.getLookAndFeelDefaults().put("Label.textForeground", new Color(255,255,255));
+            UIManager.getLookAndFeelDefaults().put("TextField.background",Color.lightGray);
+            UIManager.getLookAndFeelDefaults().put("Panel.background",Color.gray);  
+			UIManager.getLookAndFeelDefaults().put("Button.Opaque", false);
 
     	} catch (Exception evt) {
 		}

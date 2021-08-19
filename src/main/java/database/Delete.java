@@ -44,7 +44,11 @@ public class Delete {
 		JButton search = new JButton("SEARCH");
 		employeePanel = new JPanel();
 		employeePanel.setLayout(null);
-		
+		employeePanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		employeePanel.add(instLabel);
 		
 		JLabel firstLabel = new JLabel("First name: ");
 		JLabel lastLabel = new JLabel("Last name: ");
@@ -60,7 +64,9 @@ public class Delete {
 		for(JLabel label: list) {
 			label.setBounds(x, y, 80, 25);
 			y += 30;
+			label.setForeground(Color.white);
 			employeePanel.add(label);
+		
 		}
 		
 		JTextField firstText = new JTextField();
@@ -77,13 +83,14 @@ public class Delete {
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
+			
 			employeePanel.add(label);
 		}
 		
 
 		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		
+		
 		search.setBounds(320, 52, 100, 20);
 		employeePanel.add(search);
 		
@@ -171,6 +178,11 @@ public class Delete {
 	public static JPanel deleteProperty(JPanel footnotes,String companyName) {
 		propertyPanel = new JPanel();
 		propertyPanel.setLayout(null);
+		propertyPanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		propertyPanel.add(instLabel);
 		JButton search = new JButton("SEARCH");
 				
 		JLabel firstLabel = new JLabel("Property Name: ");
@@ -207,8 +219,8 @@ public class Delete {
 		delete.setBounds(320, 74, 100, 20);
 		delete.setVisible(false);
 		propertyPanel.add(delete);
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		
+		
 		search.setBounds(320, 52, 100, 20);
 		propertyPanel.add(search);
 		search.addActionListener(new ActionListener() {
@@ -281,7 +293,11 @@ public class Delete {
 		JButton search = new JButton("SEARCH");
 		productPanel = new JPanel();
 		productPanel.setLayout(null);
-		
+		productPanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		productPanel.add(instLabel);
 		
 		JLabel productLabel = new JLabel("Product name: ");
 		JLabel categoryLabel = new JLabel("Category: ");
@@ -324,8 +340,8 @@ public class Delete {
 		delete.setVisible(false);
 		productPanel.add(delete);
 		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		
+		
 		search.setBounds(320, 52, 100, 20);
 		productPanel.add(search);
 		search.addActionListener(new ActionListener() {
@@ -404,7 +420,11 @@ public class Delete {
 		JButton search = new JButton("SEARCH");
 		servicePanel = new JPanel();
 		servicePanel.setLayout(null);
-		
+		servicePanel.setBackground(Color.gray);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		servicePanel.add(instLabel);
 		
 		JLabel serviceLabel = new JLabel("Service name: ");
 		JLabel categoryLabel = new JLabel("Category: ");
@@ -445,8 +465,8 @@ public class Delete {
 		delete.setBounds(320, 74, 100, 20);
 		delete.setVisible(false);
 		servicePanel.add(delete);
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		
+		
 		search.setBounds(320, 52, 100, 20);
 		servicePanel.add(search);
 		search.addActionListener(new ActionListener() {
@@ -522,8 +542,11 @@ public class Delete {
 		JButton search = new JButton("SEARCH");
 		financialPanel = new JPanel();
 		financialPanel.setLayout(null);
-		
-		
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		financialPanel.add(instLabel);
+		financialPanel.setBackground(Color.gray);
 		JLabel accountLabel = new JLabel("Account name: ");
 		JLabel accIDLabel = new JLabel("Account ID: ");
 		JLabel bankLabel = new JLabel("Bank: ");
@@ -554,7 +577,7 @@ public class Delete {
 	
 		
 		int h = 20;
-		int w = 100;
+		int w = 110;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
@@ -565,8 +588,8 @@ public class Delete {
 		delete.setVisible(false);
 		financialPanel.add(delete);
 		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
+		search.setForeground(Color.white);
+	
 		search.setBounds(320, 52, 100, 20);
 		financialPanel.add(search);
 		search.addActionListener(new ActionListener() {
