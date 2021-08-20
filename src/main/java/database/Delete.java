@@ -83,6 +83,7 @@ public class Delete {
 
 		
 		search.setForeground(Color.BLACK);
+		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		employeePanel.add(search);
 		
@@ -139,13 +140,15 @@ public class Delete {
 						MongoDatabase database = mongoClient.getDatabase(companyName);
 						MongoCollection<Document> collection = database.getCollection("Employees");
 						
+						
 						String test = String.valueOf(vector.getSelectedValue());
 						String[] result = test.split(": ");
 						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
-						//collection.deleteOne(query).first();
-						BasicDBObject query = new BasicDBObject(resultID);
-						collection.deleteOne(query);
+						BasicDBObject query = new BasicDBObject("id", resultID);
+						collection.deleteOne(query);						
+						
+						//collection.deleteOne(query);
 						mongoClient.close();
 						
 						//delete method here from results
@@ -640,6 +643,7 @@ public class Delete {
 						String[] result = test.split(": ");
 						String[] id = result[1].split(", ");
 						int resultID = Integer.parseInt(id[0]);
+						System.out.println(resultID);
 						//collection.deleteOne(query).first();
 						BasicDBObject query = new BasicDBObject("id", resultID);
 						collection.deleteOne(query);

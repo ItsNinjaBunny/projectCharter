@@ -1536,7 +1536,7 @@ class GUI extends JFrame {
 					occupation = Encrypt.encryptData(occupation.toUpperCase());
 					
 					
-					int docID = 1;
+					int docID = 0;
 					int id = 0;
 					
 					BasicDBObject getID = new BasicDBObject("id", docID);
@@ -1615,7 +1615,7 @@ class GUI extends JFrame {
 					location = Encrypt.encryptData(location.toUpperCase());
 					
 					
-					int docID = 1;
+					int docID = 0;
 					int id = 0;
 					
 					BasicDBObject getID = new BasicDBObject("id", docID);
@@ -1697,7 +1697,7 @@ class GUI extends JFrame {
 					supplier = Encrypt.encryptData(supplier.toUpperCase());
 					
 					
-					int docID = 1;
+					int docID = 0;
 					int id = 0;
 					
 					BasicDBObject getID = new BasicDBObject("id", docID);
@@ -1775,7 +1775,7 @@ class GUI extends JFrame {
 					cost = Encrypt.encryptData(cost.toUpperCase());
 					category = Encrypt.encryptData(category.toUpperCase());
 					
-					int docID = 1;
+					int docID = 0;
 					int id = 0;
 					
 					BasicDBObject getID = new BasicDBObject("id", docID);
@@ -1855,7 +1855,7 @@ class GUI extends JFrame {
 					balance = Encrypt.encryptData(balance.toUpperCase());
 					bank = Encrypt.encryptData(bank.toUpperCase());			
 					
-					int docID = 1;
+					int docID = 0;
 					int id = 0;
 					
 					BasicDBObject getID = new BasicDBObject("id", docID);

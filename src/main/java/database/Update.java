@@ -250,6 +250,8 @@ public class Update {
 								String hire = hireText.getText().toUpperCase();
 								String occupation = occupationText.getText().toUpperCase();
 								
+								System.out.println(first + " " + last + " " + ssnText + " " + hire + " " + occupation);
+								
 								if(!first.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", Encrypt.encryptData(first)));
 								if(!last.equals(""))
