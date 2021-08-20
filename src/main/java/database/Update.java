@@ -445,7 +445,7 @@ public class Update {
 								
 								resultID = Integer.parseInt(tester[0]);
 								
-								JOptionPane.showMessageDialog(null, "uploading...");
+								JOptionPane.showMessageDialog(null, "Updating...");
 								
 								search.setVisible(true);
 								upload.setVisible(false);
@@ -644,7 +644,7 @@ public class Update {
 								MongoClient mongoClient = connectDatabase(companyName);
 								MongoDatabase database = mongoClient.getDatabase(companyName);
 								MongoCollection<Document> collection = database.getCollection("Products");
-								
+								JOptionPane.showMessageDialog(null, "Updating...");
 								resultID = Integer.parseInt(tester[0]);
 								
 								String product = productText.getText().toUpperCase();

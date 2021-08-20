@@ -83,7 +83,6 @@ public class Delete {
 
 		
 		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		employeePanel.add(search);
 		

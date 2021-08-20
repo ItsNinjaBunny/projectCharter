@@ -546,9 +546,7 @@ class GUI extends JFrame {
 					progressBar5.setVisible(true);
 					progressBar5.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Finances...");
-
 					p.revalidate();
-
 					insertFinance(companyName, lAccountName.getText(), lBalance.getText(), lBank.getText(), lAccountNumber.getText());
 					lAccountName.setText("");
 					lBalance.setText("");
