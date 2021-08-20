@@ -1,6 +1,6 @@
 productServiceID,title,cost,category,supplier
-1,Toilet Paper,$102.25 ,Hygiene,Tree and CO.
-2,Towels,$10.00 ,Hygiene,Shower People
-3,Soap,$2.35 ,Hygiene,Wax Company
-4,Rug,$25.75 ,Flooring,Sheep TM
-5,Files,$2.50 ,Office Supplies,Staples
+1,Toilet Paper,102.25 ,Hygiene,Tree and CO.
+2,Towels,10.00 ,Hygiene,Shower People
+3,Soap,2.35 ,Hygiene,Wax Company
+4,Rug,25.75 ,Flooring,Sheep TM
+5,Files,2.50 ,Office Supplies,Staples

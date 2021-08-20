@@ -1,5 +1,5 @@
-﻿accountID,accountName,balance,bankingInstitution,accountNumber
-1,Human Resources,"$285,000 ",Mountain America,1
-2,Accounting,"$20,000 ",Bank of America,2
-3,Personal,"$1,023 ",Wells Fargo,3
-4,Entertainment,$200 ,Bank of America,4
+accountID,accountName,balance,bankingInstitution,accountNumber
+1,Human Resources,"285,000 ",Mountain America,1
+2,Accounting,"20,000 ",Bank of America,2
+3,Personal,"1,023 ",Wells Fargo,3
+4,Entertainment,200 ,Bank of America,4
