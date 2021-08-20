@@ -1,0 +1,5 @@
+{ "service name" : "Janitor", "cost" : "$9.50", "category" : "Cleaning"}
+{ "service name" : "Maid", "cost" : "$12.50", "category" : "Cleaning" }
+{ "service name" : "Doctor", "cost" : "$999.99", "category" : "Health" }
+{ "service name" : "Nurse", "cost" : "$599.99", "category" : "Health"}
+{ "service name" : "Trainer", "cost" : "$29.99", "category" : "Health"}

@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,26 +36,26 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ColorUIResource;
 
 import org.bson.Document;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.BulkWriteOptions;
-import com.mongodb.client.model.InsertOneModel;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import Encryption.Encrypt;
-import Property.Property;
+import csvFiles.Employee;
+import csvFiles.FinancialHoldings;
+import csvFiles.ProductServices;
+import csvFiles.Property;
 import database.Delete;
-import database.Employee;
 import database.Find;
-import database.ProductServices;
 import database.Update;
-import database.FinancialHoldings;
 
 @SuppressWarnings("serial")
 class GUI extends JFrame {
@@ -858,6 +857,7 @@ class GUI extends JFrame {
 		csvList.setSelectedIndex(0);
 		singleFilePanel.add(text);
 		singleFilePanel.add(rb1);
+		singleFilePanel.add(rb2);
 
 		singleFilePanel.add(b);
 		singleFilePanel.add(text1);
@@ -941,7 +941,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								uploadJSON(companyName, msg);
+								uploadJSONEmployee(companyName);
 								splitPaneH.setLeftComponent(directory);
 								splitPaneH.setRightComponent(temp);
 								progressBar.setVisible(false);
@@ -993,7 +993,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								uploadJSON(companyName, msg);
+								uploadJSONProperty(companyName);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
 
@@ -1043,7 +1043,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								uploadJSON(companyName, msg);
+								uploadJSONProduct(companyName);
 
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
@@ -1093,7 +1093,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								uploadJSON(companyName, msg);
+								uploadJSONService(companyName);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
 
@@ -1144,7 +1144,7 @@ class GUI extends JFrame {
 							public void actionPerformed(ActionEvent e) {
 								text2.setVisible(false);
 								text3.setVisible(false);
-								uploadJSON(companyName, msg);
+								uploadJSONFinancials(companyName);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
 
@@ -1176,7 +1176,7 @@ class GUI extends JFrame {
 
 			// convert CSV directly
 			try {
-				String file = fileupload();
+				String file = fileUpload();
 				List<Employee> beans = new CsvToBeanBuilder(new FileReader(file))
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
@@ -1245,7 +1245,7 @@ class GUI extends JFrame {
 
 			// convert CSV directly
 			try {
-				String file = fileupload();
+				String file = fileUpload();
 				List<Property> beans = new CsvToBeanBuilder(new FileReader(file))
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
@@ -1309,7 +1309,7 @@ class GUI extends JFrame {
 
 			// convert CSV directly
 			try {
-				String file = fileupload();
+				String file = fileUpload();
 				List<ProductServices> beans = new CsvToBeanBuilder(new FileReader(file))
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
@@ -1375,7 +1375,7 @@ class GUI extends JFrame {
 
 			// convert CSV directly
 			try {
-				String file = fileupload();
+				String file = fileUpload();
 				List<ProductServices> beans = new CsvToBeanBuilder(new FileReader(file))
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
@@ -1440,7 +1440,7 @@ class GUI extends JFrame {
 
 			// convert CSV directly
 			try {
-				String file = fileupload();
+				String file = fileUpload();
 				List<FinancialHoldings> beans = new CsvToBeanBuilder(new FileReader(file))
 						// we ask if the file contians headers upon radial selection it will skip first
 						// header line
@@ -1493,7 +1493,7 @@ class GUI extends JFrame {
 
 	}
 
-	public static void uploadJSON(String CompanyName, String CollectionName) {
+	public static void uploadJSONEmployee(String CompanyName) {
 
 		try {
 			CompanyName = CompanyName.toLowerCase();
@@ -1502,52 +1502,402 @@ class GUI extends JFrame {
 							+ "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
 			MongoClient mongoClient = new MongoClient(uri);
 			MongoDatabase database = mongoClient.getDatabase(CompanyName);
-			MongoCollection<Document> collection = database.getCollection(CollectionName);
+			MongoCollection<Document> collection = database.getCollection("Employees");
 
-			// convert JSON to DBObject directly
+			
+		    ArrayList<JSONObject> json=new ArrayList<JSONObject>();
+		    JSONObject obj;
+		    // The name of the file to open.
 
-			int count = 0;
-			int batch = 100;
+		    // This will reference one line at a time
+		    String line = null;
 
-			List<InsertOneModel<Document>> docs = new ArrayList<>();
+		    try {
+		        // FileReader reads text files in the default encoding.
+		        FileReader fileReader = new FileReader(fileUpload());
 
-			try (BufferedReader br = new BufferedReader(new FileReader(fileupload()))) {
-				String line;
-				while ((line = br.readLine()) != null) {
-					docs.add(new InsertOneModel<>(Document.parse(line.toLowerCase())));
+		        // Always wrap FileReader in BufferedReader.
+		        BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-					count++;
-
-					if (count == batch) {
-						collection.bulkWrite(docs, new BulkWriteOptions().ordered(false));
-						docs.clear();
-						count = 0;
-					}
-
-				}
-
-				// do some stuffs here
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				progressBar.setValue(300);
-				JOptionPane.showMessageDialog(null, "JSON Upload Complete");
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		        while((line = bufferedReader.readLine()) != null) {
+		            obj = (JSONObject) new JSONParser().parse(line);
+		            json.add(obj);
+		           
+					String first = (String) obj.get("first name");
+					String last = (String) obj.get("last name");
+					String ssn = (String) obj.get("ssn");
+					String hire = (String) obj.get("hire year");
+					String occupation = (String) obj.get("occupation");		
+					
+					first = Encrypt.encryptData(first.toUpperCase());
+					last = Encrypt.encryptData(last.toUpperCase());
+					ssn = Encrypt.encryptData(ssn.toUpperCase());
+					hire = Encrypt.encryptData(hire.toUpperCase());
+					occupation = Encrypt.encryptData(occupation.toUpperCase());
+					
+					
+					int docID = 1;
+					int id = 0;
+					
+					BasicDBObject getID = new BasicDBObject("id", docID);
+					boolean isValid = true;
+					Document nextID;
+					
+					nextID = collection.find(getID).first();
+					do {
+						
+						if(nextID == null) {
+							id = docID;
+							isValid = false;
+							break;
+						}
+						else {
+							nextID.clear();
+							getID.clear();
+							docID++;
+							getID.append("id", docID);
+							nextID = collection.find(getID).first();
+							
+						}
+					}while(isValid);
+					Document doc = new Document();
+					
+					doc.append("id", id).append("first name", first).append("last name", last).append("ssn", ssn).append("hire year", hire).append("occupation", occupation);
+					collection.insertOne(doc);
+		        }
+		        // Always close files.
+		        bufferedReader.close();         
+		    }catch(IOException e) {
+		    	e.printStackTrace();
+		    }
 			mongoClient.close();
-		} catch (Exception e) {
+			
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	public static String fileupload() {
+	public static void uploadJSONProperty(String CompanyName) {
+			
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			CompanyName = CompanyName.toLowerCase();
+			MongoClientURI uri = new MongoClientURI(
+					"" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + CompanyName
+							+ "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+			MongoClient mongoClient = new MongoClient(uri);
+			MongoDatabase database = mongoClient.getDatabase(CompanyName);
+			MongoCollection<Document> collection = database.getCollection("Properties");
+
+			
+		    ArrayList<JSONObject> json=new ArrayList<JSONObject>();
+		    JSONObject obj;
+
+		    // This will reference one line at a time
+		    String line = null;
+
+		    try {
+		        // FileReader reads text files in the default encoding.
+		        FileReader fileReader = new FileReader(fileUpload());
+
+		        // Always wrap FileReader in BufferedReader.
+		        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		        while((line = bufferedReader.readLine()) != null) {
+		            obj = (JSONObject) new JSONParser().parse(line);
+		            json.add(obj);
+		            
+					String property = (String) obj.get("property name");
+					String cost = (String) obj.get("cost");
+					String location = (String) obj.get("location");	
+					
+					property = Encrypt.encryptData(property.toUpperCase());
+					cost = Encrypt.encryptData(cost.toUpperCase());
+					location = Encrypt.encryptData(location.toUpperCase());
+					
+					
+					int docID = 1;
+					int id = 0;
+					
+					BasicDBObject getID = new BasicDBObject("id", docID);
+					boolean isValid = true;
+					Document nextID;
+					
+					nextID = collection.find(getID).first();
+					do {
+						
+						if(nextID == null) {
+							id = docID;
+							isValid = false;
+							break;
+						}
+						else {
+							nextID.clear();
+							getID.clear();
+							docID++;
+							getID.append("id", docID);
+							nextID = collection.find(getID).first();
+							
+						}
+					}while(isValid);
+					Document doc = new Document();
+					
+					doc.append("id", id).append("property name", property).append("cost", cost).append("location", location);
+					collection.insertOne(doc);
+		        }
+		        // Always close files.
+		        bufferedReader.close();         
+		    }catch(IOException e) {
+		    	e.printStackTrace();
+		    }
+			mongoClient.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void uploadJSONProduct(String CompanyName) {
+
+		try {
+			CompanyName = CompanyName.toLowerCase();
+			MongoClientURI uri = new MongoClientURI(
+					"" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + CompanyName
+							+ "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+			MongoClient mongoClient = new MongoClient(uri);
+			MongoDatabase database = mongoClient.getDatabase(CompanyName);
+			MongoCollection<Document> collection = database.getCollection("Products");
+
+			
+			
+		    ArrayList<JSONObject> json=new ArrayList<JSONObject>();
+		    JSONObject obj;
+		    // The name of the file to open
+
+		    // This will reference one line at a time
+		    String line = null;
+
+		    try {
+		        // FileReader reads text files in the default encoding.
+		        FileReader fileReader = new FileReader(fileUpload());
+
+		        // Always wrap FileReader in BufferedReader.
+		        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		        while((line = bufferedReader.readLine()) != null) {
+		            obj = (JSONObject) new JSONParser().parse(line);
+		            json.add(obj);
+		            
+					String product = (String) obj.get("product name");
+					String cost = (String) obj.get("cost");
+					String category = (String) obj.get("category");
+					String supplier = (String) obj.get("supplier");	
+					
+					product = Encrypt.encryptData(product.toUpperCase());
+					cost = Encrypt.encryptData(cost.toUpperCase());
+					category = Encrypt.encryptData(category.toUpperCase());
+					supplier = Encrypt.encryptData(supplier.toUpperCase());
+					
+					
+					int docID = 1;
+					int id = 0;
+					
+					BasicDBObject getID = new BasicDBObject("id", docID);
+					boolean isValid = true;
+					Document nextID;
+					
+					nextID = collection.find(getID).first();
+					do {
+						
+						if(nextID == null) {
+							id = docID;
+							isValid = false;
+							break;
+						}
+						else {
+							nextID.clear();
+							getID.clear();
+							docID++;
+							getID.append("id", docID);
+							nextID = collection.find(getID).first();
+							
+						}
+					}while(isValid);
+					Document doc = new Document();
+					
+					doc.append("id", id).append("product name", product).append("cost", cost).append("category", category).append("supplier", supplier);
+					collection.insertOne(doc);
+		            		        }
+		        // Always close files.
+		        bufferedReader.close();         
+		    }catch(IOException e) {
+		    	e.printStackTrace();
+		    }
+			mongoClient.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void uploadJSONService(String CompanyName) {
+
+		try {
+			CompanyName = CompanyName.toLowerCase();
+			MongoClientURI uri = new MongoClientURI(
+					"" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + CompanyName
+							+ "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+			MongoClient mongoClient = new MongoClient(uri);
+			MongoDatabase database = mongoClient.getDatabase(CompanyName);
+			MongoCollection<Document> collection = database.getCollection("Services");
+
+			
+		    ArrayList<JSONObject> json=new ArrayList<JSONObject>();
+		    JSONObject obj;
+		    // The name of the file to open.
+
+		    // This will reference one line at a time
+		    String line = null;
+
+		    try {
+		        // FileReader reads text files in the default encoding.
+		        FileReader fileReader = new FileReader(fileUpload());
+
+		        // Always wrap FileReader in BufferedReader.
+		        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		        while((line = bufferedReader.readLine()) != null) {
+		            obj = (JSONObject) new JSONParser().parse(line);
+		            json.add(obj);
+		            
+					String service = (String) obj.get("service name");
+					String cost = (String) obj.get("cost");
+					String category = (String) obj.get("category");	
+					
+					service = Encrypt.encryptData(service.toUpperCase());
+					cost = Encrypt.encryptData(cost.toUpperCase());
+					category = Encrypt.encryptData(category.toUpperCase());
+					
+					int docID = 1;
+					int id = 0;
+					
+					BasicDBObject getID = new BasicDBObject("id", docID);
+					boolean isValid = true;
+					Document nextID;
+					
+					nextID = collection.find(getID).first();
+					do {
+						
+						if(nextID == null) {
+							id = docID;
+							isValid = false;
+							break;
+						}
+						else {
+							nextID.clear();
+							getID.clear();
+							docID++;
+							getID.append("id", docID);
+							nextID = collection.find(getID).first();
+							
+						}
+					}while(isValid);
+					Document doc = new Document();
+					
+					doc.append("id", id).append("service name", service).append("cost", cost).append("category", category);
+					collection.insertOne(doc);
+		        }
+		        // Always close files.
+		        bufferedReader.close();         
+		    }catch(IOException e) {
+		    	e.printStackTrace();
+		    }
+			mongoClient.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void uploadJSONFinancials(String CompanyName) {
+
+		try {
+			CompanyName = CompanyName.toLowerCase();
+			MongoClientURI uri = new MongoClientURI(
+					"" + "mongodb://User_1:Passw0rd1@companyvault-shard-00-00.yjpzu.mongodb.net:27017/" + CompanyName
+							+ "?ssl=true&replicaSet=atlas-6z6827-shard-0&authSource=admin&retryWrites=true");
+			MongoClient mongoClient = new MongoClient(uri);
+			MongoDatabase database = mongoClient.getDatabase(CompanyName);
+			MongoCollection<Document> collection = database.getCollection("Financial Holdings");
+
+			
+		    ArrayList<JSONObject> json=new ArrayList<JSONObject>();
+		    JSONObject obj;
+		    // The name of the file to open.
+
+		    // This will reference one line at a time
+		    String line = null;
+
+		    try {
+		        // FileReader reads text files in the default encoding.
+		        FileReader fileReader = new FileReader(fileUpload());
+
+		        // Always wrap FileReader in BufferedReader.
+		        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		        while((line = bufferedReader.readLine()) != null) {
+		            obj = (JSONObject) new JSONParser().parse(line);
+		            json.add(obj);
+		            
+					String accountName = (String) obj.get("account name");
+					String accountNumber = (String) obj.get("account number");
+					String balance = (String) obj.get("balance");
+					String bank = (String) obj.get("bank");	
+					
+					accountName = Encrypt.encryptData(accountName.toUpperCase());
+					accountNumber = Encrypt.encryptData(accountNumber.toUpperCase());
+					balance = Encrypt.encryptData(balance.toUpperCase());
+					bank = Encrypt.encryptData(bank.toUpperCase());			
+					
+					int docID = 1;
+					int id = 0;
+					
+					BasicDBObject getID = new BasicDBObject("id", docID);
+					boolean isValid = true;
+					Document nextID;
+					
+					nextID = collection.find(getID).first();
+					do {
+						
+						if(nextID == null) {
+							id = docID;
+							isValid = false;
+							break;
+						}
+						else {
+							nextID.clear();
+							getID.clear();
+							docID++;
+							getID.append("id", docID);
+							nextID = collection.find(getID).first();
+							
+						}
+					}while(isValid);
+					Document doc = new Document();
+					
+					doc.append("id", id).append("account name", accountName).append("account number", accountNumber).append("balance", balance).append("bank", bank);
+					collection.insertOne(doc);
+		        }
+		        // Always close files.
+		        bufferedReader.close();         
+		    }catch(IOException e) {
+		    	e.printStackTrace();
+		    }
+			mongoClient.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String fileUpload() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1764,26 +2114,5 @@ class GUI extends JFrame {
 			e.printStackTrace();
 		}
 		JOptionPane.showMessageDialog(null, "Upload Complete");
-	}
-
-	public static void main(String args[]) {
-		try {
-
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
-			UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255, 255, 255));
-			UIManager.getLookAndFeelDefaults().put("Label.textForeground", new Color(255, 255, 255));
-			UIManager.getLookAndFeelDefaults().put("TextField.background", Color.lightGray);
-			UIManager.getLookAndFeelDefaults().put("Panel.background", Color.gray);
-			UIManager.getLookAndFeelDefaults().put("ComboBox.background", Color.black);
-			UIManager.getLookAndFeelDefaults().put("ComboBox.textForeground", Color.white);
-		} catch (Exception evt) {
-		}
-		// Create an instance of the test application
-		GUI mainFrame = new GUI("");
-		mainFrame.pack();
-		mainFrame.setLocationRelativeTo(null);
-		mainFrame.setVisible(true);
-
 	}
 }
