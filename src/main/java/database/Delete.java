@@ -44,6 +44,10 @@ public class Delete {
 		JButton search = new JButton("SEARCH");
 		employeePanel = new JPanel();
 		employeePanel.setLayout(null);
+		JLabel instLabel = new JLabel("1.Search  2.Select One  3.Delete");
+		instLabel.setBounds(280,20,300,20);
+		instLabel.setForeground(Color.white);
+		employeePanel.add(instLabel);
 		
 		
 		JLabel firstLabel = new JLabel("First name: ");
@@ -58,7 +62,7 @@ public class Delete {
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
+			label.setBounds(x, y, 120, 25);
 			y += 30;
 			employeePanel.add(label);
 		}
@@ -73,7 +77,7 @@ public class Delete {
 		list1.add(ssnText);
 		
 		int h = 20;
-		int w = 100;
+		int w = 130;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
@@ -81,9 +85,6 @@ public class Delete {
 		}
 		
 
-		
-		search.setForeground(Color.BLACK);
-		search.setOpaque(true);
 		search.setBounds(320, 52, 100, 20);
 		employeePanel.add(search);
 		
@@ -202,7 +203,7 @@ public class Delete {
 		
 		
 		int h = 20;
-		int w = 100;
+		int w = 130;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
@@ -308,7 +309,7 @@ public class Delete {
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
+			label.setBounds(x, y, 120, 25);
 			y += 30;
 			productPanel.add(label);
 		}
@@ -323,7 +324,7 @@ public class Delete {
 		list1.add(supplierText);
 		
 		int h = 20;
-		int w = 100;
+		int w = 130;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
@@ -437,7 +438,7 @@ public class Delete {
 		int x = 10;
 		int y = 20;
 		for(JLabel label: list) {
-			label.setBounds(x, y, 80, 25);
+			label.setBounds(x, y, 120, 25);
 			y += 30;
 			servicePanel.add(label);
 		}
@@ -452,7 +453,7 @@ public class Delete {
 	
 		
 		int h = 20;
-		int w = 100;
+		int w = 130;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
@@ -550,7 +551,7 @@ public class Delete {
 		financialPanel.add(instLabel);
 		financialPanel.setBackground(Color.gray);
 		JLabel accountLabel = new JLabel("Account name: ");
-		JLabel accIDLabel = new JLabel("Account ID: ");
+		JLabel accIDLabel = new JLabel("Account Number: ");
 		JLabel bankLabel = new JLabel("Bank: ");
 		
 		
@@ -579,7 +580,7 @@ public class Delete {
 	
 		
 		int h = 20;
-		int w = 110;
+		int w = 130;
 		for(JTextField label: list1) {
 			label.setBounds(w, h, 150, 25);
 			h += 30;
