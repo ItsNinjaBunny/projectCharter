@@ -50,8 +50,7 @@ public class logIn {
             UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
             UIManager.getLookAndFeelDefaults().put("Label.textForeground", new Color(255,255,255));
             UIManager.getLookAndFeelDefaults().put("TextField.background",Color.lightGray);
-            UIManager.getLookAndFeelDefaults().put("Panel.background",Color.gray);  
-
+            UIManager.getLookAndFeelDefaults().put("Panel.background",Color.gray); 
     	} catch (Exception evt) {
 		}
     	run();
