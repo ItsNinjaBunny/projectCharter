@@ -158,19 +158,23 @@ public class GUI extends JFrame {
 		insertRecords.remove(messageList);
 		messageList.setForeground(Color.white);
 		JButton insertButton = new JButton("INSERT RECORDS");
-		JButton homeButton = new JButton("HOME");
+		JButton backButton = new JButton("BACK");
 		JButton updateButton = new JButton("UPDATE");
 		JButton deleteButton = new JButton("DELETE");
 		JButton findButton = new JButton("FIND");
-
+		JButton logoutButton = new JButton("LOGOUT");
+		
+		directory.remove(backButton);
+		
 		findButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				directory.add(backButton);
 				directory.remove(updateButton);
 				directory.remove(deleteButton);
 				directory.remove(insertButton);
+				directory.remove(logoutButton);
 				topPanel.removeAll();
 				topPanel.revalidate();
 				panel3.removeAll();
@@ -197,10 +201,16 @@ public class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				directory.add(backButton);
+				
+				directory.remove(logoutButton);
 				directory.remove(findButton);
 
 				directory.remove(deleteButton);
 				directory.remove(insertButton);
+				
+				
 				panel3.removeAll();
 				setTitle("Update Records - CompanyVault.exe");
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -225,12 +235,16 @@ public class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				directory.add(backButton);
+				
 				directory.remove(findButton);
 
 				directory.remove(updateButton);
 
 				directory.remove(insertButton);
+				
+				directory.remove(logoutButton);
+				
 				panel3.removeAll();
 				topPanel.removeAll();
 				setTitle("Delete Records - CompanyVault.exe");
@@ -252,12 +266,13 @@ public class GUI extends JFrame {
 				topPanel.revalidate();
 			}
 		});
+		directory.remove(backButton);
 		directory.add(insertButton);
 		directory.add(updateButton);
 		directory.add(deleteButton);
 		directory.add(findButton);
-
-		directory.add(homeButton);
+		directory.add(logoutButton);
+		//directory.add(homeButton);
 		ArrayList<JTabbedPane> list = new ArrayList<JTabbedPane>();
 		list.add(pane);
 		list.add(pane2);
@@ -268,15 +283,37 @@ public class GUI extends JFrame {
 		directory1.add(updateButton);
 		directory1.add(deleteButton);
 		directory1.add(findButton);
-		directory1.add(homeButton);
+		directory1.add(logoutButton);
+		directory1.remove(backButton);
 		for (JButton l : directory1) {
 
 			l.setBackground(Color.BLACK);
 
 		}
 
-		directory.add(homeButton);
-		homeButton.addActionListener(new ActionListener() {
+		directory.add(logoutButton);
+		logoutButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				try {
+					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+					UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
+		            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
+		           
+
+		    	} catch (Exception evt) {
+				}
+		    	logIn.run();
+
+				
+			
+			
+			}});
+		
+		
+		backButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -379,6 +416,10 @@ public class GUI extends JFrame {
 				directory.remove(updateButton);
 
 				directory.remove(deleteButton);
+				
+				directory.add(backButton);
+				directory.remove(logoutButton);
+				
 				messageList.setSelectedIndex(0);
 				messageList.addActionListener(new directoryAction());
 				JLabel text = new JLabel();
