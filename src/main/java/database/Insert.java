@@ -36,6 +36,7 @@ public class Insert {
 
 			progressBar1.setValue(300);
 			progressBar1.setVisible(true);
+			boolean success = false;
 
 			try {
 
@@ -51,6 +52,9 @@ public class Insert {
 				MongoCollection<Document> collection = database.getCollection("Employees");
 
 				// creates the document to insert into the database
+			if(Integer.parseInt(emp.getHireYear()) > 0 && Integer.parseInt(emp.getSSN()) > 0)
+			{
+						
 				Document test = new Document();
 				test.append("id", (collection.count() + 1));
 				test.append("first name", emp.getFirstName(true));
@@ -62,11 +66,17 @@ public class Insert {
 				// adds the document to the database
 				collection.insertOne(test);
 				mongoClient.close();
-
+				success = true;
+			}
+		
 			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Please enter numbers into: Hire Year and SSN.");
 				e.printStackTrace();
 			}
+			if(success == true)
+			{
 			JOptionPane.showMessageDialog(null, "Upload Complete");
+			}
 		}
 
 		public static void insertFinance(String CompanyName, String accountName, String Balance, String Bank, String accountNumber, JProgressBar progressBar5) {
@@ -87,6 +97,10 @@ public class Insert {
 				MongoCollection<Document> collection = database.getCollection("Financial Holdings");
 
 				// creates the document to insert into the database
+				if(Integer.parseInt(fin.getAccountNumber()) > 0 && Integer.parseInt(fin.getBalance()) >= 0)
+				{
+					
+				
 				Document test = new Document();
 				test.append("id", (collection.count() + 1));
 				test.append("account name", fin.getAccountName(true));
@@ -97,11 +111,13 @@ public class Insert {
 				// adds the document to the database
 				collection.insertOne(test);
 				mongoClient.close();
-
+				JOptionPane.showMessageDialog(null, "Upload Complete");
+				}
 			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Invalid entry detected. Please enter numbers into: Balance and Account Number.");
+
 				e.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "Upload Complete");
 		}
 
 		public static void insertProperty(String CompanyName, String propertyName, String cost, String location,JProgressBar progressBar2) {
@@ -122,6 +138,8 @@ public class Insert {
 				MongoCollection<Document> collection = database.getCollection("Properties");
 
 				// creates the document to insert into the database
+				if(Integer.parseInt(prop.getCost()) >= 0)
+			{
 				Document test = new Document();
 				test.append("id", (collection.count() + 1));
 				test.append("property name", prop.getTitle(true));
@@ -131,11 +149,13 @@ public class Insert {
 				// adds the document to the database
 				collection.insertOne(test);
 				mongoClient.close();
-
+				JOptionPane.showMessageDialog(null, "Upload Complete");
+			}
 			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Invalid Entry detected in Cost. Please use numbers only.");
+
 				e.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "Upload Complete");
 		}
 
 		public static boolean insertProduct(String CompanyName, String productName, String cost, String category,
@@ -158,6 +178,8 @@ public class Insert {
 				MongoCollection<Document> collection = database.getCollection("Products");
 
 				// creates the document to insert into the database
+				if(Integer.parseInt(prod.getCost()) >= 0)
+				{
 				Document test = new Document();
 				test.append("id", (collection.count() + 1));
 				test.append("product name", prod.getTitle(true));
@@ -169,9 +191,11 @@ public class Insert {
 				collection.insertOne(test);
 				mongoClient.close();
 				JOptionPane.showMessageDialog(null, "Upload Complete");
+				}
 				return true;
 
 			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Invalid entry detected in Cost. Please use numbers only.");
 
 				e.printStackTrace();
 				return false;
@@ -199,6 +223,8 @@ public class Insert {
 				MongoCollection<Document> collection = database.getCollection("Services");
 				
 				// creates the document to insert into the database
+				if(Integer.parseInt(serv.getCost()) >= 0)
+				{
 				Document test = new Document();
 				test.append("id", (collection.count() + 1));
 				test.append("service name", serv.getTitle(true));
@@ -208,11 +234,14 @@ public class Insert {
 				// adds the document to the database
 				collection.insertOne(test);
 				mongoClient.close();
+				JOptionPane.showMessageDialog(null, "Upload Complete");
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Invalid entry detected in Cost. Please use numbers only.");
+
 			}
-			JOptionPane.showMessageDialog(null, "Upload Complete");
 		}
 		//json upload
 
