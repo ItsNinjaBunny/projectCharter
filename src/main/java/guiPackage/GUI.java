@@ -59,31 +59,71 @@ import database.Update;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
-
+	// splits pane vertically
 	private JSplitPane splitPaneV;
+	// splits pane horizontally
 	private JSplitPane splitPaneH;
+	// Menu dashboard
 	private JPanel directory;
-	private JPanel panel2;
-	private JPanel panel3;
+	// bottom panel that is used for results
+	private JPanel resultsPanel;
 	// hardcode entry tabbed page
-	private JTabbedPane pane;
+	private JTabbedPane manualInsertPanes;
 	// pane2 for search method
-	private JTabbedPane pane2;
+	private JTabbedPane findRecordsPanes;
 	// pane 3 for updating the document in the cloud
-	private JTabbedPane pane3;
+	private JTabbedPane updatingRecordsPanes;
 	// pane 3 for deleting the document in the cloud
-	private JTabbedPane pane4;
+	private JTabbedPane deletingRecordsPanes;
 	// blank home page
 	private JPanel temp = new JPanel();
 	// single file upload
 	private static JPanel singleFilePanel;
+	// elements within single file upload
+	JRadioButton csvRadial, jsonRadial;
+	JButton fileUploadButton;
+	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services",
+			"Financial Holdings" };
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static JComboBox csvList = new JComboBox(CSV);
+	//instruction labels
+	private static JLabel text2;
+	private static JLabel text3;
+	//radial group holder for json or csv upload page
+	private static ButtonGroup bg;
+	private static JProgressBar progressBar;
+	// companyName passed through from login
 	private String companyName;
+	// type pof upload drop down box here
+	String[] messages = { "Select", "Single File Upload", "Manual File Entry" };
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox messageList = new JComboBox(messages);
+	// go button on insert record panel
+	JButton goButton = new JButton("GO");
+	// panel where they decide what type of insert
+	JPanel insertRecords;
+	// Employee Panel in manualInsertPanes
+	private static JPanel panelEmployee;
+	// Financial Panel in manualInsertPanes
+	private static JPanel panelFinancial;
+	// Properties Panel in manualInsertPanes
+	private static JPanel panelProperties;
+	// Service Panel in manualInsertPanes
+	private static JPanel panelService;
+	// Product Panel in manualInsertPanes
+	private static JPanel panelProduct;
+	// panel which holds everything from splitPaneH and is split vertically
+	private static JPanel topPanel;
+	// JProgress Bars for each Panel
+	private static JProgressBar progressBar1 = new JProgressBar();
+	private static JProgressBar progressBar2 = new JProgressBar();
+	private static JProgressBar progressBar3 = new JProgressBar();
+	private static JProgressBar progressBar4 = new JProgressBar();
+	private static JProgressBar progressBar5 = new JProgressBar();
 
 	public String getCompanyName() {
 		return this.companyName;
 	}
-
-	private static JPanel topPanel;
 
 	@SuppressWarnings("static-access")
 	public GUI(String companyName) {
@@ -97,6 +137,7 @@ public class GUI extends JFrame {
 		topPanel.setPreferredSize(new Dimension(650, 450));
 		topPanel.setLayout(new BorderLayout());
 		getContentPane().add(topPanel);
+		// image added
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(GUI.class.getResourceAsStream("img.png"));
@@ -106,29 +147,31 @@ public class GUI extends JFrame {
 		}
 		temp.setLayout(null);
 		temp.setBackground(Color.GRAY);
-
 		JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(300, 300, image.SCALE_SMOOTH)));
 		label.setBounds(105, 70, 300, 300);
 		temp.add(label, BorderLayout.CENTER);
 		// Create the panels
 		createDirectory();
-		createPanel2();
-		createPanel3();
+		// manual inserts
+		createResultsPanel();
 		createEmployeeTab();
 		createFinancialTab();
 		createPropertiesTab();
 		createServiceTab();
 		createProductTab();
-		showFrame();
-		showFrame2();
-		showFrame3();
-		showFrame4();
+		// manual insert panels
+		showManualInsert();
+		// find records panels
+		showFind();
+		// update records panels
+		showUpdate();
+		// delete record panels
+		showDelete();
+		// single file upload panel
 		singleFilePanel();
 
 		// Create a splitter pane
-
 		splitPaneV = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-
 		splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		topPanel.add(splitPaneH, BorderLayout.CENTER);
 		topPanel.setBackground(Color.black);
@@ -140,16 +183,9 @@ public class GUI extends JFrame {
 
 	}
 
-	String[] messages = { "Select", "Single File Upload", "Manual File Entry" };
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox messageList = new JComboBox(messages);
-	
-	JButton goButton = new JButton("GO");
-	JPanel insertRecords;
-
 	// creation of the static directory on the left hand side
 	public void createDirectory() {
-		
+
 		directory = new JPanel();
 		directory.setLayout(new GridLayout(5, 1));
 
@@ -163,9 +199,9 @@ public class GUI extends JFrame {
 		JButton deleteButton = new JButton("DELETE");
 		JButton findButton = new JButton("FIND");
 		JButton logoutButton = new JButton("LOGOUT");
-		
+
 		directory.remove(backButton);
-		
+
 		findButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -177,20 +213,20 @@ public class GUI extends JFrame {
 				directory.remove(logoutButton);
 				topPanel.removeAll();
 				topPanel.revalidate();
-				panel3.removeAll();
+				resultsPanel.removeAll();
 				setTitle("Find Records - CompanyVault.exe");
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 
 				splitPaneH.setLeftComponent(directory);
-				splitPaneH.setRightComponent(pane2);
+				splitPaneH.setRightComponent(findRecordsPanes);
 				splitPaneH.setDividerLocation(130);
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				splitPaneV.setDividerLocation(300);
-				panel3.setBorder(blackline);
+				resultsPanel.setBorder(blackline);
 				splitPaneV.setLeftComponent(splitPaneH);
-				splitPaneV.setRightComponent(panel3);
+				splitPaneV.setRightComponent(resultsPanel);
 				topPanel.add(splitPaneV, BorderLayout.CENTER);
 				topPanel.revalidate();
 				revalidate();
@@ -201,32 +237,31 @@ public class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				directory.add(backButton);
-				
+
 				directory.remove(logoutButton);
 				directory.remove(findButton);
 
 				directory.remove(deleteButton);
 				directory.remove(insertButton);
-				
-				
-				panel3.removeAll();
+
+				resultsPanel.removeAll();
 				setTitle("Update Records - CompanyVault.exe");
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
-				splitPaneH.setRightComponent(pane3);
+				splitPaneH.setRightComponent(updatingRecordsPanes);
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				splitPaneH.setDividerLocation(130);
 				splitPaneV.setDividerLocation(300);
-				panel3.setBorder(blackline);
+				resultsPanel.setBorder(blackline);
 				topPanel.removeAll();
 				topPanel.revalidate();
 
 				splitPaneV.setLeftComponent(splitPaneH);
-				splitPaneV.setRightComponent(panel3);
+				splitPaneV.setRightComponent(resultsPanel);
 				topPanel.add(splitPaneV);
 				topPanel.revalidate();
 			}
@@ -236,32 +271,32 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				directory.add(backButton);
-				
+
 				directory.remove(findButton);
 
 				directory.remove(updateButton);
 
 				directory.remove(insertButton);
-				
+
 				directory.remove(logoutButton);
-				
-				panel3.removeAll();
+
+				resultsPanel.removeAll();
 				topPanel.removeAll();
 				setTitle("Delete Records - CompanyVault.exe");
 				splitPaneH = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 				splitPaneH.setEnabled(false);
 				splitPaneV.setEnabled(false);
 				splitPaneH.setLeftComponent(directory);
-				splitPaneH.setRightComponent(pane4);
+				splitPaneH.setRightComponent(deletingRecordsPanes);
 				splitPaneH.setDividerLocation(130);
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				splitPaneV.setDividerLocation(300);
-				panel3.setBorder(blackline);
+				resultsPanel.setBorder(blackline);
 				topPanel.removeAll();
 				topPanel.revalidate();
 
 				splitPaneV.setLeftComponent(splitPaneH);
-				splitPaneV.setRightComponent(panel3);
+				splitPaneV.setRightComponent(resultsPanel);
 				topPanel.add(splitPaneV, BorderLayout.CENTER);
 				topPanel.revalidate();
 			}
@@ -272,12 +307,12 @@ public class GUI extends JFrame {
 		directory.add(deleteButton);
 		directory.add(findButton);
 		directory.add(logoutButton);
-		//directory.add(homeButton);
+		// directory.add(homeButton);
 		ArrayList<JTabbedPane> list = new ArrayList<JTabbedPane>();
-		list.add(pane);
-		list.add(pane2);
-		list.add(pane3);
-		list.add(pane4);
+		list.add(manualInsertPanes);
+		list.add(findRecordsPanes);
+		list.add(updatingRecordsPanes);
+		list.add(deletingRecordsPanes);
 		ArrayList<JButton> directory1 = new ArrayList<JButton>();
 		directory1.add(insertButton);
 		directory1.add(updateButton);
@@ -300,19 +335,15 @@ public class GUI extends JFrame {
 				try {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 					UIManager.getLookAndFeelDefaults().put("Button.background", Color.black);
-		            UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255,255,255));
-		           
+					UIManager.getLookAndFeelDefaults().put("Button.textForeground", new Color(255, 255, 255));
 
-		    	} catch (Exception evt) {
+				} catch (Exception evt) {
 				}
-		    	logIn.run();
+				logIn.run();
 
-				
-			
-			
-			}});
-		
-		
+			}
+		});
+
 		backButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -381,7 +412,7 @@ public class GUI extends JFrame {
 									@Override
 									public void actionPerformed(ActionEvent e) {
 										splitPaneH.setLeftComponent(directory);
-										splitPaneH.setRightComponent(pane);
+										splitPaneH.setRightComponent(manualInsertPanes);
 
 									}
 
@@ -416,10 +447,10 @@ public class GUI extends JFrame {
 				directory.remove(updateButton);
 
 				directory.remove(deleteButton);
-				
+
 				directory.add(backButton);
 				directory.remove(logoutButton);
-				
+
 				messageList.setSelectedIndex(0);
 				messageList.addActionListener(new directoryAction());
 				JLabel text = new JLabel();
@@ -447,29 +478,14 @@ public class GUI extends JFrame {
 
 	}
 
-	public void createPanel2() {
-		panel2 = new JPanel();
-		panel2.setLayout(new FlowLayout());
-		panel2.add(new JButton("Button 1"));
-		panel2.add(new JButton("Button 2"));
-		panel2.add(new JButton("Button 3"));
+	public void createResultsPanel() {
+		resultsPanel = new JPanel();
+		resultsPanel.setLayout(new BorderLayout());
+		resultsPanel.setPreferredSize(new Dimension(400, 100));
+		resultsPanel.setMinimumSize(new Dimension(50, 50));
+		resultsPanel.add(new JLabel("Results:"), BorderLayout.NORTH);
+		resultsPanel.add(new JScrollPane(), BorderLayout.CENTER);
 	}
-
-	public void createPanel3() {
-		panel3 = new JPanel();
-		panel3.setLayout(new BorderLayout());
-		panel3.setPreferredSize(new Dimension(400, 100));
-		panel3.setMinimumSize(new Dimension(50, 50));
-		panel3.add(new JLabel("Results:"), BorderLayout.NORTH);
-		panel3.add(new JScrollPane(), BorderLayout.CENTER);
-	}
-
-	private static JPanel panelEmployee;
-	private static JProgressBar progressBar1 = new JProgressBar();
-	private static JProgressBar progressBar2 = new JProgressBar();
-	private static JProgressBar progressBar3 = new JProgressBar();
-	private static JProgressBar progressBar4 = new JProgressBar();
-	private static JProgressBar progressBar5 = new JProgressBar();
 
 	public void createEmployeeTab() {
 		panelEmployee = new JPanel();
@@ -523,8 +539,8 @@ public class GUI extends JFrame {
 					String ssn = lSocial.getText().replace("-", "");
 					// make all strings capital then encode them then put them in the
 					// insert methods do this for all uploads csv and manual entry
-					database.Insert.insertEmployee(companyName, lFirstName.getText(), lLastName.getText(), lHireYear.getText(), ssn,
-							lOccupation.getText(), progressBar1);
+					database.Insert.insertEmployee(companyName, lFirstName.getText(), lLastName.getText(),
+							lHireYear.getText(), ssn, lOccupation.getText(), progressBar1);
 					lFirstName.setText("");
 					lLastName.setText("");
 					lHireYear.setText("");
@@ -541,8 +557,6 @@ public class GUI extends JFrame {
 
 	}
 
-	private static JPanel panelFinancial;
-
 	public void createFinancialTab() {
 		panelFinancial = new JPanel();
 		panelFinancial.setLayout(new BorderLayout());
@@ -558,7 +572,7 @@ public class GUI extends JFrame {
 		JLabel jBank = new JLabel("Banking Institution:");
 		JTextField lBank = new JTextField(20);
 		JLabel jAccountNumber = new JLabel("Account Number:");
-		JTextField lAccountNumber= new JTextField(20);
+		JTextField lAccountNumber = new JTextField(20);
 
 		p.setLayout(new GridLayout(6, 1));
 		p.add(jAccountName);
@@ -587,7 +601,8 @@ public class GUI extends JFrame {
 					progressBar5.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Finances...");
 					p.revalidate();
-					database.Insert.insertFinance(companyName, lAccountName.getText(), lBalance.getText(), lBank.getText(), lAccountNumber.getText(),progressBar5);
+					database.Insert.insertFinance(companyName, lAccountName.getText(), lBalance.getText(),
+							lBank.getText(), lAccountNumber.getText(), progressBar5);
 					lAccountName.setText("");
 					lBalance.setText("");
 					lBank.setText("");
@@ -602,8 +617,6 @@ public class GUI extends JFrame {
 		panelFinancial.add(p, BorderLayout.NORTH);
 
 	}
-
-	private static JPanel panelProperties;
 
 	public void createPropertiesTab() {
 		panelProperties = new JPanel();
@@ -644,7 +657,8 @@ public class GUI extends JFrame {
 
 					p.revalidate();
 
-					database.Insert.insertProperty(companyName, lPropertyName.getText(), lCost.getText(), lLocation.getText(),progressBar2);
+					database.Insert.insertProperty(companyName, lPropertyName.getText(), lCost.getText(),
+							lLocation.getText(), progressBar2);
 					lPropertyName.setText("");
 					lCost.setText("");
 					lLocation.setText("");
@@ -659,8 +673,6 @@ public class GUI extends JFrame {
 		p.add(progressBar2);
 		panelProperties.add(p, BorderLayout.NORTH);
 	}
-
-	private static JPanel panelService;
 
 	public void createServiceTab() {
 		panelService = new JPanel();
@@ -701,7 +713,8 @@ public class GUI extends JFrame {
 
 					p.revalidate();
 
-					database.Insert.insertService(companyName, lServiceName.getText(), lCost.getText(), lCategory.getText(), progressBar3);
+					database.Insert.insertService(companyName, lServiceName.getText(), lCost.getText(),
+							lCategory.getText(), progressBar3);
 					lServiceName.setText("");
 					lCost.setText("");
 					lCategory.setText("");
@@ -715,8 +728,6 @@ public class GUI extends JFrame {
 		p.add(progressBar3);
 		panelService.add(p, BorderLayout.NORTH);
 	}
-
-	private static JPanel panelProduct;
 
 	private void createProductTab() {
 		panelProduct = new JPanel();
@@ -761,8 +772,8 @@ public class GUI extends JFrame {
 					progressBar4.setVisible(true);
 					progressBar4.setValue(40);
 					JOptionPane.showMessageDialog(null, "Uploading Product...");
-					database.Insert.insertProduct(companyName, lProductName.getText(), lCost.getText(), lCategory.getText(),
-							lSupplier.getText(), progressBar4);
+					database.Insert.insertProduct(companyName, lProductName.getText(), lCost.getText(),
+							lCategory.getText(), lSupplier.getText(), progressBar4);
 					lProductName.setText("");
 					lCost.setText("");
 					lCategory.setText("");
@@ -780,79 +791,68 @@ public class GUI extends JFrame {
 		panelProduct.add(p, BorderLayout.NORTH);
 	}
 
-	public void showFrame() {
-		pane = new JTabbedPane();
-		pane.addTab("Employees", panelEmployee);
-		pane.addTab("Properties", panelProperties);
-		pane.addTab("Products", panelProduct);
-		pane.addTab("Services", panelService);
-		pane.addTab("Financial Holdings", panelFinancial);
-		pane.addChangeListener(new ChangeListener() {
+	public void showManualInsert() {
+		manualInsertPanes = new JTabbedPane();
+		manualInsertPanes.addTab("Employees", panelEmployee);
+		manualInsertPanes.addTab("Properties", panelProperties);
+		manualInsertPanes.addTab("Products", panelProduct);
+		manualInsertPanes.addTab("Services", panelService);
+		manualInsertPanes.addTab("Financial Holdings", panelFinancial);
+		manualInsertPanes.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				panel3.removeAll();
+				resultsPanel.removeAll();
 			}
 		});
 
 	}
 
-	public void showFrame2() {
-		pane2 = new JTabbedPane();
+	public void showFind() {
+		findRecordsPanes = new JTabbedPane();
 
-		pane2.addTab("Employees", Find.searchEmployee(panel3, companyName));
-		pane2.addTab("Properties", Find.searchProperty(panel3, companyName));
-		pane2.addTab("Products", Find.searchProduct(panel3, companyName));
-		pane2.addTab("Services", Find.searchService(panel3, companyName));
-		pane2.addTab("Financial Holdings", Find.searchFinancials(panel3, companyName));
-		pane2.addChangeListener(new ChangeListener() {
+		findRecordsPanes.addTab("Employees", Find.searchEmployee(resultsPanel, companyName));
+		findRecordsPanes.addTab("Properties", Find.searchProperty(resultsPanel, companyName));
+		findRecordsPanes.addTab("Products", Find.searchProduct(resultsPanel, companyName));
+		findRecordsPanes.addTab("Services", Find.searchService(resultsPanel, companyName));
+		findRecordsPanes.addTab("Financial Holdings", Find.searchFinancials(resultsPanel, companyName));
+		findRecordsPanes.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				panel3.removeAll();
-				panel3.revalidate();
+				resultsPanel.removeAll();
+				resultsPanel.revalidate();
 			}
 		});
 
 	}
 
-	public void showFrame3() {
-		pane3 = new JTabbedPane();
-		pane3.addTab("Employees", Update.updateEmployee(panel3, companyName));
-		pane3.addTab("Properties", Update.updateProperty(panel3, companyName));
-		pane3.addTab("Products", Update.updateProduct(panel3, companyName));
-		pane3.addTab("Services", Update.updateService(panel3, companyName));
-		pane3.addTab("Financial Holdings", Update.updateFinancials(panel3, companyName));
-		pane3.addChangeListener(new ChangeListener() {
+	public void showUpdate() {
+		updatingRecordsPanes = new JTabbedPane();
+		updatingRecordsPanes.addTab("Employees", Update.updateEmployee(resultsPanel, companyName));
+		updatingRecordsPanes.addTab("Properties", Update.updateProperty(resultsPanel, companyName));
+		updatingRecordsPanes.addTab("Products", Update.updateProduct(resultsPanel, companyName));
+		updatingRecordsPanes.addTab("Services", Update.updateService(resultsPanel, companyName));
+		updatingRecordsPanes.addTab("Financial Holdings", Update.updateFinancials(resultsPanel, companyName));
+		updatingRecordsPanes.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				panel3.removeAll();
-				panel3.revalidate();
+				resultsPanel.removeAll();
+				resultsPanel.revalidate();
 			}
 		});
 
 	}
 
-	public void showFrame4() {
-		pane4 = new JTabbedPane();
-		pane4.addTab("Employees", Delete.deleteEmployee(panel3, companyName));
-		pane4.addTab("Properties", Delete.deleteProperty(panel3, companyName));
-		pane4.addTab("Products", Delete.deleteProduct(panel3, companyName));
-		pane4.addTab("Services", Delete.deleteService(panel3, companyName));
-		pane4.addTab("Financial Holdings", Delete.deleteFinancials(panel3, companyName));
-		pane4.addChangeListener(new ChangeListener() {
+	public void showDelete() {
+		deletingRecordsPanes = new JTabbedPane();
+		deletingRecordsPanes.addTab("Employees", Delete.deleteEmployee(resultsPanel, companyName));
+		deletingRecordsPanes.addTab("Properties", Delete.deleteProperty(resultsPanel, companyName));
+		deletingRecordsPanes.addTab("Products", Delete.deleteProduct(resultsPanel, companyName));
+		deletingRecordsPanes.addTab("Services", Delete.deleteService(resultsPanel, companyName));
+		deletingRecordsPanes.addTab("Financial Holdings", Delete.deleteFinancials(resultsPanel, companyName));
+		deletingRecordsPanes.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				panel3.removeAll();
-				panel3.revalidate();
+				resultsPanel.removeAll();
+				resultsPanel.revalidate();
 			}
 		});
 	}
-
-	JRadioButton rb1, rb2;
-	JButton b;
-	private static String[] CSV = { "--Select--", "Employees", "Properties", "Products", "Services",
-			"Financial Holdings" };
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static JComboBox csvList = new JComboBox(CSV);
-	private static JLabel text2;
-	private static JLabel text3;
-	private static ButtonGroup bg;
-	private static JProgressBar progressBar;
 
 	public void singleFilePanel() {
 		singleFilePanel = new JPanel();
@@ -869,15 +869,15 @@ public class GUI extends JFrame {
 		text.setText("1. Please select the type of file");
 		text.setBounds(140, 10, 500, 100);
 
-		rb1 = new JRadioButton("CSV");
-		rb1.setBounds(180, 70, 100, 30);
-		rb2 = new JRadioButton("JSON");
-		rb2.setBounds(180, 120, 100, 30);
+		csvRadial = new JRadioButton("CSV");
+		csvRadial.setBounds(180, 70, 100, 30);
+		jsonRadial = new JRadioButton("JSON");
+		jsonRadial.setBounds(180, 120, 100, 30);
 		bg = new ButtonGroup();
-		bg.add(rb1);
-		bg.add(rb2);
+		bg.add(csvRadial);
+		bg.add(jsonRadial);
 
-		b = new JButton("Select File");
+		fileUploadButton = new JButton("Select File");
 		JLabel text1 = new JLabel();
 
 		text1.setText("2. Please select the collection where the file will be stored");
@@ -885,7 +885,7 @@ public class GUI extends JFrame {
 		csvList.setBounds(180, 205, 150, 40);
 		csvList.setBorder(null);
 
-		b.setBounds(195, 260, 120, 30);
+		fileUploadButton.setBounds(195, 260, 120, 30);
 		text2 = new JLabel();
 		text3 = new JLabel();
 
@@ -893,14 +893,14 @@ public class GUI extends JFrame {
 		text3.setText("id, firstname, lastname, hireyear");
 		text3.setBounds(140, 330, 500, 12);
 		csvList.addActionListener(new collectionAction());
-		rb2.addActionListener(new ActionJson());
-		rb1.addActionListener(new ActionCsv());
+		jsonRadial.addActionListener(new ActionJson());
+		csvRadial.addActionListener(new ActionCsv());
 		csvList.setSelectedIndex(0);
 		singleFilePanel.add(text);
-		singleFilePanel.add(rb1);
-		singleFilePanel.add(rb2);
+		singleFilePanel.add(csvRadial);
+		singleFilePanel.add(jsonRadial);
 
-		singleFilePanel.add(b);
+		singleFilePanel.add(fileUploadButton);
 		singleFilePanel.add(text1);
 		singleFilePanel.add(csvList);
 
@@ -910,7 +910,7 @@ public class GUI extends JFrame {
 		text3.setVisible(false);
 
 	}
-
+	//action listeners for upload type for json
 	class ActionJson implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -920,7 +920,7 @@ public class GUI extends JFrame {
 
 		}
 	}
-
+	//for csv
 	class ActionCsv implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -931,12 +931,13 @@ public class GUI extends JFrame {
 
 	// select file button which will change upon csv or json selector to which file
 	// will be chosen
+	//here which ever dropdown selection is made is to where the the file is sent
 	class collectionAction implements ActionListener {
 		ArrayList<JButton> btn = new ArrayList<JButton>();
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			btn.add(b);
+			btn.add(fileUploadButton);
 			text2.setVisible(false);
 			text3.setVisible(false);
 			for (JButton currentButton : btn) {
@@ -952,12 +953,12 @@ public class GUI extends JFrame {
 
 				switch (msg) {
 				case "Employees":
-					if (rb1.isSelected()) {
+					if (csvRadial.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
 						text3.setText("id, firstname, lastname, hireyear, ssn, occupation");
 						text2.setVisible(true);
 						text3.setVisible(true);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -972,11 +973,12 @@ public class GUI extends JFrame {
 						});
 
 					}
-					if (rb2.isSelected()) {
+					if (jsonRadial.isSelected()) {
+						
 
 						text2.setVisible(false);
 						text3.setVisible(false);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -996,12 +998,12 @@ public class GUI extends JFrame {
 
 					break;
 				case "Properties":
-					if (rb1.isSelected()) {
+					if (csvRadial.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
 						text3.setText("id, propertyname, cost, location");
 						text2.setVisible(true);
 						text3.setVisible(true);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1010,17 +1012,17 @@ public class GUI extends JFrame {
 								database.Insert.uploadPropertyCSV(companyName, msg, progressBar);
 								progressBar.setVisible(false);
 								progressBar.setValue(0);
-								
+
 							}
 
 						});
 
 					}
-					if (rb2.isSelected()) {
+					if (jsonRadial.isSelected()) {
 
 						text2.setVisible(false);
 						text3.setVisible(false);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1038,12 +1040,12 @@ public class GUI extends JFrame {
 
 					break;
 				case "Products":
-					if (rb1.isSelected()) {
+					if (csvRadial.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
 						text3.setText("id, productname, cost, category, supplier");
 						text2.setVisible(true);
 						text3.setVisible(true);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1057,11 +1059,11 @@ public class GUI extends JFrame {
 						});
 
 					}
-					if (rb2.isSelected()) {
+					if (jsonRadial.isSelected()) {
 
 						text2.setVisible(false);
 						text3.setVisible(false);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1078,12 +1080,12 @@ public class GUI extends JFrame {
 					}
 					break;
 				case "Services":
-					if (rb1.isSelected()) {
+					if (csvRadial.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
 						text3.setText("id, servicename, cost, category");
 						text2.setVisible(true);
 						text3.setVisible(true);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1097,11 +1099,11 @@ public class GUI extends JFrame {
 						});
 
 					}
-					if (rb2.isSelected()) {
+					if (jsonRadial.isSelected()) {
 
 						text2.setVisible(false);
 						text3.setVisible(false);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1119,12 +1121,12 @@ public class GUI extends JFrame {
 					break;
 
 				case "Financial Holdings":
-					if (rb1.isSelected()) {
+					if (csvRadial.isSelected()) {
 						text2.setText("With CSV Ensure columns for " + msg + " are in: ");
 						text3.setText("accountid, accountname, balance, bank");
 						text2.setVisible(true);
 						text3.setVisible(true);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1138,11 +1140,11 @@ public class GUI extends JFrame {
 						});
 
 					}
-					if (rb2.isSelected()) {
+					if (jsonRadial.isSelected()) {
 
 						text2.setVisible(false);
 						text3.setVisible(false);
-						b.addActionListener(new ActionListener() {
+						fileUploadButton.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -1164,9 +1166,7 @@ public class GUI extends JFrame {
 			}
 		}
 	}
-
-	
-	
+	//file upload method gets absolute path of file choosen
 	public static String fileUpload() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -1201,5 +1201,4 @@ public class GUI extends JFrame {
 		return chooser.getSelectedFile().getAbsolutePath();
 	}
 
-	
 }
