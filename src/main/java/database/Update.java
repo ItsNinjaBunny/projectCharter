@@ -35,6 +35,8 @@ public class Update {
 	private static JPanel financialPanel;
 	private static int resultID;
 	private static String[] tester;
+	private static boolean isValidSSN = true;
+	private static boolean isValidHire = true;
 	
 	private static MongoClient connectDatabase(String databaseName) {
 		
@@ -154,7 +156,7 @@ public class Update {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				String hireYear = ssn.getText().replace("-", "");
+				
 				
 				
 				footnotes.removeAll();
@@ -166,9 +168,7 @@ public class Update {
 				
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
-				
-			
-				
+				String hireYear = ssn.getText().replace("-", "");
 				
 				DefaultListModel document = new DefaultListModel();
 				
@@ -229,56 +229,82 @@ public class Update {
 								//do update function here
 								resultID = Integer.parseInt(tester[0]);
 								
-								MongoClient mongoClient = connectDatabase(companyName);
-								MongoDatabase database = mongoClient.getDatabase(companyName);
-								MongoCollection<Document> collection = database.getCollection("Employees");
+								if(!ssn.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(ssn.getText());
+										System.out.println(test);
+										isValidSSN = true;
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										isValidSSN = false;
+									}
+								}
+								if(!hireText.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(hireText.getText());
+										System.out.println(test);
+										isValidSSN = true;
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										isValidSSN = false;
+									}
+								}
 								
-								JOptionPane.showMessageDialog(null, "Updating...");
-								search.setVisible(true);
-								upload.setVisible(false);
-								hireYearLabel.setVisible(false);
-								occupationLabel.setVisible(false);
-								hireText.setVisible(false);
-								occupationText.setVisible(false);
-								footnotes.removeAll();
+								if(isValidSSN && isValidHire) {
 								
-								
-								
-								String first = firstText.getText().toUpperCase();
-								String last = lastText.getText().toUpperCase();
-								String ssnText = ssn.getText().toUpperCase();
-								String hire = hireText.getText().toUpperCase();
-								String occupation = occupationText.getText().toUpperCase();
-								
-								System.out.println(first + " " + last + " " + ssnText + " " + hire + " " + occupation);
-								
-								if(!first.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", Encrypt.encryptData(first)));
-								if(!last.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("last name", Encrypt.encryptData(last)));
-								if(!ssnText.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", Encrypt.encryptData(ssnText)));
-								if(!hire.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("hire year", Encrypt.encryptData(hire)));
-								if(!occupation.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("occupation", Encrypt.encryptData(occupation)));
-				
-								mongoClient.close();
-								firstText.setText("");
-								lastText.setText("");
-								ssn.setText("");
-								hireText.setText("");
-								occupationText.setText("");
-								instLabel.setVisible(false);
-								instLabel.setText("1.Search  2.Select One  3.Update");
-								instLabel.setVisible(true);
-								footnotes.removeAll();
-								JScrollPane scroll = new JScrollPane();
-								scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-								scroll.setVisible(true);
-								footnotes.add(scroll, BorderLayout.CENTER);
-								footnotes.revalidate();
+									MongoClient mongoClient = connectDatabase(companyName);
+									MongoDatabase database = mongoClient.getDatabase(companyName);
+									MongoCollection<Document> collection = database.getCollection("Employees");
+									
+									JOptionPane.showMessageDialog(null, "Updating...");
+									search.setVisible(true);
+									upload.setVisible(false);
+									hireYearLabel.setVisible(false);
+									occupationLabel.setVisible(false);
+									hireText.setVisible(false);
+									occupationText.setVisible(false);
+									footnotes.removeAll();
+									
+									
+									
+									String first = firstText.getText().toUpperCase();
+									String last = lastText.getText().toUpperCase();
+									String ssnText = ssn.getText().toUpperCase();
+									String hire = hireText.getText().toUpperCase();
+									String occupation = occupationText.getText().toUpperCase();
+									
+									System.out.println(first + " " + last + " " + ssnText + " " + hire + " " + occupation);
+									
+									if(!first.equals(""))
+										collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", Encrypt.encryptData(first)));
+									if(!last.equals(""))
+										collection.updateOne(Filters.eq("id", resultID), Updates.set("last name", Encrypt.encryptData(last)));
+									if(!ssnText.equals(""))
+										collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", Encrypt.encryptData(ssnText)));
+									if(!hire.equals(""))
+										collection.updateOne(Filters.eq("id", resultID), Updates.set("hire year", Encrypt.encryptData(hire)));
+									if(!occupation.equals(""))
+										collection.updateOne(Filters.eq("id", resultID), Updates.set("occupation", Encrypt.encryptData(occupation)));
+					
+									mongoClient.close();
+									firstText.setText("");
+									lastText.setText("");
+									ssn.setText("");
+									hireText.setText("");
+									occupationText.setText("");
+									instLabel.setVisible(false);
+									instLabel.setText("1.Search  2.Select One  3.Update");
+									instLabel.setVisible(true);
+									footnotes.removeAll();
+									JScrollPane scroll = new JScrollPane();
+									scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+									scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+									scroll.setVisible(true);
+									footnotes.add(scroll, BorderLayout.CENTER);
+									footnotes.revalidate();
+								}
 							}});
 					}
 				});

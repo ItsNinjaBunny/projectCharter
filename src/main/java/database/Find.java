@@ -53,6 +53,7 @@ public class Find {
 
 			firstName = Encrypt.encryptData(firstName.toUpperCase());
 			lastName = Encrypt.encryptData(lastName.toUpperCase());
+			SSN = Encrypt.encryptData(SSN);
 
 			Vector<Document> search = new Vector<>();
 
