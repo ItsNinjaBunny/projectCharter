@@ -83,13 +83,13 @@ public class Update {
 		
 		JTextField firstText = new JTextField();
 		JTextField lastText = new JTextField();
-		JTextField ssn = new JTextField();
+		JTextField ssnText = new JTextField();
 		JTextField hireText = new JTextField(20);
 		JTextField occupationText = new JTextField(20);
 		ArrayList<JTextField> list1 = new ArrayList<>();
 		list1.add(firstText);
 		list1.add(lastText);
-		list1.add(ssn);
+		list1.add(ssnText);
 		list1.add(hireText);
 		list1.add(occupationText);
 		hireText.setVisible(false);
@@ -140,7 +140,7 @@ public class Update {
 				footnotes.removeAll();
 				firstText.setText("");
 				lastText.setText("");
-				ssn.setText("");
+				ssnText.setText("");
 				hireText.setText("");
 				occupationText.setText("");
 				JScrollPane scroll = new JScrollPane();
@@ -171,7 +171,7 @@ public class Update {
 				
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
-				String ssnCheck = ssn.getText().replace("-", "");
+				String ssnCheck = ssnText.getText().replace("-", "");
 				
 				DefaultListModel document = new DefaultListModel();
 				
@@ -216,7 +216,7 @@ public class Update {
 						occupationText.setVisible(true);
 						firstText.setText("");
 						lastText.setText("");
-						ssn.setText("");
+						ssnText.setText("");
 //						firstText.setText(result[2].replace("last name", ""));
 //						lastText.setText(result[3].replace("hire year", ""));
 //						hireText.setText(result[6].replace("occupation", ""));
@@ -234,9 +234,9 @@ public class Update {
 								resultID = Integer.parseInt(tester[0]);
 								
 								isValidSSN = true;
-								if(!ssn.getText().equals("")) {
+								if(!ssnText.getText().equals("")) {
 									try {
-										int test = Integer.parseInt(ssn.getText());
+										int test = Integer.parseInt(ssnText.getText());
 										
 									}catch(NumberFormatException ex) {
 										ex.printStackTrace();
@@ -252,7 +252,7 @@ public class Update {
 									}catch(NumberFormatException ex) {
 										ex.printStackTrace();
 										JOptionPane.showMessageDialog(employeePanel, "Hire Year can only contain numbers");
-										isValidYear = false;
+										isValidHire = false;
 									}
 								}
 								
@@ -275,7 +275,7 @@ public class Update {
 									
 									String first = firstText.getText().toUpperCase();
 									String last = lastText.getText().toUpperCase();
-									String ssnText = ssn.getText().replace("-", "");
+									String ssn = ssnText.getText().replace("-", "");
 									String hire = hireText.getText();
 									String occupation = occupationText.getText().toUpperCase();
 									
@@ -283,8 +283,8 @@ public class Update {
 										collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", Encrypt.encryptData(first)));
 									if(!last.equals(""))
 										collection.updateOne(Filters.eq("id", resultID), Updates.set("last name", Encrypt.encryptData(last)));
-									if(!ssnText.equals(""))
-										collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", Encrypt.encryptData(ssnText)));
+									if(!ssn.equals(""))
+										collection.updateOne(Filters.eq("id", resultID), Updates.set("ssn", Encrypt.encryptData(ssn)));
 									if(!hire.equals(""))
 										collection.updateOne(Filters.eq("id", resultID), Updates.set("hire year", Encrypt.encryptData(hire)));
 									if(!occupation.equals(""))
@@ -293,7 +293,7 @@ public class Update {
 									mongoClient.close();
 									firstText.setText("");
 									lastText.setText("");
-									ssn.setText("");
+									ssnText.setText("");
 									hireText.setText("");
 									occupationText.setText("");
 									instLabel.setVisible(false);
@@ -612,7 +612,6 @@ public class Update {
 				search.setVisible(true);
 				upload.setVisible(false);
 				costLabel.setVisible(false);
-				
 				costText.setVisible(false);
 				
 				footnotes.removeAll();
@@ -963,13 +962,13 @@ public class Update {
 		financialPanel.add(instLabel);
 		footnotes.setBackground(Color.gray);
 		JLabel accNameLabel = new JLabel("Account name: ");
-		JLabel accIDLabel = new JLabel("Account ID: ");
+		JLabel accNumberLabel = new JLabel("Account Number: ");
 		JLabel bankLabel = new JLabel("Bank: ");
 		JLabel balanceLabel = new JLabel("Balance: ");
 		balanceLabel.setVisible(false);
 		ArrayList<JLabel> list = new ArrayList<>();
 		list.add(accNameLabel);
-		list.add(accIDLabel);
+		list.add(accNumberLabel);
 		list.add(bankLabel);
 		list.add(balanceLabel);
 		
@@ -982,15 +981,15 @@ public class Update {
 			financialPanel.add(label);
 		}
 		
-		JTextField accountName = new JTextField();
-		JTextField accountID = new JTextField();
+		JTextField accountNameText = new JTextField();
+		JTextField accountNumberText = new JTextField();
 		JTextField bankText = new JTextField();
 		JTextField balanceText = new JTextField();
 		balanceText.setVisible(false);
 		
 		ArrayList<JTextField> list1 = new ArrayList<>();
-		list1.add(accountName);
-		list1.add(accountID);
+		list1.add(accountNameText);
+		list1.add(accountNumberText);
 		list1.add(bankText);
 		list1.add(balanceText);
 		balanceLabel.setVisible(false);
@@ -1029,8 +1028,8 @@ public class Update {
 				footnotes.removeAll();
 				balanceText.setText("");
 				bankText.setText("");
-				accountID.setText("");
-				accountName.setText("");
+				accountNumberText.setText("");
+				accountNameText.setText("");
 			
 				
 				
@@ -1046,7 +1045,7 @@ public class Update {
 				update.setVisible(true);
 				DefaultListModel document = new DefaultListModel();
 				//insert find records for this type
-				Find.findFinancials(companyName, accountName.getText(), accountID.getText(), bankText.getText(), document);
+				Find.findFinancials(companyName, accountNameText.getText(), accountNumberText.getText(), bankText.getText(), document);
 				
 				@SuppressWarnings({ })
 				JList vector = new JList(document);
@@ -1093,9 +1092,9 @@ public class Update {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								isValidAccNum = true;
-								if(!accountID.getText().equals("")) {
+								if(!accountNumberText.getText().equals("")) {
 									try {
-										int test = Integer.parseInt(accountID.getText());
+										int test = Integer.parseInt(accountNumberText.getText());
 										
 									}catch(NumberFormatException ex) {
 										ex.printStackTrace();
@@ -1122,23 +1121,23 @@ public class Update {
 								
 								resultID = Integer.parseInt(tester[0]);
 								
-								String account = accountName.getText().toUpperCase();
-								String accID = accountID.getText();
+								String accountName = accountNameText.getText().toUpperCase();
+								String accountNumber = accountNumberText.getText();
 								String bank = bankText.getText().toUpperCase();
 								String balance = balanceText.getText();
 								
-								if(!account.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("account name", Encrypt.encryptData(account)));
-								if(!accID.equals(""))
-									collection.updateOne(Filters.eq("id", resultID), Updates.set("account number", Encrypt.encryptData(accID)));
+								if(!accountName.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("account name", Encrypt.encryptData(accountName)));
+								if(!accountNumber.equals(""))
+									collection.updateOne(Filters.eq("id", resultID), Updates.set("account number", Encrypt.encryptData(accountNumber)));
 								if(!bank.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("bank", Encrypt.encryptData(bank)));
 								if(!balance.equals(""))
 									collection.updateOne(Filters.eq("id", resultID), Updates.set("balance", Encrypt.encryptData(balance)));
 								
 								mongoClient.close();
-								accountName.setText("");
-								accountID.setText("");
+								accountNameText.setText("");
+								accountNumberText.setText("");
 								bankText.setText("");
 								balanceText.setText("");
 								instLabel.setVisible(false);
