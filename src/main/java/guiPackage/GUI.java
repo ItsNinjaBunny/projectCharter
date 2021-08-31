@@ -3,16 +3,12 @@ package guiPackage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -37,22 +33,6 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.bson.Document;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.opencsv.bean.CsvToBeanBuilder;
-
-import Encryption.Encrypt;
-import csvFiles.Employee;
-import csvFiles.FinancialHoldings;
-import csvFiles.ProductServices;
-import csvFiles.Property;
 import database.Delete;
 import database.Find;
 import database.Update;
