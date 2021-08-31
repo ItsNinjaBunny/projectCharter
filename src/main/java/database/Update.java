@@ -37,6 +37,9 @@ public class Update {
 	private static String[] tester;
 	private static boolean isValidSSN = true;
 	private static boolean isValidHire = true;
+	private static boolean isValidCost = true;
+	private static boolean isValidAccNum = true;
+	private static boolean isValidBalance = true;
 	
 	private static MongoClient connectDatabase(String databaseName) {
 		
@@ -249,7 +252,7 @@ public class Update {
 									}catch(NumberFormatException ex) {
 										ex.printStackTrace();
 										JOptionPane.showMessageDialog(employeePanel, "Hire Year can only contain numbers");
-										isValidSSN = false;
+										isValidYear = false;
 									}
 								}
 								
@@ -466,7 +469,20 @@ public class Update {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
+								isValidCost = true;
+								if(!costText.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(costText.getText());
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "Cost can only contain numbers");
+										isValidCost = false;
+									}
+								}
 								
+								
+								if(isValidCost) {
 								MongoClient mongoClient = connectDatabase(companyName);
 								MongoDatabase database = mongoClient.getDatabase(companyName);
 								MongoCollection<Document> collection = database.getCollection("Properties");
@@ -508,7 +524,7 @@ public class Update {
 								document.clear();
 								footnotes.revalidate();
 							}
-							
+							}
 							
 						});
 						
@@ -669,7 +685,20 @@ public class Update {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
+								isValidSSN = true;
+								if(!costText.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(costText.getText());
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "Cost can only contain numbers");
+										isValidCost = false;
+									}
+								}
 								
+								
+								if(isValidCost) {
 								MongoClient mongoClient = connectDatabase(companyName);
 								MongoDatabase database = mongoClient.getDatabase(companyName);
 								MongoCollection<Document> collection = database.getCollection("Products");
@@ -707,6 +736,7 @@ public class Update {
 								footnotes.add(scroll, BorderLayout.CENTER);
 								document.clear();
 								footnotes.revalidate();
+							}
 							}
 						});
 					}
@@ -862,7 +892,20 @@ public class Update {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
-							
+								isValidCost = true;
+								if(!costText.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(costText.getText());
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "Cost can only contain numbers");
+										isValidCost = false;
+									}
+								}
+								
+								
+								if(isValidCost) {
 								MongoClient mongoClient = connectDatabase(companyName);
 								MongoDatabase database = mongoClient.getDatabase(companyName);
 								MongoCollection<Document> collection = database.getCollection("Services");
@@ -896,6 +939,7 @@ public class Update {
 								footnotes.add(scroll, BorderLayout.CENTER);
 								document.clear();
 								footnotes.revalidate();
+								}
 							}
 						});
 					}
@@ -1048,7 +1092,30 @@ public class Update {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
+								isValidAccNum = true;
+								if(!accountID.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(accountID.getText());
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "Account number can only contain numbers");
+										isValidAccNum = false;
+									}
+								}
+								isValidBalance = true;
+								if(!balanceText.getText().equals("")) {
+									try {
+										int test = Integer.parseInt(balanceText.getText());
+										
+									}catch(NumberFormatException ex) {
+										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "Balance can only contain numbers");
+										isValidBalance = false;
+									}
+								}
 								
+								if(isValidBalance && isValidAccNum) {
 								MongoClient mongoClient = connectDatabase(companyName);
 								MongoDatabase database = mongoClient.getDatabase(companyName);
 								MongoCollection<Document> collection = database.getCollection("Financial Holdings");
@@ -1085,6 +1152,7 @@ public class Update {
 								footnotes.add(scroll, BorderLayout.CENTER);
 								document.clear();
 								footnotes.revalidate();
+								}
 							}
 						});
 					}
