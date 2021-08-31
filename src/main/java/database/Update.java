@@ -168,11 +168,11 @@ public class Update {
 				
 				String firstName = firstText.getText();
 				String lastName = lastText.getText();
-				String hireYear = ssn.getText().replace("-", "");
+				String ssnCheck = ssn.getText().replace("-", "");
 				
 				DefaultListModel document = new DefaultListModel();
 				
-				Find.findEmployee(companyName, firstName, lastName, hireYear, document);
+				Find.findEmployee(companyName, firstName, lastName, ssnCheck, document);
 				
 				JList vector = new JList(document);
 								
@@ -224,30 +224,31 @@ public class Update {
 						
 						upload.addActionListener(new ActionListener() {
 							
+							@SuppressWarnings("unused")
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								//do update function here
 								resultID = Integer.parseInt(tester[0]);
 								
+								isValidSSN = true;
 								if(!ssn.getText().equals("")) {
 									try {
 										int test = Integer.parseInt(ssn.getText());
-										System.out.println(test);
-										isValidSSN = true;
 										
 									}catch(NumberFormatException ex) {
 										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "SSN can only contain numbers and '-'");
 										isValidSSN = false;
 									}
 								}
+								isValidHire = true;
 								if(!hireText.getText().equals("")) {
 									try {
 										int test = Integer.parseInt(hireText.getText());
-										System.out.println(test);
-										isValidSSN = true;
 										
 									}catch(NumberFormatException ex) {
 										ex.printStackTrace();
+										JOptionPane.showMessageDialog(employeePanel, "Hire Year can only contain numbers");
 										isValidSSN = false;
 									}
 								}
@@ -271,11 +272,9 @@ public class Update {
 									
 									String first = firstText.getText().toUpperCase();
 									String last = lastText.getText().toUpperCase();
-									String ssnText = ssn.getText().toUpperCase();
-									String hire = hireText.getText().toUpperCase();
+									String ssnText = ssn.getText().replace("-", "");
+									String hire = hireText.getText();
 									String occupation = occupationText.getText().toUpperCase();
-									
-									System.out.println(first + " " + last + " " + ssnText + " " + hire + " " + occupation);
 									
 									if(!first.equals(""))
 										collection.updateOne(Filters.eq("id", resultID), Updates.set("first name", Encrypt.encryptData(first)));
@@ -303,6 +302,7 @@ public class Update {
 									scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 									scroll.setVisible(true);
 									footnotes.add(scroll, BorderLayout.CENTER);
+									document.clear();
 									footnotes.revalidate();
 								}
 							}});
@@ -505,6 +505,7 @@ public class Update {
 								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 								scroll.setVisible(true);
 								footnotes.add(scroll, BorderLayout.CENTER);
+								document.clear();
 								footnotes.revalidate();
 							}
 							
@@ -704,6 +705,7 @@ public class Update {
 								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 								scroll.setVisible(true);
 								footnotes.add(scroll, BorderLayout.CENTER);
+								document.clear();
 								footnotes.revalidate();
 							}
 						});
@@ -892,6 +894,7 @@ public class Update {
 								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 								scroll.setVisible(true);
 								footnotes.add(scroll, BorderLayout.CENTER);
+								document.clear();
 								footnotes.revalidate();
 							}
 						});
@@ -1080,6 +1083,7 @@ public class Update {
 								scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 								scroll.setVisible(true);
 								footnotes.add(scroll, BorderLayout.CENTER);
+								document.clear();
 								footnotes.revalidate();
 							}
 						});

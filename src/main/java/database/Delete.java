@@ -159,6 +159,7 @@ public class Delete {
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
+						document.clear();
 						footnotes.add(scroll, BorderLayout.CENTER);
 					}
 				});
@@ -275,6 +276,7 @@ public class Delete {
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
+						document.clear();
 						footnotes.add(scroll, BorderLayout.CENTER);
 					}
 				});
@@ -404,6 +406,7 @@ public class Delete {
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
+						document.clear();
 						footnotes.add(scroll, BorderLayout.CENTER);
 					}
 				});
@@ -530,6 +533,7 @@ public class Delete {
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
+						document.clear();
 						footnotes.add(scroll, BorderLayout.CENTER);
 					}
 				});
@@ -657,6 +661,7 @@ public class Delete {
 						scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 						scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 						scroll.setVisible(true);
+						document.clear();
 						footnotes.add(scroll, BorderLayout.CENTER);
 					}
 				});
